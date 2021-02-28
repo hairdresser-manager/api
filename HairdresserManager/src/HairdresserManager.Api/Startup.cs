@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using HairdresserManager.Api.Data;
+using HairdresserManager.Api.Services;
+using HairdresserManager.Api.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,7 +46,7 @@ namespace HairdresserManager.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "carcompanion-backend", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "hairdresser-backend", Version = "v1"});
 
                 c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme
@@ -71,6 +73,13 @@ namespace HairdresserManager.Api
             });
 
             services.AddControllers();
+
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IOfferService, OfferService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +94,7 @@ namespace HairdresserManager.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Carcompanion API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HairdresserManager API V1");
                 c.RoutePrefix = string.Empty;
             });
 
