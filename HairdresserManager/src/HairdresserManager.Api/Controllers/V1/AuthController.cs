@@ -1,7 +1,7 @@
-using System;
-using HairdresserManager.Shared.Contract.Auth.Requests;
-using HairdresserManager.Shared.Contract.Auth.Responses;
+using System.Threading.Tasks;
+using HairdresserManager.Api.Services.Interfaces;
 using HairdresserManager.Shared.Contract.V1;
+using HairdresserManager.Shared.Contract.V1.Auth.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HairdresserManager.Api.Controllers.V1
@@ -9,55 +9,67 @@ namespace HairdresserManager.Api.Controllers.V1
     [ApiController]
     public class AuthController : MainController
     {
-        [HttpPost(ApiRoutes.Auth.Login)]
-        public IActionResult Login([FromBody] LoginRequest request)
+        private readonly IAuthService _authService;
+        
+        public AuthController(IAuthService authService)
         {
-            return Ok();
+            _authService = authService;
+        }
+        
+        [HttpPost(ApiRoutes.Auth.Login)]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            var result = await _authService.LoginAsync();
+            return GenerateResponse(result);
         }
         
         [HttpPost(ApiRoutes.Auth.Logout)]
-        public IActionResult Logout([FromBody] LogoutRequest request)
+        public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
         {
-            return Ok();
+            var result = await _authService.LogoutAsync();
+            return GenerateResponse(result);
         }
 
         [HttpPost(ApiRoutes.Auth.Register)]
-        public IActionResult Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            return Ok(new RegisterResponse());
+            var result = await _authService.RegisterAsync();
+            return GenerateResponse(result);
         }
         
         [HttpPost(ApiRoutes.Auth.FacebookAuth)]
-        public IActionResult FacebookAuth([FromBody] FacebookAuthRequest request)
+        public async Task<IActionResult> FacebookAuth([FromBody] FacebookAuthRequest request)
         {
-            const string accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
-            var refreshToken = Guid.NewGuid();
-            var response = new FacebookAuthResponse {AccessToken = accessToken, RefreshToken = refreshToken};
-            return Ok(response);
+            var result = await _authService.FacebookAuthAsync();
+            return GenerateResponse(result);
         }
         
         [HttpPost(ApiRoutes.Auth.RefreshToken)]
-        public IActionResult RefreshToken([FromBody] RefreshTokenRequest request)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
         {
-            return Ok();
+            var result = await _authService.RefreshTokenAsync();
+            return GenerateResponse(result);
         }
 
         [HttpPost(ApiRoutes.Auth.RemindPassword)]
-        public IActionResult RemindPassword([FromBody] RemindPasswordRequest request)
+        public async Task<IActionResult> RemindPassword([FromBody] RemindPasswordRequest request)
         {
-            return Ok();
+            var result = await _authService.RemindPasswordAsync();
+            return GenerateResponse(result);
         }
 
         [HttpPost(ApiRoutes.Auth.ResetPassword)]
-        public IActionResult ResetPassword([FromBody] ResetPasswordRequest request)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
-            return Ok();
+            var result = await _authService.ResetPasswordAsync();
+            return GenerateResponse(result);
         }
 
         [HttpGet(ApiRoutes.Auth.VerifyEmail)]
-        public IActionResult VerifyEmail()
+        public async Task<IActionResult> VerifyEmail()
         {
-            return Ok();
+            var result = await _authService.VerifyEmailAsync();
+            return GenerateResponse(result);
         }
     }
 }

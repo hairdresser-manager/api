@@ -5,7 +5,7 @@ namespace HairdresserManager.Api.Controllers.V1
 {
     public abstract class MainController : ControllerBase
     {
-        private IActionResult GenerateResponse<T>(ServiceResult<T> result)
+        protected IActionResult GenerateResponse<T>(ServiceResult<T> result)
             => StatusCode(result.ResponseCode, result.Success ? result.Data : result.Errors);
     }
 }
