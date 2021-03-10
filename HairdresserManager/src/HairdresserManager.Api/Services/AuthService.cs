@@ -19,7 +19,7 @@ namespace HairdresserManager.Api.Services
 
         public async Task<ServiceResult<LogoutResponse>> LogoutAsync()
         {
-            return new() {Success = true, Data = new LogoutResponse()};
+            return new() {Success = true, ResponseCode = 204};
         }
 
         public async Task<ServiceResult<RegisterResponse>> RegisterAsync()
@@ -27,7 +27,7 @@ namespace HairdresserManager.Api.Services
             return new()
             {
                 Success = true, ResponseCode = 201,
-                Data = new RegisterResponse {ConfirmEmailUri = "api/v1/verify-email/xxx"}
+                Data = new RegisterResponse {ConfirmEmailUri = "api/v1/verify-email/" + Guid.NewGuid()}
             };
         }
 
@@ -58,12 +58,12 @@ namespace HairdresserManager.Api.Services
 
         public async Task<ServiceResult<ResetPasswordResponse>> ResetPasswordAsync()
         {
-            return new() {Success = true, Data = new ResetPasswordResponse()};
+            return new() {Success = true, ResponseCode = 204};
         }
 
         public async Task<ServiceResult<VerifyEmailResponse>> VerifyEmailAsync()
         {
-            return new() {Success = true, Data = new VerifyEmailResponse {Email = "user@example.com"}};
+            return new() {Success = true, ResponseCode = 204};
         }
     }
 }

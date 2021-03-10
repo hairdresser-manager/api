@@ -76,10 +76,12 @@ namespace HairdresserManager.Api
 
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IEmployeeRolesService, EmployeeRolesService>();
             services.AddScoped<IOfferService, OfferService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IResourcesService, ResourcesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
