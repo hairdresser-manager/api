@@ -1,14 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace HairdresserManager.Shared.Contract.V1.Auth.Requests
+namespace HairdresserManager.Shared.Contract.V1.Jwt.Requests
 {
-    public class RefreshTokenRequest
+    public class JwtRefreshRequest
     {
         [Required] 
         public string AccessToken { get; set; }
 
         [Required]
-        public Guid RefreshToken { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

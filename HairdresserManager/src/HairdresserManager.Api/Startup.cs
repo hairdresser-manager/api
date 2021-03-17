@@ -74,7 +74,6 @@ namespace HairdresserManager.Api
 
             services.AddControllers();
 
-            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IEmployeeRolesService, EmployeeRolesService>();
             services.AddScoped<IOfferService, OfferService>();

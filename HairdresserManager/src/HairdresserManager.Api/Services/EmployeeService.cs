@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HairdresserManager.Api.Services.Interfaces;
 using HairdresserManager.Shared.Contract.V1;
 using HairdresserManager.Shared.Contract.V1.Employee.Responses;
+using HairdresserManager.Shared.Contract.V1.GeneralResponses;
 using HairdresserManager.Shared.Results;
 
 namespace HairdresserManager.Api.Services

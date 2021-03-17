@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HairdresserManager.Shared.Contract.V1.Auth.Requests
+namespace HairdresserManager.Shared.Contract.V1.PasswordRecovery.Requests
 {
     public class ResetPasswordRequest
     {

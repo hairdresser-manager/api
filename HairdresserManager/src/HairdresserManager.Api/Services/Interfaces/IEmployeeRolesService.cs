@@ -1,5 +1,6 @@
 using HairdresserManager.Shared.Contract.V1;
 using HairdresserManager.Shared.Contract.V1.EmployeeRoles.Responses;
+using HairdresserManager.Shared.Contract.V1.GeneralResponses;
 using HairdresserManager.Shared.Results;
 
 namespace HairdresserManager.Api.Services.Interfaces

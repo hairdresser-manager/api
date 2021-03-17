@@ -5,19 +5,34 @@ namespace HairdresserManager.Shared.Contract.V1
         private const string Root = "api";
         private const string Version = "v1";
         private const string Base = Root + "/" + Version;
-        
-        public static class Auth
+
+        public static class Login
         {
-            private const string AuthBase = Base + "/auth";
-            public const string Login = AuthBase + "/login";
-            public const string Logout = AuthBase + "/logout";
-            public const string Register = AuthBase + "/register";
-            public const string FacebookAuth = AuthBase + "/facebook-auth";
-            public const string RefreshToken = AuthBase + "/refresh-token";
-            public const string RemindPassword = AuthBase + "/remind-password";
-            public const string ResetPassword = AuthBase + "/reset-password/{resetPasswordKey}";
-            public const string VerifyEmail = AuthBase + "/verify-email/{verifyEmailKey}";
+            public const string LoginUser = Base + "/login";
+            public const string FacebookAuth = Base + "/facebook-auth";
+            public const string Logout = Base + "/logout";
         }
+        
+        public static class Register
+        {
+            private const string RegisterBase = Base + "/register";
+            public const string VerifyEmail = RegisterBase + "/verify-email/{verifyEmailKey}";
+            public const string RegisterUser = RegisterBase;
+        }
+        
+        public static class PasswordRecovery
+        {
+            private const string PasswordRecoveryBase = Base + "";
+            public const string RemindPassword = PasswordRecoveryBase + "/remind-password";
+            public const string ResetPassword = PasswordRecoveryBase + "/reset-password/{resetPasswordKey}";
+        }
+        
+        public static class RefreshToken
+        {
+            private const string RefreshTokenBase = Base + "/jwt";
+            public const string Refresh = RefreshTokenBase + "/refresh";
+        }
+        //
 
         public static class Employee
         {

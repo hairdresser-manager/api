@@ -1,4 +1,4 @@
-namespace HairdresserManager.Shared.Contract.V1.Auth.Responses
+namespace HairdresserManager.Shared.Contract.V1.Register.Responses
 {
     public class RegisterResponse
     {

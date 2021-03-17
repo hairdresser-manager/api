@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HairdresserManager.Shared.Contract.V1.Auth.Requests
+namespace HairdresserManager.Shared.Contract.V1.Register.Requests
 {
     public class RegisterRequest
     {
@@ -10,15 +10,16 @@ namespace HairdresserManager.Shared.Contract.V1.Auth.Requests
         
         [Required]
         [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$")]
+        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
         
         [Required]
         [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$")]
+        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
+        [Compare("Password")]
         [Display(Name = "Password")]
         public string ReTypedPassword { get; set; }
 
