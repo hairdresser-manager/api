@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using HairdresserManager.Shared.Contract.V1;
-using HairdresserManager.Shared.Contract.V1.GeneralResponses;
+using HairdresserManager.Shared.Contract.V1.General.Responses;
 using HairdresserManager.Shared.Contract.V1.PasswordRecovery.Requests;
 using HairdresserManager.Shared.Contract.V1.PasswordRecovery.Responses;
 using HairdresserManager.Shared.Results;
@@ -13,7 +13,7 @@ namespace HairdresserManager.Api.Controllers.V1
     public class PasswordRecoveryController : MainController
     {
         [HttpPost(ApiRoutes.PasswordRecovery.RemindPassword)]
-        public async Task<IActionResult> RemindPassword([FromBody] RemindPasswordRequest request)
+        public IActionResult RemindPassword([FromBody] RemindPasswordRequest request)
         {
             var result = new ServiceResult<RemindPasswordResponse> {Success = true, ResponseCode = 200};
             result.Data = new RemindPasswordResponse {ResetPasswordKey = Guid.NewGuid().ToString()};
@@ -22,7 +22,7 @@ namespace HairdresserManager.Api.Controllers.V1
         }
 
         [HttpPost(ApiRoutes.PasswordRecovery.ResetPassword)]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+        public IActionResult ResetPassword([FromBody] ResetPasswordRequest request)
         {
             var result = new ServiceResult<NoContentResponse> {Success = true, ResponseCode = 204};
             return GenerateResponse(result);

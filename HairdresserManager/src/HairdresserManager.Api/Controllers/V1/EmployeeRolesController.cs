@@ -1,6 +1,8 @@
-using HairdresserManager.Api.Services.Interfaces;
+using System.Collections.Generic;
 using HairdresserManager.Shared.Contract.V1;
 using HairdresserManager.Shared.Contract.V1.EmployeeRoles.Requests;
+using HairdresserManager.Shared.Contract.V1.EmployeeRoles.Responses;
+using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HairdresserManager.Api.Controllers.V1
@@ -8,38 +10,35 @@ namespace HairdresserManager.Api.Controllers.V1
     [ApiController]
     public class EmployeeRolesController : MainController
     {
-        private readonly IEmployeeRolesService _employeeRolesService;
-
-        public EmployeeRolesController(IEmployeeRolesService employeeRolesService)
-        {
-            _employeeRolesService = employeeRolesService;
-        }
-
         [HttpGet(ApiRoutes.EmployeeRoles.GetRoles)]
         public IActionResult GetRoles()
         {
-            var result = _employeeRolesService.GetRolesAsync();
+            var response = new GetEmployeeRolesResponse
+            {
+                Roles = new List<string> {"Barber", "Hair dresser", "Nails"}
+            };
+            var result = new ServiceResult<GetEmployeeRolesResponse> {Success = true, Data = response};
             return GenerateResponse(result);
         }
-        
+
         [HttpPost(ApiRoutes.EmployeeRoles.CreateRole)]
         public IActionResult CreateRole([FromBody] CreateEmployeeRoleRequest request)
         {
-            var result = _employeeRolesService.CreateRoleAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true, ResponseCode = 201};
             return GenerateResponse(result);
         }
-        
+
         [HttpPatch(ApiRoutes.EmployeeRoles.UpdateRole)]
         public IActionResult UpdateRole([FromBody] UpdateEmployeeRoleRequest request)
         {
-            var result = _employeeRolesService.UpdateRoleAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true};
             return GenerateResponse(result);
         }
-        
+
         [HttpDelete(ApiRoutes.EmployeeRoles.DeleteRole)]
         public IActionResult DeleteRole()
         {
-            var result = _employeeRolesService.DeleteRoleAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true};
             return GenerateResponse(result);
         }
     }

@@ -11,7 +11,7 @@ namespace HairdresserManager.Api.Controllers.V1
     public class JwtController : MainController
     {
         [HttpPost(ApiRoutes.RefreshToken.Refresh)]
-        public async Task<IActionResult> RefreshToken([FromBody] JwtRefreshRequest request)
+        public IActionResult RefreshToken([FromBody] JwtRefreshRequest request)
         {
             var response = new JwtRefreshResponse
             {

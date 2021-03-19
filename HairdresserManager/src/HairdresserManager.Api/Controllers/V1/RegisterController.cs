@@ -1,7 +1,5 @@
-using System.Reflection.PortableExecutable;
-using System.Threading.Tasks;
 using HairdresserManager.Shared.Contract.V1;
-using HairdresserManager.Shared.Contract.V1.GeneralResponses;
+using HairdresserManager.Shared.Contract.V1.General.Responses;
 using HairdresserManager.Shared.Contract.V1.Register.Requests;
 using HairdresserManager.Shared.Contract.V1.Register.Responses;
 using HairdresserManager.Shared.Results;

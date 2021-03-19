@@ -1,7 +1,9 @@
-using System.Threading.Tasks;
-using HairdresserManager.Api.Services.Interfaces;
+using System;
+using System.Collections.Generic;
 using HairdresserManager.Shared.Contract.V1;
 using HairdresserManager.Shared.Contract.V1.Employee.Requests;
+using HairdresserManager.Shared.Contract.V1.Employee.Responses;
+using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HairdresserManager.Api.Controllers.V1
@@ -9,38 +11,61 @@ namespace HairdresserManager.Api.Controllers.V1
     [ApiController]
     public class EmployeeController : MainController
     {
-        private readonly IEmployeeService _employeeService;
-        
-        public EmployeeController(IEmployeeService employeeService)
-        {
-            _employeeService = employeeService;
-        }
-        
         [HttpGet(ApiRoutes.Employee.GetAllEmployees)]
-        public async Task<IActionResult> GetAllEmployees()
+        public IActionResult GetAllEmployees()
         {
-            var result = await _employeeService.GetAllEmployeesAsync();
+            var employees = new List<EmployeeResponse>
+            {
+                new()
+                {
+                    EmployeeId = Guid.NewGuid(), FirstName = "David", LastName = "Watts",
+                    Email = "DavidEWatts@dayrep.com", Active = false,
+                    Roles = new[] {"Barber", "Hair dresser"}, PhoneNumber = "6185538489",
+                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
+                    AvatarUrl =
+                        "https://londynek.net/image/jdnews-agency/2191248/126150-201908181531-lg2.jpg.webp?t=1566138744"
+                },
+                new()
+                {
+                    EmployeeId = Guid.NewGuid(), FirstName = "Elliott", LastName = "Dubbed",
+                    Email = "ElliottDubbeld@rhyta.com",
+                    Roles = new[] {"No one", "Someone"}, PhoneNumber = "9702309156", Active = true,
+                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
+                    AvatarUrl =
+                        "https://londynek.net/image/jdnews-agency/2191248/108952-201902211118-lg2.jpg.webp?t=1550747976"
+                },
+                new()
+                {
+                    EmployeeId = Guid.NewGuid(), FirstName = "Sanna", LastName = "Lok", Email = "SannaLok@teleworm.us",
+                    Roles = new[] {"Aa", "Bb", "Cc"}, PhoneNumber = "6518483460", Active = true,
+                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
+                    AvatarUrl =
+                        "https://londynek.net/image/jdnews-agency/2191248/152617-201912101211-lg2.jpg.webp?t=1575979953"
+                }
+            };
+
+            var result = new ServiceResult<IEnumerable<EmployeeResponse>> {Success = true, Data = employees};
             return GenerateResponse(result);
         }
-        
+
         [HttpPost(ApiRoutes.Employee.CreateEmployee)]
-        public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request)
+        public IActionResult CreateEmployee([FromBody] CreateEmployeeRequest request)
         {
-            var result = await _employeeService.CreateEmployeeAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true};
             return GenerateResponse(result);
         }
-        
+
         [HttpPatch(ApiRoutes.Employee.UpdateEmployee)]
-        public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request)
+        public IActionResult UpdateEmployee([FromBody] UpdateEmployeeRequest request)
         {
-            var result = await _employeeService.UpdateEmployeeAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true};
             return GenerateResponse(result);
         }
-        
+
         [HttpDelete(ApiRoutes.Employee.DeleteEmployee)]
-        public async Task<IActionResult> DeleteEmployee()
+        public IActionResult DeleteEmployee()
         {
-            var result = await _employeeService.DeleteEmployeeAsync();
+            var result = new ServiceResult<NoContentResult> {Success = true};
             return GenerateResponse(result);
         }
     }

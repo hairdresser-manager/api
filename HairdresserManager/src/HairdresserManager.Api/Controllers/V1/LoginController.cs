@@ -1,6 +1,5 @@
-using System.Threading.Tasks;
 using HairdresserManager.Shared.Contract.V1;
-using HairdresserManager.Shared.Contract.V1.GeneralResponses;
+using HairdresserManager.Shared.Contract.V1.General.Responses;
 using HairdresserManager.Shared.Contract.V1.Login.Requests;
 using HairdresserManager.Shared.Contract.V1.Login.Responses;
 using HairdresserManager.Shared.Results;
@@ -12,7 +11,7 @@ namespace HairdresserManager.Api.Controllers.V1
     public class LoginController : MainController
     {
         [HttpPost(ApiRoutes.Login.LoginUser)]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public IActionResult Login([FromBody] LoginRequest request)
         {
             var response = new JwtTokensResponse
             {
@@ -25,7 +24,7 @@ namespace HairdresserManager.Api.Controllers.V1
         }
 
         [HttpPost(ApiRoutes.Login.FacebookAuth)]
-        public async Task<IActionResult> FacebookAuth([FromBody] FacebookAuthRequest request)
+        public IActionResult FacebookAuth([FromBody] FacebookAuthRequest request)
         {
             var response = new JwtTokensResponse
             {
@@ -38,7 +37,7 @@ namespace HairdresserManager.Api.Controllers.V1
         }
 
         [HttpPost(ApiRoutes.Login.Logout)]
-        public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
+        public IActionResult Logout([FromBody] LogoutRequest request)
         {
             var result = new ServiceResult<NoContentResponse> {Success = true};
             return GenerateResponse(result);
