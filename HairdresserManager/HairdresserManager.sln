@@ -1,14 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairdresserManager.Api", "src\HairdresserManager.Api\HairdresserManager.Api.csproj", "{A0610513-5760-492C-B10C-296BFB476D70}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\WebApi\WebApi.csproj", "{A0610513-5760-492C-B10C-296BFB476D70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{199A7C11-8B33-45E0-B003-EB2B6CE0CFD4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{662C9489-351A-4F1E-8560-55564437A8D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairdresserManger.Api.UnitTests", "tests\HairdresserManger.Api.UnitTests\HairdresserManger.Api.UnitTests.csproj", "{50781C33-DAE6-4D80-9556-A4E9B1DAE242}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "tests\Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{50781C33-DAE6-4D80-9556-A4E9B1DAE242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairdresserManager.Shared", "src\HairdresserManager.Shared\HairdresserManager.Shared.csproj", "{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore", "src\ApplicationCore\ApplicationCore.csproj", "{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{D3154817-5EB3-414C-ABCE-EAFC52CB8705}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +30,15 @@ Global
 		{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3154817-5EB3-414C-ABCE-EAFC52CB8705}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3154817-5EB3-414C-ABCE-EAFC52CB8705}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3154817-5EB3-414C-ABCE-EAFC52CB8705}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3154817-5EB3-414C-ABCE-EAFC52CB8705}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A0610513-5760-492C-B10C-296BFB476D70} = {199A7C11-8B33-45E0-B003-EB2B6CE0CFD4}
 		{50781C33-DAE6-4D80-9556-A4E9B1DAE242} = {662C9489-351A-4F1E-8560-55564437A8D5}
 		{8EF6EE1D-7C4D-41D1-B935-C4BC2FF77E19} = {199A7C11-8B33-45E0-B003-EB2B6CE0CFD4}
+		{D3154817-5EB3-414C-ABCE-EAFC52CB8705} = {199A7C11-8B33-45E0-B003-EB2B6CE0CFD4}
 	EndGlobalSection
 EndGlobal
