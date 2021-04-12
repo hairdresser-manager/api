@@ -20,7 +20,7 @@ namespace HairdresserManager.Shared.Contract.V1.Register.Requests
         [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
         [Compare("Password")]
-        [Display(Name = "Password")]
+        [Display(Name = "ReTypedPassword")]
         public string ReTypedPassword { get; set; }
 
         [Required]

@@ -6,10 +6,10 @@ using HairdresserManager.Shared.Contract.V1.Employee.Responses;
 using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Employee
 {
     [ApiController]
-    public class EmployeeController : MainController
+    public class EmployeeController : ControllerBase
     {
         [HttpGet(ApiRoutes.Employee.GetAllEmployees)]
         public IActionResult GetAllEmployees()
@@ -43,30 +43,26 @@ namespace HairdresserManager.Api.Controllers.V1
                         "https://londynek.net/image/jdnews-agency/2191248/152617-201912101211-lg2.jpg.webp?t=1575979953"
                 }
             };
-
-            var result = new ServiceResult<IEnumerable<EmployeeResponse>> {Success = true, Data = employees};
-            return GenerateResponse(result);
+            
+            return Ok(employees);
         }
 
         [HttpPost(ApiRoutes.Employee.CreateEmployee)]
         public IActionResult CreateEmployee([FromBody] CreateEmployeeRequest request)
         {
-            var result = new ServiceResult<NoContentResult> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
 
         [HttpPatch(ApiRoutes.Employee.UpdateEmployee)]
         public IActionResult UpdateEmployee([FromBody] UpdateEmployeeRequest request)
         {
-            var result = new ServiceResult<NoContentResult> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
 
         [HttpDelete(ApiRoutes.Employee.DeleteEmployee)]
         public IActionResult DeleteEmployee()
         {
-            var result = new ServiceResult<NoContentResult> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
     }
 }

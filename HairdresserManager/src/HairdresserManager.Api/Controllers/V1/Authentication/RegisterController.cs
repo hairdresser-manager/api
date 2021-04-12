@@ -5,26 +5,23 @@ using HairdresserManager.Shared.Contract.V1.Register.Responses;
 using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Authentication
 {
     [ApiController]
-    public class RegisterController : MainController
+    public class RegisterController : ControllerBase
     {
-        
         [HttpPost(ApiRoutes.Register.RegisterUser)]
         public IActionResult Register([FromBody] RegisterRequest request)
         {
             var response = new RegisterResponse {ConfirmEmailUri = "/api/v1/register/verify-email/JzdWIiOiI"};
             var result = new ServiceResult<RegisterResponse> {Success = true, Data = response};
-            return GenerateResponse(result);
+            return Ok(result.Data);
         }
-        
+
         [HttpGet(ApiRoutes.Register.VerifyEmail)]
         public IActionResult VerifyEmail()
         {
-            var result = new ServiceResult<NoContentResponse> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
-        
     }
 }

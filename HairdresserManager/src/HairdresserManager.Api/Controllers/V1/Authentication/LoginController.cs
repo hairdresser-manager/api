@@ -5,10 +5,10 @@ using HairdresserManager.Shared.Contract.V1.Login.Responses;
 using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Authentication
 {
     [ApiController]
-    public class LoginController : MainController
+    public class LoginController : ControllerBase
     {
         [HttpPost(ApiRoutes.Login.LoginUser)]
         public IActionResult Login([FromBody] LoginRequest request)
@@ -20,7 +20,7 @@ namespace HairdresserManager.Api.Controllers.V1
                 RefreshToken = "UGeKMA6L8YwCyY2uuoi8Iz1wrJmCcT"
             };
             var result = new ServiceResult<JwtTokensResponse> {Success = true, Data = response};
-            return GenerateResponse(result);
+            return Ok(result.Data);
         }
 
         [HttpPost(ApiRoutes.Login.FacebookAuth)]
@@ -33,14 +33,13 @@ namespace HairdresserManager.Api.Controllers.V1
                 RefreshToken = "UGeKMA6L8YwCyY2uuoi8Iz1wrJmCcT"
             };
             var result = new ServiceResult<JwtTokensResponse> {Success = true, Data = response};
-            return GenerateResponse(result);
+            return Ok(result.Data);
         }
 
         [HttpPost(ApiRoutes.Login.Logout)]
         public IActionResult Logout([FromBody] LogoutRequest request)
         {
-            var result = new ServiceResult<NoContentResponse> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
     }
 }

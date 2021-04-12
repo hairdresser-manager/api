@@ -3,10 +3,10 @@ using HairdresserManager.Shared.Contract.V1.ResourceCategory.Requests;
 using HairdresserManager.Shared.Contract.V1.ResourceCategory.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Resource
 {
     [ApiController]
-    public class ResourceCategoryController : MainController
+    public class ResourceCategoryController : ControllerBase
     {
         [HttpGet("api/v1/resources/categories")]
         public IActionResult GetAllResourcesCategories()
@@ -18,7 +18,7 @@ namespace HairdresserManager.Api.Controllers.V1
                 new ResourcesCategoryResponse{ResourcesCategoryId = 3, Name = "fsadf", Description = "descirption fasdfsdf"},
             };
             
-            return StatusCode(200, resourcesCategories);
+            return Ok(resourcesCategories);
         }
 
         [HttpPost("api/v1/resources/categories")]
@@ -30,13 +30,13 @@ namespace HairdresserManager.Api.Controllers.V1
         [HttpPatch("api/v1/resources/categories/{categoryId}")]
         public IActionResult UpdateResourceCategory([FromBody] UpdateResourcesCategoryRequest request)
         {
-            return StatusCode(204);
+            return NoContent();
         }
 
         [HttpDelete("api/v1/resources/categories/{resourcesCategoryId}")]
-        public IActionResult DeleteResourceCategory([FromRoute] int resourcesCategoryId, [FromBody] DeleteResourcesCategoryRequest request)
+        public IActionResult DeleteResourceCategory([FromRoute] int resourcesCategoryId)
         {
-            return StatusCode(204);
+            return NoContent();
         }
     }
 }

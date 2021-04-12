@@ -5,10 +5,10 @@ using HairdresserManager.Shared.Contract.V1.EmployeeRoles.Responses;
 using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Employee
 {
     [ApiController]
-    public class EmployeeRolesController : MainController
+    public class EmployeeRolesController : ControllerBase
     {
         [HttpGet(ApiRoutes.EmployeeRoles.GetRoles)]
         public IActionResult GetRoles()
@@ -17,29 +17,28 @@ namespace HairdresserManager.Api.Controllers.V1
             {
                 Roles = new List<string> {"Barber", "Hair dresser", "Nails"}
             };
+            
             var result = new ServiceResult<GetEmployeeRolesResponse> {Success = true, Data = response};
-            return GenerateResponse(result);
+            
+            return Ok(result.Data);
         }
 
         [HttpPost(ApiRoutes.EmployeeRoles.CreateRole)]
         public IActionResult CreateRole([FromBody] CreateEmployeeRoleRequest request)
         {
-            var result = new ServiceResult<NoContentResult> {Success = true, ResponseCode = 201};
-            return GenerateResponse(result);
+            return NoContent();
         }
 
         [HttpPatch(ApiRoutes.EmployeeRoles.UpdateRole)]
         public IActionResult UpdateRole([FromBody] UpdateEmployeeRoleRequest request)
         {
-            var result = new ServiceResult<NoContentResult> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
 
         [HttpDelete(ApiRoutes.EmployeeRoles.DeleteRole)]
         public IActionResult DeleteRole()
         {
-            var result = new ServiceResult<NoContentResult> {Success = true};
-            return GenerateResponse(result);
+            return NoContent();
         }
     }
 }

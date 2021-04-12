@@ -1,14 +1,13 @@
-using System.Threading.Tasks;
 using HairdresserManager.Shared.Contract.V1;
 using HairdresserManager.Shared.Contract.V1.Jwt.Requests;
 using HairdresserManager.Shared.Contract.V1.Jwt.Responses;
 using HairdresserManager.Shared.Results;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Authentication
 {
     [ApiController]
-    public class JwtController : MainController
+    public class JwtController : ControllerBase
     {
         [HttpPost(ApiRoutes.RefreshToken.Refresh)]
         public IActionResult RefreshToken([FromBody] JwtRefreshRequest request)
@@ -21,7 +20,7 @@ namespace HairdresserManager.Api.Controllers.V1
             };
             
             var result = new ServiceResult<JwtRefreshResponse> {Success = true, Data = response};
-            return GenerateResponse(result);
+            return Ok(result.Data);
         }
     }
 }

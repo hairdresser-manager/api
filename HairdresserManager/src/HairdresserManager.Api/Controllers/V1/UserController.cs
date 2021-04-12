@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HairdresserManager.Api.Controllers.V1
 {
     [ApiController]
-    public class UserController : MainController
+    public class UserController : ControllerBase
     {
         
     }

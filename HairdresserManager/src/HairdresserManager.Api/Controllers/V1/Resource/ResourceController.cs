@@ -5,13 +5,12 @@ using HairdresserManager.Shared.Contract.V1.General.Requests;
 using HairdresserManager.Shared.Contract.V1.General.Responses;
 using HairdresserManager.Shared.Contract.V1.Resource.Requests;
 using HairdresserManager.Shared.Contract.V1.Resource.Responses;
-using HairdresserManager.Shared.Contract.V1.ResourceCategory.Requests;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HairdresserManager.Api.Controllers.V1
+namespace HairdresserManager.Api.Controllers.V1.Resource
 {
     [ApiController]
-    public class ResourceController : MainController
+    public class ResourceController : ControllerBase
     {
         [HttpGet("api/v1/resources")]
         public IActionResult GetResources([FromQuery] PaginationQueryRequest pagination)
