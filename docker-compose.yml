@@ -13,7 +13,7 @@ services:
     hairdresser-manager-backend:
         build: 
             context: HairdresserManager/src
-            dockerfile: HairdresserManager.Api/Dockerfile
+            dockerfile: WebApi/Dockerfile
         ports: 
             - "8080:80"
         depends_on:
