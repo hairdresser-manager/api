@@ -56,7 +56,7 @@ namespace WebApi.Controllers.V1
         public IActionResult GetFreeAppointmentsV2()
         {
             var response = ScheduleResponseFakeData.GetData();
-            return Ok();
+            return Ok(response);
         }
     }
 }
