@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using ApplicationCore.Contract.V1;
 
 namespace ApplicationCore.Entities
 {
@@ -6,5 +8,7 @@ namespace ApplicationCore.Entities
     {
         public int Id { get; set; }
         public Guid UserId { get; set; }
+
+        public ICollection<Review> Reviews { get; set; }
     }
 }

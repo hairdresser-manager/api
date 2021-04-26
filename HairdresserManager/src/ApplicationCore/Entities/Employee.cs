@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
 {
@@ -11,5 +12,7 @@ namespace ApplicationCore.Entities
         public string Description { get; set; }
         public string AvatarUrl { get; set; }
         public string LowQualityAvatarUrl { get; set; }
+        
+        public ICollection<Review> Reviews { get; set; }
     }
 }

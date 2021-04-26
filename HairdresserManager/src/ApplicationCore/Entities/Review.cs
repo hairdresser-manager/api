@@ -10,5 +10,9 @@ namespace ApplicationCore.Entities
         public int ClientId { get; set; }
         public int Rate { get; set; }
         public DateTime Date { get; set; }
+
+        public Service Service { get; set; }
+        public Employee Employee { get; set; }
+        public Client Client { get; set; }
     }
 }
