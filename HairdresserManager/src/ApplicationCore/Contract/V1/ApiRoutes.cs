@@ -16,7 +16,7 @@ namespace ApplicationCore.Contract.V1
         public static class Register
         {
             private const string RegisterBase = Base + "/register";
-            public const string VerifyEmail = RegisterBase + "/verify-email/{verifyEmailKey}";
+            public const string VerifyEmail = RegisterBase + "/verify-email";
             public const string RegisterUser = RegisterBase;
         }
         

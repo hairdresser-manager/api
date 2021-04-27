@@ -19,5 +19,5 @@ services:
         depends_on:
             - mssql-server
         environment: 
-            ConnectionStrings:Database: "Server= mssql-server; Database=HairdresserManager; User=SA; Password=Str@ngPassword2020!"
+            ConnectionStrings:DefaultConnection: "Server= mssql-server; Database=HairdresserManagerDB; User=SA; Password=Str@ngPassword2020!"
             

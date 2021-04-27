@@ -4,20 +4,22 @@ namespace ApplicationCore.Contract.V1.Register.Requests
 {
     public class RegisterRequest
     {
-        [Required]        
-        [EmailAddress]
-        public string Email { get; set; }
-        
+        [Required] [EmailAddress] public string Email { get; set; }
+
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long and a maximum of {1}", MinimumLength = 6)]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long and a maximum of {1}",
+            MinimumLength = 6)]
+        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$",
+            ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        
+
         [Required]
-        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long and a maximum of {1}", MinimumLength = 6)]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long and a maximum of {1}",
+            MinimumLength = 6)]
+        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$",
+            ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
         [Compare("Password")]
         [Display(Name = "ReTypedPassword")]
@@ -26,11 +28,11 @@ namespace ApplicationCore.Contract.V1.Register.Requests
         [Required]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         public string FirstName { get; set; }
-        
+
         [Required]
         [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 2)]
         public string LastName { get; set; }
-        
+
         [Required]
         [Phone]
         [StringLength(13, MinimumLength = 3, ErrorMessage = "Phone number must be between 3 and 13 letters in length.")]
