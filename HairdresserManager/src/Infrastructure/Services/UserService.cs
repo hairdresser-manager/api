@@ -71,20 +71,5 @@ namespace Infrastructure.Services
 
             return (Result.Success(), newUser.Id, verifyToken);
         }
-
-        public async Task<Result> VerifyEmailAsync(string email, string token)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user == null)
-                return Result.Failure("User doesn't exists");
-
-            if (await _userManager.IsEmailConfirmedAsync(user))
-                return Result.Failure("Email already verified");
-
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-
-            return result.Succeeded ? Result.Success() : Result.Failure(result.Errors.Select(x => x.Description));
-        }
     }
 }

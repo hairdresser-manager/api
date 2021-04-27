@@ -13,6 +13,5 @@ namespace ApplicationCore.Interfaces
         
         //for development purposes verify token is returning in request
         Task<(Result, Guid, string)> CreateUserAsync(RegisterRequest userDto);
-        Task<Result> VerifyEmailAsync(string emailToken, string verifyEmailToken);
     }
 }

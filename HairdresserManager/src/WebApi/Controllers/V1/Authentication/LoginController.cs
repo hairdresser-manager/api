@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
+using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Login.Requests;
 using ApplicationCore.Contract.V1.Login.Responses;
 using ApplicationCore.Interfaces;
@@ -26,7 +27,7 @@ namespace WebApi.Controllers.V1.Authentication
             var user = await _userService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
             
             if (user == null)
-                return BadRequest("User doesn't exists or credentials are wrong");
+                return BadRequest(ErrorResponse.New("User doesn't exist or credentials are wrong"));
 
             var accessToken = _jwtService.GenerateAccessToken(user);
             
