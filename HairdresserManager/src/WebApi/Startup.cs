@@ -1,13 +1,14 @@
 using System.Collections.Generic;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using WebApi.Installers;
 
 namespace WebApi
 {
@@ -23,8 +24,11 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddJwtAuthentication(Configuration);
             services.AddInfrastructure(Configuration);
-                
+
+            services.AddScoped<IJwtService, JwtService>();
+
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
@@ -68,7 +72,6 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                //app.UseMigrationsEndPoint();
             }
 
             app.UseSwagger();

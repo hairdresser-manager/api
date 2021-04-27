@@ -24,12 +24,21 @@ namespace Infrastructure.Services
             return await _userManager.FindByEmailAsync(email) != null;
         }
 
-        public async Task<UserDTO> GetUserByEmailAsync(string email)
+        public async Task<UserDTO> GetUserDtoByCredentialsAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
+            
+            if (user == null)
+                return null;
 
+            var hasValidPassword = await _userManager.CheckPasswordAsync(user, password);
+            
+            if (!hasValidPassword)
+                return null;
+            
             var userDto = new UserDTO
             {
+                Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,

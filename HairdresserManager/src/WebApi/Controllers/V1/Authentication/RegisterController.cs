@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Register.Requests;
-using ApplicationCore.Contract.V1.Register.Responses;
 using ApplicationCore.Interfaces;
-using ApplicationCore.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Authentication
