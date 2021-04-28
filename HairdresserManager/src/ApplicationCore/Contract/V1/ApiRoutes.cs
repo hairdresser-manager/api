@@ -52,6 +52,14 @@ namespace ApplicationCore.Contract.V1
             public const string DeleteRole = EmployeeRolesBase + "/{roleId}";
         }
 
+        public static class Account
+        {
+            private const string AccountBase = Base + "/accounts";
+            public const string ChangePassword = AccountBase + "/change-password";
+            public const string GetUserData = AccountBase + "/me";
+            public const string EditUserData = AccountBase;
+        }
+
         public static class Offer
         {
             

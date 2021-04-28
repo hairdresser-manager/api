@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
@@ -28,8 +27,26 @@ namespace Infrastructure.Services
                 return Result.Failure("Email already verified");
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
+            
+            if (!result.Succeeded)
+                return Result.Failure(result.Errors.Select(x => x.Description));
+            
+            return Result.Success();
+        }
 
-            return result.Succeeded ? Result.Success() : Result.Failure(result.Errors.Select(x => x.Description));
+        public async Task<Result> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return Result.Failure("user doesn't exist");
+            
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            if (!result.Succeeded)
+                return Result.Failure(result.Errors.Select(x => x.Description));
+            
+            return Result.Success();
         }
     }
 }

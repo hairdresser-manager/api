@@ -1,6 +1,8 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using ApplicationCore.Interfaces;
+using ApplicationCore.Services;
 using ApplicationCore.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -35,6 +37,7 @@ namespace WebApi.Installers
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(x =>

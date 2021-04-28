@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ApplicationCore.Validations;
 
 namespace ApplicationCore.Contract.V1.Account.Requests
 {
@@ -8,7 +9,8 @@ namespace ApplicationCore.Contract.V1.Account.Requests
         [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must contain lowercase letter, capital letter and number.")]
         [DataType(DataType.Password)]
-        public string OldPassword { get; set; }
+        [Unlike("NewPassword")]
+        public string CurrentPassword { get; set; }
         
         [Required]
         [StringLength(18, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

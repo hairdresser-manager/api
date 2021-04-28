@@ -20,7 +20,7 @@ namespace Infrastructure
 
             services
                 .AddIdentity<User, Role>(options =>
-                    options.User.RequireUniqueEmail = false)
+                    options.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

@@ -1,12 +1,18 @@
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
+using ApplicationCore.Settings;
 using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebApi.Installers;
 
@@ -24,8 +30,10 @@ namespace WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddJwtAuthentication(Configuration);
             services.AddInfrastructure(Configuration);
+            
+            services.AddControllers();
+            services.AddJwtAuthentication(Configuration);
 
             services.AddScoped<IJwtService, JwtService>();
 
@@ -63,7 +71,6 @@ namespace WebApi
                 });
             });
 
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
