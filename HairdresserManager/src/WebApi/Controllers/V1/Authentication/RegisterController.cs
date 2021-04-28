@@ -34,9 +34,8 @@ namespace WebApi.Controllers.V1.Authentication
                 return BadRequest(ErrorResponse.New(result.Errors));
 
             var added = await _clientService.AddUserToClientAsync(userId);
-            var url = $"verify-email?token={verifyToken}&email={request.Email}";
 
-            return added ? Ok(url) : BadRequest(ErrorResponse.New("Something went wrong"));
+            return added ? Ok(new {VerifyToken = verifyToken}) : BadRequest(ErrorResponse.New("Something went wrong"));
         }
 
         [HttpGet(ApiRoutes.Register.VerifyEmail)]

@@ -14,20 +14,25 @@ namespace WebApi.Controllers.V1.Authentication
     {
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
+        private readonly IIdentityService _identityService;
 
-        public LoginController(IUserService userService, IJwtService jwtService)
+        public LoginController(IUserService userService, IJwtService jwtService, IIdentityService identityService)
         {
             _userService = userService;
             _jwtService = jwtService;
+            _identityService = identityService;
         }
 
         [HttpPost(ApiRoutes.Login.LoginUser)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _userService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
+            var user = await _identityService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
             
             if (user == null)
-                return BadRequest(ErrorResponse.New("User doesn't exist or credentials are wrong"));
+                return BadRequest(ErrorResponse.New("user doesn't exist or credentials are wrong"));
+
+            if (!user.EmailConfirmed)
+                return BadRequest(ErrorResponse.New("email isn't verified"));
 
             var accessToken = _jwtService.GenerateAccessToken(user);
             
@@ -37,7 +42,7 @@ namespace WebApi.Controllers.V1.Authentication
                 Email = user.Email,
                 Role = user.Role,
                 AccessToken = accessToken,
-                RefreshToken = "not-implemented-yet"
+                RefreshToken = "not-implemented-yet",
             };
             
             return Ok(response);

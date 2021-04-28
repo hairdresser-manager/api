@@ -10,5 +10,6 @@ namespace ApplicationCore.DTOs
         public string LastName { get; set; }
         public string MobilePhone { get; set; }
         public string Role { get; set; }
+        public bool EmailConfirmed { get; set; }
     }
 }

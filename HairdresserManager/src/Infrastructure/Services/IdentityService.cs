@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 using Infrastructure.Identity;
@@ -10,10 +11,12 @@ namespace Infrastructure.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IUserService _userService;
 
-        public IdentityService(UserManager<User> userManager)
+        public IdentityService(UserManager<User> userManager, IUserService userService)
         {
             _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<Result> VerifyEmailAsync(string email, string token)
@@ -47,6 +50,32 @@ namespace Infrastructure.Services
                 return Result.Failure(result.Errors.Select(x => x.Description));
             
             return Result.Success();
+        }
+        
+        public async Task<UserDTO> GetUserDtoByCredentialsAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                return null;
+
+            var hasValidPassword = await _userManager.CheckPasswordAsync(user, password);
+
+            if (!hasValidPassword)
+                return null;
+
+            var userDto = new UserDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                MobilePhone = user.PhoneNumber,
+                Role = _userService.GetUserRoleById(user.Id.ToString()),
+                EmailConfirmed = user.EmailConfirmed
+            };
+
+            return userDto;
         }
     }
 }

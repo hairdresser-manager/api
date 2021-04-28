@@ -24,31 +24,6 @@ namespace Infrastructure.Services
             return await _userManager.FindByEmailAsync(email) != null;
         }
 
-        public async Task<UserDTO> GetUserDtoByCredentialsAsync(string email, string password)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user is not {EmailConfirmed: true})
-                return null;
-
-            var hasValidPassword = await _userManager.CheckPasswordAsync(user, password);
-
-            if (!hasValidPassword)
-                return null;
-
-            var userDto = new UserDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MobilePhone = user.PhoneNumber,
-                Role = GetUserRoleById(user.Id)
-            };
-
-            return userDto;
-        }
-
         public async Task<(Result, Guid, string)> CreateUserAsync(RegisterRequest userDto)
         {
             var newUser = new User
@@ -83,7 +58,7 @@ namespace Infrastructure.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 MobilePhone = user.PhoneNumber,
-                Role = GetUserRoleById(user.Id)
+                Role = GetUserRoleById(user.Id.ToString())
             };
 
             return userDto;
@@ -108,7 +83,7 @@ namespace Infrastructure.Services
             return Result.Success();
         }
 
-        private string GetUserRoleById(Guid userId)
+        public string GetUserRoleById(string userId)
         {
             //TODO: not implemented yet
             return "client";
