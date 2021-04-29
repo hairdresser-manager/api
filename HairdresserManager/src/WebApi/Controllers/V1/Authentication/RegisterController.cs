@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
+using ApplicationCore.Contract.V1.Account.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Register.Requests;
+using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,10 +40,10 @@ namespace WebApi.Controllers.V1.Authentication
             return added ? Ok(new {VerifyToken = verifyToken}) : BadRequest(ErrorResponse.New("Something went wrong"));
         }
 
-        [HttpGet(ApiRoutes.Register.VerifyEmail)]
-        public async Task<IActionResult> VerifyEmail([FromQuery] string email, string token)
+        [HttpPost(ApiRoutes.Register.VerifyEmail)]
+        public async Task<IActionResult> VerifyEmail([FromBody] VerifyEmailRequest request)
         {
-            var result = await _identity.VerifyEmailAsync(email, token);
+            var result = await _identity.VerifyEmailAsync(request.Email, request.Token);
             return result.Succeeded ? NoContent() : BadRequest(ErrorResponse.New(result.Errors));
         }
     }
