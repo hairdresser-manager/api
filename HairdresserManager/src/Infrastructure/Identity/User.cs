@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ApplicationCore.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,6 +12,7 @@ namespace Infrastructure.Identity
 
         public Client Client { get; set; }
         public Employee Employee { get; set; }
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
         
     }
 }

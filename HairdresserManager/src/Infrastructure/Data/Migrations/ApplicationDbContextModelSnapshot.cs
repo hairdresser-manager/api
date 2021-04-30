@@ -19,6 +19,48 @@ namespace Infrastructure.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ApplicationCore.Entities.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Hour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Taken")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("Appointments");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -35,6 +77,21 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.DayOff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DaysOff");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Employee", b =>
@@ -56,9 +113,6 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Nick")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Roles")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -67,7 +121,119 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employee");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeeRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("EmployeeRoles");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeesRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeesRoles");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AccessTokenJti")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Used")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Resource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Demand")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Resources");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ResourcesCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ResourcesCategories");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Review", b =>
@@ -103,6 +269,32 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Schedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EndingHour")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StartingHour")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Schedules");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -125,6 +317,65 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServiceCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceCategories");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServiceEmployeeRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeRoleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeRoleId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceEmployeeRoles");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServicesCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ServicesCategories");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.Role", b =>
@@ -328,6 +579,31 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Appointment", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Client", "Client")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("ApplicationCore.Entities.Employee", "Employee")
+                        .WithMany("Appointments")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Service", "Service")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Client", b =>
                 {
                     b.HasOne("Infrastructure.Identity.User", null)
@@ -344,6 +620,45 @@ namespace Infrastructure.Data.Migrations
                         .HasForeignKey("ApplicationCore.Entities.Employee", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeeRole", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Employee", "Employee")
+                        .WithMany("Roles")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.EmployeesRole", "Role")
+                        .WithMany("EmployeeRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("Infrastructure.Identity.User", null)
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Resource", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.ResourcesCategory", "Category")
+                        .WithMany("Resources")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Review", b =>
@@ -369,6 +684,55 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.Schedule", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.Employee", "Employee")
+                        .WithMany("Schedules")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServiceCategory", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.ServicesCategory", "Category")
+                        .WithMany("ServiceCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Service", "Service")
+                        .WithMany("Categories")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServiceEmployeeRole", b =>
+                {
+                    b.HasOne("ApplicationCore.Entities.EmployeesRole", "EmployeeRole")
+                        .WithMany("ServicesEmployeeRoles")
+                        .HasForeignKey("EmployeeRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ApplicationCore.Entities.Service", "Service")
+                        .WithMany("EmployeeRoles")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeRole");
 
                     b.Navigation("Service");
                 });
@@ -426,17 +790,48 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("ApplicationCore.Entities.Client", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Employee", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("Reviews");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("Schedules");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeesRole", b =>
+                {
+                    b.Navigation("EmployeeRoles");
+
+                    b.Navigation("ServicesEmployeeRoles");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ResourcesCategory", b =>
+                {
+                    b.Navigation("Resources");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.Service", b =>
                 {
+                    b.Navigation("Appointments");
+
+                    b.Navigation("Categories");
+
+                    b.Navigation("EmployeeRoles");
+
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("ApplicationCore.Entities.ServicesCategory", b =>
+                {
+                    b.Navigation("ServiceCategories");
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.User", b =>
@@ -444,6 +839,8 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

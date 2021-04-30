@@ -5,5 +5,8 @@ namespace ApplicationCore.Entities
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public int RoleId { get; set; }
+
+        public Employee Employee { get; set; }
+        public EmployeesRole Role { get; set; }
     }
 }

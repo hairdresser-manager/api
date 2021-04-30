@@ -10,12 +10,12 @@ namespace Infrastructure.Data.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .HasOne<Client>(user => user.Client)
+                .HasOne(user => user.Client)
                 .WithOne()
                 .HasForeignKey<Client>(client => client.UserId);
             
             builder
-                .HasOne<Employee>(user => user.Employee)
+                .HasOne(user => user.Employee)
                 .WithOne()
                 .HasForeignKey<Employee>(employee => employee.UserId);
         }

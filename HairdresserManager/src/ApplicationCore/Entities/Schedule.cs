@@ -9,5 +9,7 @@ namespace ApplicationCore.Entities
         public DateTime Date { get; set; }
         public int StartingHour { get; set; }
         public int EndingHour { get; set; }
+
+        public Employee Employee { get; set; }
     }
 }

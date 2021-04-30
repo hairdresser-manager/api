@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ApplicationCore.Entities
 {
@@ -13,5 +14,9 @@ namespace ApplicationCore.Entities
         public DateTime Date { get; set; }
         public int Hour { get; set; }
         public bool Taken { get; set; }
+
+        public Client Client { get; set; }
+        public Employee Employee { get; set; }
+        public Service Service { get; set; }
     }
 }

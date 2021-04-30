@@ -4,15 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Configurations
 {
-    public class ServiceConfiguration : IEntityTypeConfiguration<Service>
+    public class ServicesCategoryConfiguration : IEntityTypeConfiguration<ServicesCategory>
     {
-        public void Configure(EntityTypeBuilder<Service> builder)
+        public void Configure(EntityTypeBuilder<ServicesCategory> builder)
         {
             builder
                 .HasKey(e => e.Id);
-            
-            builder
-                .Property(e => e.Price).HasColumnType("money");
         }
     }
 }

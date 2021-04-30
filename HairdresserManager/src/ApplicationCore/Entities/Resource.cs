@@ -8,5 +8,7 @@ namespace ApplicationCore.Entities
         public int CategoryId { get; set; }
         public int InStock { get; set; }
         public int Demand { get; set; }
+
+        public ResourcesCategory Category { get; set; }
     }
 }

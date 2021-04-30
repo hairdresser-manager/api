@@ -10,5 +10,6 @@ namespace ApplicationCore.Entities
         public Guid UserId { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<Appointment> Appointments { get; set; }
     }
 }
