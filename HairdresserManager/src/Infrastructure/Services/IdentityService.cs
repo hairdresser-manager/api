@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
+using AutoMapper;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -12,11 +13,13 @@ namespace Infrastructure.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public IdentityService(UserManager<User> userManager, IUserService userService)
+        public IdentityService(UserManager<User> userManager, IUserService userService, IMapper mapper)
         {
             _userManager = userManager;
             _userService = userService;
+            _mapper = mapper;
         }
 
         public async Task<Result> VerifyEmailAsync(string email, string token)
@@ -52,7 +55,7 @@ namespace Infrastructure.Services
             return Result.Success();
         }
         
-        public async Task<UserDTO> GetUserDtoByCredentialsAsync(string email, string password)
+        public async Task<UserDto> GetUserDtoByCredentialsAsync(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -64,16 +67,8 @@ namespace Infrastructure.Services
             if (!hasValidPassword)
                 return null;
 
-            var userDto = new UserDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MobilePhone = user.PhoneNumber,
-                Role = _userService.GetUserRoleById(user.Id.ToString()),
-                EmailConfirmed = user.EmailConfirmed
-            };
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Role = _userService.GetUserRoleById(user.Id.ToString());
 
             return userDto;
         }

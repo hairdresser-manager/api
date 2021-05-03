@@ -4,6 +4,6 @@ namespace ApplicationCore.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateAccessToken(UserDTO userDto);
+        string GenerateAccessToken(UserDto userDto);
     }
 }

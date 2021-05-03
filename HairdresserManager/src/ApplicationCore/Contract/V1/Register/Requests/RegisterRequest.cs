@@ -4,7 +4,9 @@ namespace ApplicationCore.Contract.V1.Register.Requests
 {
     public class RegisterRequest
     {
-        [Required] [EmailAddress] public string Email { get; set; }
+        [Required] 
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} characters long and a maximum of {1}",

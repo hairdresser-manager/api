@@ -17,7 +17,7 @@ namespace Infrastructure.Services
 
         public async Task<bool> AddUserToClientAsync(Guid userId)
         {
-            var client = new Client{ UserId = userId };
+            var client = new Client {UserId = userId};
             await _context.Clients.AddAsync(client);
             return await _context.SaveChangesAsync() > 0;
         }

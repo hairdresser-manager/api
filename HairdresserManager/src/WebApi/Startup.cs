@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using ApplicationCore;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
 using ApplicationCore.Settings;
@@ -31,6 +32,7 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+            services.AddApplication();
             
             services.AddControllers();
             services.AddJwtAuthentication(Configuration);
@@ -70,7 +72,6 @@ namespace WebApi
                     }
                 });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

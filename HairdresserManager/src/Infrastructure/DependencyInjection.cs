@@ -1,3 +1,4 @@
+using System.Reflection;
 using ApplicationCore.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Identity;
@@ -27,6 +28,9 @@ namespace Infrastructure
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }

@@ -3,14 +3,14 @@ using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.DTOs;
 using AutoMapper;
 
-namespace ApplicationCore.MappingProfiles
+namespace ApplicationCore.Mapping
 {
     public class RequestToDtoProfile : Profile
     {
         public RequestToDtoProfile()
         {
-            CreateMap<RegisterRequest, UserDTO>();   
-            CreateMap<UpdateAccountRequest, UserDTO>();   
+            CreateMap<RegisterRequest, UserDto>();   
+            CreateMap<UpdateAccountRequest, UserDto>();   
         }
     }
 }

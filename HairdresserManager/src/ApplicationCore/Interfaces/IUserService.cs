@@ -8,12 +8,12 @@ namespace ApplicationCore.Interfaces
 {
     public interface IUserService
     {
-        Task<bool> UserExistsByEmailAsync(string email);
-        Task<UserDTO> GetUserDtoByIdAsync(string userId);
-        Task<Result> UpdateUserDataAsync(string userId, UserDTO userDto);
+        Task<UserDto> GetUserDtoByEmailAsync(string email);
+        Task<UserDto> GetUserDtoByIdAsync(string userId);
+        Task<Result> UpdateUserDataAsync(string userId, UserDto userDto);
         string GetUserRoleById(string userId);
 
         //for development purposes verify token is returning in request and probably will go to identity service
-        Task<(Result, Guid, string)> CreateUserAsync(RegisterRequest userDto);
+        Task<(Result, Guid, string)> CreateUserAsync(UserDto userDto, string password);
     }
 }

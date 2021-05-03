@@ -29,10 +29,10 @@ namespace WebApi.Controllers.V1.Authentication
             var user = await _identityService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
             
             if (user == null)
-                return BadRequest(ErrorResponse.New("user doesn't exist or credentials are wrong"));
+                return BadRequest(new ErrorResponse("user doesn't exist or credentials are wrong"));
 
             if (!user.EmailConfirmed)
-                return BadRequest(ErrorResponse.New("email isn't verified"));
+                return BadRequest(new ErrorResponse("email isn't verified"));
 
             var accessToken = _jwtService.GenerateAccessToken(user);
             
@@ -51,13 +51,14 @@ namespace WebApi.Controllers.V1.Authentication
         [HttpPost(ApiRoutes.Login.FacebookAuth)]
         public IActionResult FacebookAuth([FromBody] FacebookAuthRequest request)
         {
-            var response = new LoginResponse
+            var fakeResponse = new LoginResponse
             {
                 AccessToken =
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-                RefreshToken = "UGeKMA6L8YwCyY2uuoi8Iz1wrJmCcT"
+                    "not-implemented-yet",
+                RefreshToken = "not-implemented-yet"
             };
-            var result = new ServiceResult<LoginResponse> {Success = true, Data = response};
+            
+            var result = new ServiceResult<LoginResponse> {Success = true, Data = fakeResponse};
             return Ok(result.Data);
         }
 

@@ -18,7 +18,7 @@ namespace ApplicationCore.Services
             _jwtSettings = jwtSettings;
         }
 
-        public string GenerateAccessToken(UserDTO user)
+        public string GenerateAccessToken(UserDto user)
         {
             var accessTokenJti = Guid.NewGuid();
             var userEmail = user.Email;

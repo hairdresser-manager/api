@@ -8,6 +8,6 @@ namespace ApplicationCore.Interfaces
     {
         Task<Result> VerifyEmailAsync(string email, string token);
         Task<Result> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
-        Task<UserDTO> GetUserDtoByCredentialsAsync(string email, string password); 
+        Task<UserDto> GetUserDtoByCredentialsAsync(string email, string password); 
     }
 }

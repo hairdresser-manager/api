@@ -1,11 +1,10 @@
-using System;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Account.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Extensions;
@@ -18,11 +17,13 @@ namespace WebApi.Controllers.V1
     {
         private readonly IUserService _userService;
         private readonly IIdentityService _identityService;
+        private readonly IMapper _mapper;
 
-        public AccountController(IUserService userService, IIdentityService identityService)
+        public AccountController(IUserService userService, IIdentityService identityService, IMapper mapper)
         {
             _userService = userService;
             _identityService = identityService;
+            _mapper = mapper;
         }
 
         [HttpPost(ApiRoutes.Account.ChangePassword)]
@@ -30,19 +31,13 @@ namespace WebApi.Controllers.V1
         {
             var result = await _identityService.ChangePasswordAsync(HttpContext.GetUserId(), request.CurrentPassword,
                 request.NewPassword);
-            return result.Succeeded ? NoContent() : BadRequest(ErrorResponse.New(result.Errors));
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
         [HttpPut(ApiRoutes.Account.EditUserData)]
         public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountRequest request)
         {
-            var userDto = new UserDTO
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                MobilePhone = request.MobilePhone
-            };
-
+            var userDto = _mapper.Map<UserDto>(request);
             await _userService.UpdateUserDataAsync(HttpContext.GetUserId(), userDto);
             return NoContent();
         }

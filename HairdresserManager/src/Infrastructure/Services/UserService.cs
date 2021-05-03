@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
+using AutoMapper;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
@@ -13,80 +13,65 @@ namespace Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserService(UserManager<User> userManager)
+        public UserService(UserManager<User> userManager, IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
         }
 
-        public async Task<bool> UserExistsByEmailAsync(string email)
+        public async Task<UserDto> GetUserDtoByEmailAsync(string email)
         {
-            return await _userManager.FindByEmailAsync(email) != null;
+            var user = await _userManager.FindByEmailAsync(email);
+            return user == null ? null : UserToUserDto(user);
         }
 
-        public async Task<(Result, Guid, string)> CreateUserAsync(RegisterRequest userDto)
+        public async Task<UserDto> GetUserDtoByIdAsync(string userId)
         {
-            var newUser = new User
-            {
-                Email = userDto.Email,
-                UserName = userDto.Email,
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                PhoneNumber = userDto.MobilePhone
-            };
+            var user = await _userManager.FindByIdAsync(userId);
+            return user == null ? null : UserToUserDto(user);
+        }
 
-            var createdUser = await _userManager.CreateAsync(newUser, userDto.Password);
+        public async Task<(Result, Guid, string)> CreateUserAsync(UserDto userDto, string password)
+        {
+            var newUser = _mapper.Map<User>(userDto);
+            
+            var createdUser = await _userManager.CreateAsync(newUser, password);
 
             if (!createdUser.Succeeded)
-            {
                 return (Result.Failure(createdUser.Errors.Select(x => x.Description)), Guid.Empty, null);
-            }
 
             var verifyToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-
             return (Result.Success(), newUser.Id, verifyToken);
         }
 
-        public async Task<UserDTO> GetUserDtoByIdAsync(string userId)
+        public async Task<Result> UpdateUserDataAsync(string userId, UserDto userDto)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            var userDto = new UserDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MobilePhone = user.PhoneNumber,
-                Role = GetUserRoleById(user.Id.ToString())
-            };
-
-            return userDto;
-        }
-        
-        public async Task<Result> UpdateUserDataAsync(string userId, UserDTO userDto)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            
             if (user == null)
                 return Result.Failure("User doesn't exist");
 
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.PhoneNumber = userDto.MobilePhone;
-            
+
             var result = await _userManager.UpdateAsync(user);
-            
-            if (!result.Succeeded)
-                return Result.Failure(result.Errors.Select(x => x.Description));
-            
-            return Result.Success();
+            return !result.Succeeded ? Result.Failure(result.Errors.Select(x => x.Description)) : Result.Success();
         }
 
         public string GetUserRoleById(string userId)
         {
             //TODO: not implemented yet
             return "client";
+        }
+
+        private UserDto UserToUserDto(User user)
+        {
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Role = GetUserRoleById(user.Id.ToString());
+            return userDto;
         }
     }
 }
