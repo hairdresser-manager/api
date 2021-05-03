@@ -19,8 +19,7 @@ namespace WebApi.Controllers.V1.Authentication
                 RefreshToken = "UGeKMA6L8YwCyY2uuoi8Iz1wrJmCcT"
             };
             
-            var result = new ServiceResult<JwtRefreshResponse> {Success = true, Data = response};
-            return Ok(result.Data);
+            return Ok(response);
         }
     }
 }

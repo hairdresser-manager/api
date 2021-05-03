@@ -74,11 +74,6 @@ namespace ApplicationCore.Contract.V1
         {
             
         }
-
-        public static class User
-        {
-            
-        }
         
         public static class Resource
         {

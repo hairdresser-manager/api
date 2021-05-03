@@ -1,4 +1,5 @@
 using ApplicationCore.Contract.V1.Account.Requests;
+using ApplicationCore.Contract.V1.Employee.Requests;
 using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.DTOs;
 using AutoMapper;
@@ -11,6 +12,7 @@ namespace ApplicationCore.Mapping
         {
             CreateMap<RegisterRequest, UserDto>();   
             CreateMap<UpdateAccountRequest, UserDto>();   
+            CreateMap<UpdateEmployeeRequest, EmployeeDto>();  
         }
     }
 }

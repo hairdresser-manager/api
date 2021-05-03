@@ -18,9 +18,7 @@ namespace WebApi.Controllers.V1.Employee
                 Roles = new List<string> {"Barber", "Hair dresser", "Nails"}
             };
             
-            var result = new ServiceResult<GetEmployeeRolesResponse> {Success = true, Data = response};
-            
-            return Ok(result.Data);
+            return Ok(response);
         }
 
         [HttpPost(ApiRoutes.EmployeeRoles.CreateRole)]

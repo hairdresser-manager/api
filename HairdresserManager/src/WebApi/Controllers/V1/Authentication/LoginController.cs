@@ -58,8 +58,7 @@ namespace WebApi.Controllers.V1.Authentication
                 RefreshToken = "not-implemented-yet"
             };
             
-            var result = new ServiceResult<LoginResponse> {Success = true, Data = fakeResponse};
-            return Ok(result.Data);
+            return Ok(fakeResponse);
         }
 
         [HttpPost(ApiRoutes.Login.Logout)]

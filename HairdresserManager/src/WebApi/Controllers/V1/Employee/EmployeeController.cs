@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Employee.Requests;
-using ApplicationCore.Contract.V1.Employee.Responses;
+using ApplicationCore.Contract.V1.General.Responses;
+using ApplicationCore.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Employee
@@ -10,58 +11,51 @@ namespace WebApi.Controllers.V1.Employee
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        [HttpGet(ApiRoutes.Employee.GetAllEmployees)]
-        public IActionResult GetAllEmployees()
+        private readonly IEmployeeService _employeeService;
+        private readonly IUserService _userService;
+        private readonly IMapper _mapper;
+
+        public EmployeeController(IEmployeeService employeeService, IUserService userService, IMapper mapper)
         {
-            var employees = new List<EmployeeResponse>
-            {
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "David", LastName = "Watts",
-                    Email = "DavidEWatts@dayrep.com", Active = false,
-                    Roles = new[] {"Barber", "Hair dresser"}, PhoneNumber = "6185538489",
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/126150-201908181531-lg2.jpg.webp?t=1566138744"
-                },
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "Elliott", LastName = "Dubbed",
-                    Email = "ElliottDubbeld@rhyta.com",
-                    Roles = new[] {"No one", "Someone"}, PhoneNumber = "9702309156", Active = true,
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/108952-201902211118-lg2.jpg.webp?t=1550747976"
-                },
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "Sanna", LastName = "Lok", Email = "SannaLok@teleworm.us",
-                    Roles = new[] {"Aa", "Bb", "Cc"}, PhoneNumber = "6518483460", Active = true,
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/152617-201912101211-lg2.jpg.webp?t=1575979953"
-                }
-            };
-            
+            _employeeService = employeeService;
+            _userService = userService;
+            _mapper = mapper;
+        }
+
+        [HttpGet(ApiRoutes.Employee.GetAllEmployees)]
+        public async Task<IActionResult> GetAllEmployees()
+        {
+            var employees = await _employeeService.GetEmployeesDtoAsync();
             return Ok(employees);
         }
 
         [HttpPost(ApiRoutes.Employee.CreateEmployee)]
-        public IActionResult CreateEmployee([FromBody] CreateEmployeeRequest request)
+        public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeRequest request)
         {
-            return NoContent();
+            var userDto = await _userService.GetUserDtoByEmailAsync(request.Email);
+
+            if (userDto == null)
+                return BadRequest(new ErrorResponse("user doesn't exist"));
+
+            if (await _employeeService.UserIsEmployeeAsync(userDto.Id))
+                return BadRequest(new ErrorResponse("user already is an employee"));
+
+            var employeeId = await _employeeService.AddUserToEmployees(userDto.Id);
+            return Ok(new {EmployeeId = employeeId});
         }
 
-        [HttpPatch(ApiRoutes.Employee.UpdateEmployee)]
-        public IActionResult UpdateEmployee([FromBody] UpdateEmployeeRequest request)
+        [HttpPut(ApiRoutes.Employee.UpdateEmployee)]
+        public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, [FromRoute] int employeeId)
         {
-            return NoContent();
-        }
+            var employeeDto = await _employeeService.GetEmployeeDtoByIdAsync(employeeId);
 
-        [HttpDelete(ApiRoutes.Employee.DeleteEmployee)]
-        public IActionResult DeleteEmployee()
-        {
-            return NoContent();
+            if (employeeDto == null)
+                return BadRequest(new ErrorResponse("Employee doesn't exist"));
+
+            _mapper.Map(request, employeeDto);
+
+            var result = await _employeeService.UpdateEmployeeDataAsync(employeeDto);
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
     }
 }

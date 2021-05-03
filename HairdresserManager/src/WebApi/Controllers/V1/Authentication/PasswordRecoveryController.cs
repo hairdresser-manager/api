@@ -13,10 +13,9 @@ namespace WebApi.Controllers.V1.Authentication
         [HttpPost(ApiRoutes.PasswordRecovery.RemindPassword)]
         public IActionResult RemindPassword([FromBody] RemindPasswordRequest request)
         {
-            var result = new ServiceResult<RemindPasswordResponse> {Success = true};
-            result.Data = new RemindPasswordResponse {ResetPasswordKey = Guid.NewGuid().ToString()};
+            var response = new RemindPasswordResponse {ResetPasswordKey = Guid.NewGuid().ToString()};
             
-            return Ok(result.Data);
+            return Ok(response);
         }
 
         [HttpPost(ApiRoutes.PasswordRecovery.ResetPassword)]
