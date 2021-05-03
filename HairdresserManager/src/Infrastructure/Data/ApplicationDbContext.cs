@@ -12,6 +12,7 @@ namespace Infrastructure.Data
     {
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeRole> EmployeeRoles { get; set; }
         public DbSet<EmployeesRole> EmployeesRoles { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
