@@ -4,10 +4,12 @@ using ApplicationCore.Contract.V1.Employee.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Employee
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class EmployeeController : ControllerBase
     {
@@ -37,7 +39,7 @@ namespace WebApi.Controllers.V1.Employee
             if (userDto == null)
                 return BadRequest(new ErrorResponse("user doesn't exist"));
 
-            if (await _employeeService.UserIsEmployeeAsync(userDto.Id))
+            if (await _employeeService.IsUserEmployeeAsync(userDto.Id))
                 return BadRequest(new ErrorResponse("user already is an employee"));
 
             var employeeId = await _employeeService.AddUserToEmployees(userDto.Id);
@@ -45,7 +47,8 @@ namespace WebApi.Controllers.V1.Employee
         }
 
         [HttpPut(ApiRoutes.Employee.UpdateEmployee)]
-        public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request, [FromRoute] int employeeId)
+        public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request,
+            [FromRoute] int employeeId)
         {
             var employeeDto = await _employeeService.GetEmployeeDtoByIdAsync(employeeId);
 

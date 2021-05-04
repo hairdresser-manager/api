@@ -12,13 +12,11 @@ namespace Infrastructure.Services
     public class IdentityService : IIdentityService
     {
         private readonly UserManager<User> _userManager;
-        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public IdentityService(UserManager<User> userManager, IUserService userService, IMapper mapper)
+        public IdentityService(UserManager<User> userManager, IMapper mapper)
         {
             _userManager = userManager;
-            _userService = userService;
             _mapper = mapper;
         }
 
@@ -68,7 +66,7 @@ namespace Infrastructure.Services
                 return null;
 
             var userDto = _mapper.Map<UserDto>(user);
-            userDto.Role = _userService.GetUserRoleById(user.Id.ToString());
+            userDto.Roles = await _userManager.GetRolesAsync(user);
 
             return userDto;
         }

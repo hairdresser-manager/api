@@ -33,11 +33,10 @@ namespace WebApi
         {
             services.AddInfrastructure(Configuration);
             services.AddApplication();
-            
-            services.AddControllers();
-            services.AddJwtAuthentication(Configuration);
 
-            services.AddScoped<IJwtService, JwtService>();
+            services.AddControllers();
+
+            services.AddJwtAuthentication(Configuration);
 
             services.AddCors(options =>
             {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.DTOs;
@@ -24,13 +25,13 @@ namespace Infrastructure.Services
         public async Task<UserDto> GetUserDtoByEmailAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            return user == null ? null : UserToUserDto(user);
+            return user == null ? null : await UserToUserDtoAsync(user);
         }
 
         public async Task<UserDto> GetUserDtoByIdAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            return user == null ? null : UserToUserDto(user);
+            return user == null ? null : await UserToUserDtoAsync(user);
         }
 
         public async Task<(Result, Guid, string)> CreateUserAsync(UserDto userDto, string password)
@@ -43,6 +44,8 @@ namespace Infrastructure.Services
                 return (Result.Failure(createdUser.Errors.Select(x => x.Description)), Guid.Empty, null);
 
             var verifyToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+            await _userManager.AddToRoleAsync(newUser, Role.User);
+            
             return (Result.Success(), newUser.Id, verifyToken);
         }
 
@@ -61,16 +64,10 @@ namespace Infrastructure.Services
             return !result.Succeeded ? Result.Failure(result.Errors.Select(x => x.Description)) : Result.Success();
         }
 
-        public string GetUserRoleById(string userId)
-        {
-            //TODO: not implemented yet
-            return "client";
-        }
-
-        private UserDto UserToUserDto(User user)
+        private async Task<UserDto> UserToUserDtoAsync(User user)
         {
             var userDto = _mapper.Map<UserDto>(user);
-            userDto.Role = GetUserRoleById(user.Id.ToString());
+            userDto.Roles = await _userManager.GetRolesAsync(user);
             return userDto;
         }
     }

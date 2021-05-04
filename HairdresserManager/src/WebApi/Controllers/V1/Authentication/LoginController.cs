@@ -4,7 +4,7 @@ using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Login.Requests;
 using ApplicationCore.Contract.V1.Login.Responses;
 using ApplicationCore.Interfaces;
-using ApplicationCore.Results;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Authentication
@@ -12,39 +12,34 @@ namespace WebApi.Controllers.V1.Authentication
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
         private readonly IIdentityService _identityService;
+        private readonly IMapper _mapper;
 
-        public LoginController(IUserService userService, IJwtService jwtService, IIdentityService identityService)
+        public LoginController(IJwtService jwtService, IIdentityService identityService, IMapper mapper)
         {
-            _userService = userService;
             _jwtService = jwtService;
             _identityService = identityService;
+            _mapper = mapper;
         }
 
         [HttpPost(ApiRoutes.Login.LoginUser)]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _identityService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
-            
-            if (user == null)
+            var userDto = await _identityService.GetUserDtoByCredentialsAsync(request.Email, request.Password);
+
+            if (userDto == null)
                 return BadRequest(new ErrorResponse("user doesn't exist or credentials are wrong"));
 
-            if (!user.EmailConfirmed)
+            if (!userDto.EmailConfirmed)
                 return BadRequest(new ErrorResponse("email isn't verified"));
 
-            var accessToken = _jwtService.GenerateAccessToken(user);
-            
-            var response = new LoginResponse
-            {
-                FirstName = user.FirstName,
-                Email = user.Email,
-                Role = user.Role,
-                AccessToken = accessToken,
-                RefreshToken = "not-implemented-yet",
-            };
-            
+            var accessToken = _jwtService.GenerateAccessToken(userDto);
+
+            var response = _mapper.Map<LoginResponse>(userDto);
+            response.AccessToken = accessToken;
+            response.RefreshToken = "not-implemented-yet";
+
             return Ok(response);
         }
 
@@ -53,11 +48,10 @@ namespace WebApi.Controllers.V1.Authentication
         {
             var fakeResponse = new LoginResponse
             {
-                AccessToken =
-                    "not-implemented-yet",
+                AccessToken = "not-implemented-yet",
                 RefreshToken = "not-implemented-yet"
             };
-            
+
             return Ok(fakeResponse);
         }
 

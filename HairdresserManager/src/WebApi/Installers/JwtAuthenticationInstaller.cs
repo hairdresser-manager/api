@@ -33,7 +33,6 @@ namespace WebApi.Installers
                 ClockSkew = TimeSpan.Zero
             };
 
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

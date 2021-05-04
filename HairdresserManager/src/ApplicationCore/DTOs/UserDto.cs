@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ApplicationCore.DTOs
 {
@@ -9,7 +10,7 @@ namespace ApplicationCore.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MobilePhone { get; set; }
-        public string Role { get; set; }
+        public IEnumerable<string> Roles { get; set; }
         public bool EmailConfirmed { get; set; }
     }
 }

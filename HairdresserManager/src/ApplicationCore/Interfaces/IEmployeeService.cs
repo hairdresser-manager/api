@@ -8,7 +8,7 @@ namespace ApplicationCore.Interfaces
 {
     public interface IEmployeeService
     {
-        Task<bool> UserIsEmployeeAsync(Guid userId);
+        Task<bool> IsUserEmployeeAsync(Guid userId);
         Task<int> AddUserToEmployees(Guid userId);
         Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync();
         Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId);
