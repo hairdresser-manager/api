@@ -125,6 +125,38 @@ namespace Infrastructure.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Active = true,
+                            AvatarUrl = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg",
+                            Description = "Success isn't always about 'Greatness', it's about consistency.",
+                            LowQualityAvatarUrl = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg",
+                            Nick = "The Rock",
+                            UserId = new Guid("e04b3983-be4f-4d99-bbdb-011fb93b0ae4")
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Active = true,
+                            AvatarUrl = "https://scontent-frt3-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/164620128_800510077236657_4464242640656376019_n.jpg?tp=1&_nc_ht=scontent-frt3-1.cdninstagram.com&_nc_cat=109&_nc_ohc=fBzuRWUd9LcAX9CTNqI&edm=AP_V10EBAAAA&ccb=7-4&oh=1f5e24c0f15ad60e5d567f39f1e32288&oe=60B56733&_nc_sid=4f375e",
+                            Description = "Giga hairdresser",
+                            LowQualityAvatarUrl = "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
+                            Nick = "Bartosh",
+                            UserId = new Guid("88244a0b-d2d4-43f3-9bdb-1aeb21c669b7")
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Active = true,
+                            AvatarUrl = "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg",
+                            Description = "Success isn't always about 'Greatness', it's about consistency.",
+                            LowQualityAvatarUrl = "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg",
+                            Nick = "The Rock",
+                            UserId = new Guid("3aac6e70-5eb1-4b87-bb5c-16594baf6570")
+                        });
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.EmployeeRole", b =>
@@ -407,6 +439,29 @@ namespace Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("4b582e36-3b4f-4278-8cfc-2081c4d52ef8"),
+                            ConcurrencyStamp = "1ad09b6b-4fa3-4f1e-b997-1ea8d634f99f",
+                            Name = "user",
+                            NormalizedName = "user"
+                        },
+                        new
+                        {
+                            Id = new Guid("85c45186-09d2-4d38-a904-e7b11dd8b39a"),
+                            ConcurrencyStamp = "eb957ed1-33ad-48bb-9ac9-3da0f44b715e",
+                            Name = "employee",
+                            NormalizedName = "employee"
+                        },
+                        new
+                        {
+                            Id = new Guid("e9180de5-9d21-4122-88c5-09869466534c"),
+                            ConcurrencyStamp = "99f5fb7c-feb1-49bd-b0f0-3dff414e3e98",
+                            Name = "administrator",
+                            NormalizedName = "administrator"
+                        });
                 });
 
             modelBuilder.Entity("Infrastructure.Identity.User", b =>
@@ -479,6 +534,84 @@ namespace Infrastructure.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("40384d53-79aa-49f9-807f-5cc5dd3800a1"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a2ea788b-b911-4e0f-89b6-526b180df0b6",
+                            Email = "admin@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Bill",
+                            LastName = "Gates",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHw/iehS81sEcAfHir06iJ8BOAUDRec+43ir76NtigRMeZJfZyOlWP2oh+IPCUkWpQ==",
+                            PhoneNumber = "0987654321",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "d4df3777-a849-4993-85ee-c138adfcf25a",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@example.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("3aac6e70-5eb1-4b87-bb5c-16594baf6570"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "9e715f16-f982-4973-a6ca-d3e645402cc9",
+                            Email = "admin2@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jeff",
+                            LastName = "Bezos",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN2@EXAMPLE.COM",
+                            NormalizedUserName = "ADMIN2@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ9XpDJliHCWu1qTu9+aD07Gy9wxWTuw8QXwmJOIeKCnNMztGX7G3ovO6qREGs9jrg==",
+                            PhoneNumber = "567345764e56",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c65d4bf1-68c7-4c22-8c4f-109e033b3a58",
+                            TwoFactorEnabled = false,
+                            UserName = "admin2@example.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("88244a0b-d2d4-43f3-9bdb-1aeb21c669b7"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "995289c0-ed9d-4a79-bac2-a23f00ff2256",
+                            Email = "employee1@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Bart",
+                            LastName = "Osh",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE1@EXAMPLE.COM",
+                            NormalizedUserName = "EMPLOYEE1@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE8S4P5OZ3N/PB2Ih0XS4qiChxW3uZ8Gv1fpR3kXMS5d/MDFUe0euhgOkJCct9MBKQ==",
+                            PhoneNumber = "123456789",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3db8e13d-fb18-4903-b1d9-395e86892adb",
+                            TwoFactorEnabled = false,
+                            UserName = "employee1@example.com"
+                        },
+                        new
+                        {
+                            Id = new Guid("e04b3983-be4f-4d99-bbdb-011fb93b0ae4"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "02959be7-d3c2-4097-8043-f166e854c9a7",
+                            Email = "employee2@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Dwayne",
+                            LastName = "Johnson",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "EMPLOYEE2@EXAMPLE.COM",
+                            NormalizedUserName = "EMPLOYEE2@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDSkopGWVjpMBLRZP4VwTumcNlJUI1rcPSG9YiMzz3xZsAoOe09m7KyW+7zRm+rQbA==",
+                            PhoneNumber = "543215678",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "196855e8-0c00-412c-86f0-d1e25f74d231",
+                            TwoFactorEnabled = false,
+                            UserName = "employee2@example.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -561,6 +694,33 @@ namespace Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("40384d53-79aa-49f9-807f-5cc5dd3800a1"),
+                            RoleId = new Guid("e9180de5-9d21-4122-88c5-09869466534c")
+                        },
+                        new
+                        {
+                            UserId = new Guid("88244a0b-d2d4-43f3-9bdb-1aeb21c669b7"),
+                            RoleId = new Guid("85c45186-09d2-4d38-a904-e7b11dd8b39a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("e04b3983-be4f-4d99-bbdb-011fb93b0ae4"),
+                            RoleId = new Guid("85c45186-09d2-4d38-a904-e7b11dd8b39a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("3aac6e70-5eb1-4b87-bb5c-16594baf6570"),
+                            RoleId = new Guid("85c45186-09d2-4d38-a904-e7b11dd8b39a")
+                        },
+                        new
+                        {
+                            UserId = new Guid("3aac6e70-5eb1-4b87-bb5c-16594baf6570"),
+                            RoleId = new Guid("e9180de5-9d21-4122-88c5-09869466534c")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>

@@ -4,7 +4,6 @@ using Infrastructure.Data.Configurations;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using User = Infrastructure.Identity.User;
 
 namespace Infrastructure.Data
 {
@@ -52,6 +51,8 @@ namespace Infrastructure.Data
                 .ApplyConfiguration(new ServiceEmployeeRoleConfiguration())
                 .ApplyConfiguration(new ServicesCategoryConfiguration())
                 .ApplyConfiguration(new UserConfiguration());
+            
+            builder.Seed();
         }
     }
 }
