@@ -44,7 +44,7 @@ namespace Infrastructure.Services
                 return (Result.Failure(createdUser.Errors.Select(x => x.Description)), Guid.Empty, null);
 
             var verifyToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-            await _userManager.AddToRoleAsync(newUser, Role.User);
+            await _userManager.AddToRoleAsync(newUser, ApplicationCore.Entities.Role.User);
             
             return (Result.Success(), newUser.Id, verifyToken);
         }
@@ -62,6 +62,24 @@ namespace Infrastructure.Services
 
             var result = await _userManager.UpdateAsync(user);
             return !result.Succeeded ? Result.Failure(result.Errors.Select(x => x.Description)) : Result.Success();
+        }
+        
+        public async Task<IEnumerable<string>> GetUserRolesById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return await _userManager.GetRolesAsync(user);
+        }
+
+        public async Task RemoveFromRoleAsync(string userId, string role)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            await _userManager.RemoveFromRoleAsync(user, role);
+        }
+
+        public async Task AddToRoleAsync(string userId, string role)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            await _userManager.AddToRoleAsync(user, role);
         }
 
         private async Task<UserDto> UserToUserDtoAsync(User user)

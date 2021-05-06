@@ -4,10 +4,9 @@ using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 using AutoMapper;
-using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 
-namespace Infrastructure.Services
+namespace Infrastructure.Identity
 {
     public class IdentityService : IIdentityService
     {

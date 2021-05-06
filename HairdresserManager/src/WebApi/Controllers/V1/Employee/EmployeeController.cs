@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Employee.Requests;
+using ApplicationCore.Contract.V1.Employee.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Interfaces;
 using AutoMapper;
@@ -27,8 +29,21 @@ namespace WebApi.Controllers.V1.Employee
         [HttpGet(ApiRoutes.Employee.GetAllEmployees)]
         public async Task<IActionResult> GetAllEmployees()
         {
-            var employees = await _employeeService.GetEmployeesDtoAsync();
-            return Ok(employees);
+            var employeesDto = await _employeeService.GetEmployeesDtoAsync();
+
+            var employeesResponse = new List<EmployeeResponse>();
+
+            foreach (var employeeDto in employeesDto)
+            {
+                var userDto = await _userService.GetUserDtoByIdAsync(employeeDto.UserId.ToString());
+                var employeeResponse = _mapper.Map<EmployeeResponse>(employeeDto);
+                
+                _mapper.Map(userDto, employeeResponse);
+                
+                employeesResponse.Add(employeeResponse);
+            }
+            
+            return Ok(employeesResponse);
         }
 
         [HttpPost(ApiRoutes.Employee.CreateEmployee)]

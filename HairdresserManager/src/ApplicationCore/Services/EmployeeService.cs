@@ -1,29 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 using AutoMapper;
-using Infrastructure.Data;
-using Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Services
+namespace ApplicationCore.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly UserManager<User> _userManager;
-        private readonly ApplicationDbContext _context;
+        private readonly IHairdresserDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public EmployeeService(ApplicationDbContext context, IMapper mapper, UserManager<User> userManager)
+        public EmployeeService(IHairdresserDbContext context, IMapper mapper, IUserService userService)
         {
             _context = context;
             _mapper = mapper;
-            _userManager = userManager;
+            _userService = userService;
         }
 
         public async Task<bool> IsUserEmployeeAsync(Guid userId)
@@ -41,7 +39,7 @@ namespace Infrastructure.Services
             };
 
             await _context.Employees.AddAsync(employee);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(new CancellationToken());
 
             return employee.Id;
         }
@@ -53,14 +51,7 @@ namespace Infrastructure.Services
             if (employees == null)
                 return null;
 
-            var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employees);
-
-            foreach (var employeeDto in employeesDto)
-            {
-                await EmbedUserInEmployeeDtoAsync(employeeDto);
-            }
-
-            return employeesDto;
+            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
         public async Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId)
@@ -70,10 +61,7 @@ namespace Infrastructure.Services
             if (employee == null)
                 return null;
             
-            var employeeDto = _mapper.Map<EmployeeDto>(employee);
-            await EmbedUserInEmployeeDtoAsync(employeeDto);
-            
-            return employeeDto;
+            return _mapper.Map<EmployeeDto>(employee);
         }
 
         public async Task<Result> UpdateEmployeeDataAsync(EmployeeDto employeeDto)
@@ -81,35 +69,30 @@ namespace Infrastructure.Services
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employeeDto.Id);
 
             if (employee.Active != employeeDto.Active)
-                await ChangeEmployeeRole(employee.UserId);
+                await ChangeEmployeeRole(employee.UserId.ToString());
             
             _mapper.Map(employeeDto, employee);
             
             _context.Employees.Update(employee);
-            return await _context.SaveChangesAsync() > 0 ? Result.Success() : Result.Failure("something went wrong");
+            var changesSaved = await _context.SaveChangesAsync(new CancellationToken()) > 0;
+            
+            return  changesSaved ? Result.Success() : Result.Failure("something went wrong");
         }
 
-        private async Task EmbedUserInEmployeeDtoAsync(EmployeeDto employeeDto)
+        private async Task ChangeEmployeeRole(string userId)
         {
-            var user = await _userManager.FindByIdAsync(employeeDto.UserId.ToString());
-            _mapper.Map(user, employeeDto);
-        }
-
-        private async Task ChangeEmployeeRole(Guid userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = (IList<string>) await _userService.GetUserRolesById(userId);
 
             //TODO: get rid of this hardcode
             if (roles.Contains(Role.Admin))
             {
                 if (roles.Contains(Role.Employee))
                 {
-                    await _userManager.RemoveFromRoleAsync(user, Role.Employee);
+                    await _userService.RemoveFromRoleAsync(userId, Role.Employee);
                 }
                 else
                 {
-                    await _userManager.AddToRoleAsync(user, Role.Employee);
+                    await _userService.AddToRoleAsync(userId, Role.Employee);
                 }
                 
                 return;
@@ -117,13 +100,13 @@ namespace Infrastructure.Services
             
             if (roles.Contains(Role.Employee))
             {
-                await _userManager.AddToRoleAsync(user, Role.User);
-                await _userManager.RemoveFromRoleAsync(user, Role.Employee);
+                await _userService.AddToRoleAsync(userId, Role.User);
+                await _userService.RemoveFromRoleAsync(userId, Role.Employee);
             }
             else
             {
-                await _userManager.AddToRoleAsync(user, Role.Employee);
-                await _userManager.RemoveFromRoleAsync(user, Role.User);
+                await _userService.AddToRoleAsync(userId, Role.Employee);
+                await _userService.RemoveFromRoleAsync(userId, Role.User);
             }
         }
     }

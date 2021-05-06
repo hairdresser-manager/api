@@ -10,7 +10,11 @@ namespace ApplicationCore
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            
             return services;
         }
     }
