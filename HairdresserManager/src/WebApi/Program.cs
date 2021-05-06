@@ -47,7 +47,7 @@ namespace WebApi
                 {
                     using (var scope = host.Services.CreateScope())
                     {
-                        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                        var db = scope.ServiceProvider.GetRequiredService<HairdresserDbContext>();
                         db.Database.Migrate();
                     }
 

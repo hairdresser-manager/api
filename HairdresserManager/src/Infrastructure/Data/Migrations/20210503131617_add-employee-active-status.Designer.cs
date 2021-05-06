@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(HairdresserDbContext))]
     [Migration("20210503131617_add-employee-active-status")]
     partial class addemployeeactivestatus
     {

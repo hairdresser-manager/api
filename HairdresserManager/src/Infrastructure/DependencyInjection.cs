@@ -15,20 +15,20 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<HairdresserDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("DefaultConnection")));
 
             services
                 .AddIdentity<User, Role>(options =>
                     options.User.RequireUniqueEmail = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<HairdresserDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IHairdresserDbContext>(provider => provider.GetService<HairdresserDbContext>());
+            
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IIdentityService, IdentityService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
             
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
