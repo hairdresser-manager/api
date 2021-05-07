@@ -9,8 +9,7 @@ namespace ApplicationCore.Validations
 
         public string OtherProperty { get; private set; }
 
-        public UnlikeAttribute(string otherProperty)
-            : base(DefaultErrorMessage)
+        public UnlikeAttribute(string otherProperty) : base(DefaultErrorMessage)
         {
             if (string.IsNullOrEmpty(otherProperty))
             {
@@ -25,8 +24,7 @@ namespace ApplicationCore.Validations
             return string.Format(ErrorMessageString, name, OtherProperty);
         }
 
-        protected override ValidationResult IsValid(object value,
-            ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value != null)
             {
