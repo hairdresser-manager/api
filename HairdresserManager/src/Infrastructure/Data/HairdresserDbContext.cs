@@ -31,7 +31,6 @@ namespace Infrastructure.Data
                 .ApplyConfiguration(new ResourcesCategoryConfiguration())
                 .ApplyConfiguration(new ReviewConfiguration())
                 .ApplyConfiguration(new ScheduleConfiguration())
-                .ApplyConfiguration(new ServiceCategoryConfiguration())
                 .ApplyConfiguration(new ServiceConfiguration())
                 .ApplyConfiguration(new ServicesCategoryConfiguration())
                 .ApplyConfiguration(new UserConfiguration());
@@ -49,7 +48,6 @@ namespace Infrastructure.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<ServiceCategory> ServiceCategories { get; set; }
         public DbSet<ServicesCategory> ServicesCategories { get; set; }
         public DbSet<DayOff> DaysOff { get; set; }
     }

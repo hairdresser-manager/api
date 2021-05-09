@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Data.Migrations
 {
-    public partial class reinit_migrations : Migration
+    public partial class reinit_database : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,22 +73,6 @@ namespace Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ResourcesCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Services",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MinimumTime = table.Column<int>(type: "int", nullable: false),
-                    MaximumTime = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "money", nullable: false),
-                    Available = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Services", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -299,27 +283,46 @@ namespace Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiceCategories",
+                name: "Services",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: false)
+                    MinimumTime = table.Column<int>(type: "int", nullable: false),
+                    MaximumTime = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "money", nullable: false),
+                    Available = table.Column<bool>(type: "bit", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServiceCategories", x => x.Id);
+                    table.PrimaryKey("PK_Services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ServiceCategories_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ServiceCategories_ServicesCategories_CategoryId",
+                        name: "FK_Services_ServicesCategories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "ServicesCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartingHour = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EndingHour = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Schedules_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -420,36 +423,14 @@ namespace Infrastructure.Data.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Schedules",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartingHour = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EndingHour = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Schedules", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("c85c26ed-244b-4fae-b4e3-57f918f69a10"), "ae2573e3-dd19-4680-8b17-676d0e7a131e", "User", "User" },
-                    { new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b"), "293e97af-d6f1-4cc7-b9fd-3ebe596d6409", "Employee", "Employee" },
-                    { new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c"), "7da01a1c-cac0-4eeb-a45f-582012ff7cb5", "Admin", "Admin" }
+                    { new Guid("d164cecd-6130-478d-b144-002fa4d160b7"), "f50e6bf1-284c-45c1-be2c-27a4b036b056", "User", "User" },
+                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), "a55d7467-b2f9-433d-abc6-fe3710f5666d", "Employee", "Employee" },
+                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), "9db7cae2-52b5-4f8f-9b9e-e3f07214792e", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -457,10 +438,10 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("37ef2ef6-f803-49d2-9a41-47eca0369d4b"), 0, "2f080b32-b697-4f12-bc3a-eb27399be9c5", "admin@example.com", true, "Bill", "Gates", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEC6IjO+p+KEDf+lDRWrlZaXvW+vFnn5eEsFjlWborpovxbLbDkKLLxw92cip2IxdbQ==", "0987654321", false, "6d47a6a1-1f15-46f8-b8c4-55462b393d3c", false, "admin@example.com" },
-                    { new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a"), 0, "9e162c64-c85b-4137-b293-061a8a5ff5f1", "admin2@example.com", true, "Jeff", "Bezos", false, null, "ADMIN2@EXAMPLE.COM", "ADMIN2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEI1ixpYhbYqIl7euRHLPZTC8Q293qRyxQlTCnu/xHmDHulnwD4g/TFi2LvwygRVXow==", "567345764e56", false, "93550461-3423-403e-bb15-88072d7046d5", false, "admin2@example.com" },
-                    { new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1"), 0, "7460dabc-522a-4472-8f37-64b71dcdf50b", "employee1@example.com", true, "Bart", "Osh", false, null, "EMPLOYEE1@EXAMPLE.COM", "EMPLOYEE1@EXAMPLE.COM", "AQAAAAEAACcQAAAAEIdpHzlda8ge6HnQfZs7KtKyVUC1ChVaQZ1y1BBZ5rIHgvjn7IYZxEaYoeA+G8g0jA==", "123456789", false, "a12f0aae-80ce-4cb3-8816-f3052af02fd8", false, "employee1@example.com" },
-                    { new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77"), 0, "82cf505f-2b1f-4243-aa46-d6c9c0ad37cf", "employee2@example.com", true, "Dwayne", "Johnson", false, null, "EMPLOYEE2@EXAMPLE.COM", "EMPLOYEE2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEA/Wi5mvti3iFkICz0ZR5XMKThwJY8v3Y34loPkBOW6ke2Md2KeVcKEz2RvtxH3XRA==", "543215678", false, "22d1f581-1809-4f2c-9f8f-2f4a8fb2dea5", false, "employee2@example.com" }
+                    { new Guid("95b5894d-cabc-4349-b2da-656274f97aec"), 0, "faf89a3f-41c4-4203-9c09-e5042982bf66", "admin@example.com", true, "Bill", "Gates", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEKMckLVUI4Se/xpwaO/rR7BsMrbmXQhi7ON8BfOU6cbvoX0owfhRf+SV9xIgq8WgoQ==", "0987654321", false, "6dfa000a-4307-4fb1-a52d-b63a3e263eba", false, "admin@example.com" },
+                    { new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5"), 0, "cfec4a61-59b9-48ba-8a54-f9d9ea0a83e8", "admin2@example.com", true, "Jeff", "Bezos", false, null, "ADMIN2@EXAMPLE.COM", "ADMIN2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEPOkjzH6KO9VekQYf4Zs9GVQ8FOc2dPlT/l1046qof1+lGA4St/CzaxwWF3r+u3sGA==", "567345764e56", false, "5e0d3134-1912-4b94-8d85-0940e147616c", false, "admin2@example.com" },
+                    { new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb"), 0, "d1e2ffdc-58dc-4a7d-810e-6fe33f256c7b", "employee1@example.com", true, "Bart", "Osh", false, null, "EMPLOYEE1@EXAMPLE.COM", "EMPLOYEE1@EXAMPLE.COM", "AQAAAAEAACcQAAAAEEppsBCpx4S+wtLjPKebjO9jnpZ9HMQwJJ3nJv7R26E5cm7oRi23KRFU0xEThF7Tjg==", "123456789", false, "1bb957d8-74de-4f1c-aaf9-9b2e6523bd6c", false, "employee1@example.com" },
+                    { new Guid("1625e287-58bb-4045-8b82-4221d1602679"), 0, "2293f365-d281-45ed-877a-9a16a74fc34e", "employee2@example.com", true, "Dwayne", "Johnson", false, null, "EMPLOYEE2@EXAMPLE.COM", "EMPLOYEE2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEE6e5saJYVeuCYjhiqAQ0K4fenUTow91kS96IRupUk6hxdVGbdCgQZErcHVzA1WoqQ==", "543215678", false, "f41cf884-f6d0-420b-9387-5147ba467636", false, "employee2@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,11 +449,11 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c"), new Guid("37ef2ef6-f803-49d2-9a41-47eca0369d4b") },
-                    { new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b"), new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a") },
-                    { new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c"), new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a") },
-                    { new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b"), new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1") },
-                    { new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b"), new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77") }
+                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), new Guid("95b5894d-cabc-4349-b2da-656274f97aec") },
+                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
+                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
+                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb") },
+                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("1625e287-58bb-4045-8b82-4221d1602679") }
                 });
 
             migrationBuilder.InsertData(
@@ -480,9 +461,9 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Active", "AvatarUrl", "Description", "LowQualityAvatarUrl", "Nick", "UserId" },
                 values: new object[,]
                 {
-                    { 3, true, "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "The Rock", new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a") },
-                    { 1, true, "https://scontent-frt3-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/164620128_800510077236657_4464242640656376019_n.jpg?tp=1&_nc_ht=scontent-frt3-1.cdninstagram.com&_nc_cat=109&_nc_ohc=fBzuRWUd9LcAX9CTNqI&edm=AP_V10EBAAAA&ccb=7-4&oh=1f5e24c0f15ad60e5d567f39f1e32288&oe=60B56733&_nc_sid=4f375e", "Giga hairdresser", "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg", "Bartosh", new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1") },
-                    { 2, true, "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "The Rock", new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77") }
+                    { 3, true, "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "The Rock", new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
+                    { 1, true, "https://scontent-frt3-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/164620128_800510077236657_4464242640656376019_n.jpg?tp=1&_nc_ht=scontent-frt3-1.cdninstagram.com&_nc_cat=109&_nc_ohc=fBzuRWUd9LcAX9CTNqI&edm=AP_V10EBAAAA&ccb=7-4&oh=1f5e24c0f15ad60e5d567f39f1e32288&oe=60B56733&_nc_sid=4f375e", "Giga hairdresser", "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg", "Bartosh", new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb") },
+                    { 2, true, "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "The Rock", new Guid("1625e287-58bb-4045-8b82-4221d1602679") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -592,14 +573,9 @@ namespace Infrastructure.Data.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceCategories_CategoryId",
-                table: "ServiceCategories",
+                name: "IX_Services_CategoryId",
+                table: "Services",
                 column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiceCategories_ServiceId",
-                table: "ServiceCategories",
-                column: "ServiceId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -641,9 +617,6 @@ namespace Infrastructure.Data.Migrations
                 name: "Schedules");
 
             migrationBuilder.DropTable(
-                name: "ServiceCategories");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -653,10 +626,10 @@ namespace Infrastructure.Data.Migrations
                 name: "Clients");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Services");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "ServicesCategories");

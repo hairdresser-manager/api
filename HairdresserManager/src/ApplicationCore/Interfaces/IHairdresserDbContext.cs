@@ -27,8 +27,6 @@ namespace ApplicationCore.Interfaces
         
         DbSet<Service> Services { get; set; }
         
-        DbSet<ServiceCategory> ServiceCategories { get; set; }
-        
         DbSet<ServicesCategory> ServicesCategories { get; set; }
         
         DbSet<DayOff> DaysOff { get; set; }

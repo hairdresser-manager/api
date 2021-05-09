@@ -13,6 +13,11 @@ namespace Infrastructure.Data.Configurations
             
             builder
                 .Property(e => e.Price).HasColumnType("money");
+
+            builder
+                .HasOne(s => s.Category)
+                .WithMany(c => c.Services)
+                .HasForeignKey(s => s.CategoryId);
         }
     }
 }
