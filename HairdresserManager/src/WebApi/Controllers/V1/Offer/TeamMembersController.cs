@@ -1,46 +1,37 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ApplicationCore.Contract.V1.TeamMembers.Responses;
+using ApplicationCore.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Offer
 {
     public class TeamMembersController : ControllerBase
     {
+        private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;
+
+        public TeamMembersController(IEmployeeService employeeService, IMapper mapper)
+        {
+            _employeeService = employeeService;
+            _mapper = mapper;
+        }
 
         [HttpGet("api/v1/team-members")]
-        public IActionResult GetTeamMembers()
+        public async Task<IActionResult> GetTeamMembers()
         {
-            var employees = new List<GetTeamMemberResponse>
+            var employeesDto = await _employeeService.GetEmployeesDtoAsync();
+            var response = new List<GetTeamMemberResponse>();
+
+            foreach (var employee in employeesDto)
             {
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "David",
-                    Roles = new[] {"Barber", "Hair dresser"},
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/126150-201908181531-lg2.jpg.webp?t=1566138744"
-                },
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "Elliott",
-                    Roles = new[] {"No one", "Someone"},
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/108952-201902211118-lg2.jpg.webp?t=1550747976"
-                },
-                new()
-                {
-                    EmployeeId = Guid.NewGuid(), FirstName = "Sanna", 
-                    Roles = new[] {"Aa", "Bb", "Cc"}, 
-                    Description = "person who cuts men's hair and shaves or trims beards as an occupation",
-                    AvatarUrl =
-                        "https://londynek.net/image/jdnews-agency/2191248/152617-201912101211-lg2.jpg.webp?t=1575979953"
-                }
-            };
-            
-            return Ok(employees);
+                if (employee.Active)
+                    response.Add(_mapper.Map<GetTeamMemberResponse>(employee));
+            }
+
+            return Ok(response);
         }
-        
     }
 }

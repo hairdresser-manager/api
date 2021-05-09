@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ApplicationCore.Validations;
 
 namespace ApplicationCore.Contract.V1.Employee.Requests
 {
