@@ -15,8 +15,5 @@ namespace ApplicationCore.Contract.V1.Employee.Requests
         public bool Active { get; set; }
         public string AvatarUrl { get; set; }
         public string LowQualityAvatarUrl { get; set; }
-        
-        [StringLengthInList(50, ErrorMessage = "Elements in list Roles can be up to 50 characters length")]
-        public IEnumerable<string> Roles  { get; set; }
     }
 }

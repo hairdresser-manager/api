@@ -12,7 +12,6 @@ namespace ApplicationCore.Mapping
             CreateMap<UserDto, LoginResponse>();
             CreateMap<EmployeeDto, EmployeeResponse>();
             CreateMap<UserDto, EmployeeResponse>()
-                .ForMember(dest => dest.Roles, opt => opt.Ignore())
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.PhoneNumber, 
                     opt => opt.MapFrom(src => src.MobilePhone));

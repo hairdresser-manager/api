@@ -12,6 +12,5 @@ namespace ApplicationCore.Contract.V1.Employee.Responses
         public string Description { get; set; }
         public bool Active { get; set; }
         public string AvatarUrl { get; set; }
-        public IEnumerable<string> Roles { get; set; }
     }
 }

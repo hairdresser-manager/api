@@ -13,9 +13,7 @@ namespace ApplicationCore.Interfaces
         
         DbSet<Employee> Employees { get; set; }
         
-        DbSet<EmployeeRole> EmployeeRoles { get; set; }
-        
-        DbSet<EmployeesRole> EmployeesRoles { get; set; }
+        DbSet<EmployeeService> EmployeeService { get; set; }
         
         DbSet<RefreshToken> RefreshTokens { get; set; }
         
@@ -30,8 +28,6 @@ namespace ApplicationCore.Interfaces
         DbSet<Service> Services { get; set; }
         
         DbSet<ServiceCategory> ServiceCategories { get; set; }
-        
-        DbSet<ServiceEmployeeRole> ServiceEmployeeRoles { get; set; }
         
         DbSet<ServicesCategory> ServicesCategories { get; set; }
         

@@ -25,8 +25,7 @@ namespace Infrastructure.Data
                 .ApplyConfiguration(new ClientConfiguration())
                 .ApplyConfiguration(new DayOffConfiguration())
                 .ApplyConfiguration(new EmployeeConfiguration())
-                .ApplyConfiguration(new EmployeeRoleConfiguration())
-                .ApplyConfiguration(new EmployeesRolesConfiguration())
+                .ApplyConfiguration(new EmployeeServiceConfiguration())
                 .ApplyConfiguration(new RefreshTokenConfiguration())
                 .ApplyConfiguration(new ResourceConfiguration())
                 .ApplyConfiguration(new ResourcesCategoryConfiguration())
@@ -34,7 +33,6 @@ namespace Infrastructure.Data
                 .ApplyConfiguration(new ScheduleConfiguration())
                 .ApplyConfiguration(new ServiceCategoryConfiguration())
                 .ApplyConfiguration(new ServiceConfiguration())
-                .ApplyConfiguration(new ServiceEmployeeRoleConfiguration())
                 .ApplyConfiguration(new ServicesCategoryConfiguration())
                 .ApplyConfiguration(new UserConfiguration());
             
@@ -44,8 +42,7 @@ namespace Infrastructure.Data
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeRole> EmployeeRoles { get; set; }
-        public DbSet<EmployeesRole> EmployeesRoles { get; set; }
+        public DbSet<EmployeeService> EmployeeService { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<ResourcesCategory> ResourcesCategories { get; set; }
@@ -53,7 +50,6 @@ namespace Infrastructure.Data
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceCategory> ServiceCategories { get; set; }
-        public DbSet<ServiceEmployeeRole> ServiceEmployeeRoles { get; set; }
         public DbSet<ServicesCategory> ServicesCategories { get; set; }
         public DbSet<DayOff> DaysOff { get; set; }
     }

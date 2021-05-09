@@ -13,6 +13,6 @@ namespace ApplicationCore.Entities
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Appointment> Appointments  { get; set; }
         public ICollection<ServiceCategory> Categories { get; set; }
-        public ICollection<ServiceEmployeeRole> EmployeeRoles { get; set; }
+        public ICollection<EmployeeService> EmployeeServices { get; set; }
     }
 }

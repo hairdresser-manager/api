@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(HairdresserDbContext))]
-    [Migration("20210507112445_reinit_migrations")]
+    [Migration("20210509161111_reinit_migrations")]
     partial class reinit_migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,7 +137,7 @@ namespace Infrastructure.Data.Migrations
                             Description = "Success isn't always about 'Greatness', it's about consistency.",
                             LowQualityAvatarUrl = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg",
                             Nick = "The Rock",
-                            UserId = new Guid("04ff39fa-8661-4d18-b870-f74969bcb2e3")
+                            UserId = new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77")
                         },
                         new
                         {
@@ -147,7 +147,7 @@ namespace Infrastructure.Data.Migrations
                             Description = "Giga hairdresser",
                             LowQualityAvatarUrl = "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
                             Nick = "Bartosh",
-                            UserId = new Guid("0aa8a3c6-25f0-45bd-9d66-91f4627fca65")
+                            UserId = new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1")
                         },
                         new
                         {
@@ -157,11 +157,11 @@ namespace Infrastructure.Data.Migrations
                             Description = "Success isn't always about 'Greatness', it's about consistency.",
                             LowQualityAvatarUrl = "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg",
                             Nick = "The Rock",
-                            UserId = new Guid("b479586f-a3a8-411c-8687-bcb63964a97d")
+                            UserId = new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a")
                         });
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.EmployeeRole", b =>
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeeService", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -171,31 +171,16 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("ServiceId");
 
-                    b.ToTable("EmployeeRoles");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.EmployeesRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmployeesRoles");
+                    b.ToTable("EmployeeService");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.RefreshToken", b =>
@@ -378,28 +363,6 @@ namespace Infrastructure.Data.Migrations
                     b.ToTable("ServiceCategories");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.ServiceEmployeeRole", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("EmployeeRoleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeRoleId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ServiceEmployeeRoles");
-                });
-
             modelBuilder.Entity("ApplicationCore.Entities.ServicesCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -445,22 +408,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ebeef077-8889-4cd5-a8eb-3ecd9820f292"),
-                            ConcurrencyStamp = "567fb39e-1ff7-4a8a-8be1-3eb670db5906",
+                            Id = new Guid("c85c26ed-244b-4fae-b4e3-57f918f69a10"),
+                            ConcurrencyStamp = "ae2573e3-dd19-4680-8b17-676d0e7a131e",
                             Name = "User",
                             NormalizedName = "User"
                         },
                         new
                         {
-                            Id = new Guid("9253e21c-fbb3-4f17-b412-fc5e176df2f9"),
-                            ConcurrencyStamp = "c55032b2-e6d3-45fc-a14d-1eb5bc38c0f1",
+                            Id = new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b"),
+                            ConcurrencyStamp = "293e97af-d6f1-4cc7-b9fd-3ebe596d6409",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         },
                         new
                         {
-                            Id = new Guid("969c21d5-2c9e-4f99-8335-92ad4a685840"),
-                            ConcurrencyStamp = "9d494469-150a-47ff-92f5-0d6ba6024f00",
+                            Id = new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c"),
+                            ConcurrencyStamp = "7da01a1c-cac0-4eeb-a45f-582012ff7cb5",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -540,9 +503,9 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6adea8bf-c1b9-4922-a3ff-ac3bbb3dfec2"),
+                            Id = new Guid("37ef2ef6-f803-49d2-9a41-47eca0369d4b"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "674e81c1-0634-4cbc-9a0d-10ea146da964",
+                            ConcurrencyStamp = "2f080b32-b697-4f12-bc3a-eb27399be9c5",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bill",
@@ -550,18 +513,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK3p8Omzo7a3ThKRPMNm/bX+bONeTHCdDn7uakN7BrTPu4MbkP4DIdoRFHUvBqJkzA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEC6IjO+p+KEDf+lDRWrlZaXvW+vFnn5eEsFjlWborpovxbLbDkKLLxw92cip2IxdbQ==",
                             PhoneNumber = "0987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d77eb4bf-15f9-4fe6-9f8a-3c42ede979c9",
+                            SecurityStamp = "6d47a6a1-1f15-46f8-b8c4-55462b393d3c",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         },
                         new
                         {
-                            Id = new Guid("b479586f-a3a8-411c-8687-bcb63964a97d"),
+                            Id = new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a81d19f6-8db6-4da2-b002-4ba48c8dfb0c",
+                            ConcurrencyStamp = "9e162c64-c85b-4137-b293-061a8a5ff5f1",
                             Email = "admin2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jeff",
@@ -569,18 +532,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN2@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIopvgweg+o91PmLo9KpZzKpumbz3iRDVNkslzVf5IZzodq8WjqhQ3LyHbLnN2vBtQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI1ixpYhbYqIl7euRHLPZTC8Q293qRyxQlTCnu/xHmDHulnwD4g/TFi2LvwygRVXow==",
                             PhoneNumber = "567345764e56",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b1ea7915-b9f4-48ea-8c3b-7e000df6c9b6",
+                            SecurityStamp = "93550461-3423-403e-bb15-88072d7046d5",
                             TwoFactorEnabled = false,
                             UserName = "admin2@example.com"
                         },
                         new
                         {
-                            Id = new Guid("0aa8a3c6-25f0-45bd-9d66-91f4627fca65"),
+                            Id = new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "09fa7ffe-c509-419f-87da-df6930e5f8dc",
+                            ConcurrencyStamp = "7460dabc-522a-4472-8f37-64b71dcdf50b",
                             Email = "employee1@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bart",
@@ -588,18 +551,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE1@EXAMPLE.COM",
                             NormalizedUserName = "EMPLOYEE1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHzGES88V4ELnJFueuk/Qcn14KkdIHv9gTCUhdgIoMf2RJOxpb++sparchLKpiM9Cg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIdpHzlda8ge6HnQfZs7KtKyVUC1ChVaQZ1y1BBZ5rIHgvjn7IYZxEaYoeA+G8g0jA==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9cbbf501-c45f-45cf-bbd5-0b4c3622e24f",
+                            SecurityStamp = "a12f0aae-80ce-4cb3-8816-f3052af02fd8",
                             TwoFactorEnabled = false,
                             UserName = "employee1@example.com"
                         },
                         new
                         {
-                            Id = new Guid("04ff39fa-8661-4d18-b870-f74969bcb2e3"),
+                            Id = new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "369a502d-4f68-4ff0-9e87-3c5452f7a990",
+                            ConcurrencyStamp = "82cf505f-2b1f-4243-aa46-d6c9c0ad37cf",
                             Email = "employee2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Dwayne",
@@ -607,10 +570,10 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE2@EXAMPLE.COM",
                             NormalizedUserName = "EMPLOYEE2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEB6R7rJoXb8na9tPCKcIRnlj1xJzwkHTH89xE6le168FpcglOMrm19V4WQ+p0C74ug==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA/Wi5mvti3iFkICz0ZR5XMKThwJY8v3Y34loPkBOW6ke2Md2KeVcKEz2RvtxH3XRA==",
                             PhoneNumber = "543215678",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ffa6de95-a7b1-42fa-ad37-c0f1ffd12572",
+                            SecurityStamp = "22d1f581-1809-4f2c-9f8f-2f4a8fb2dea5",
                             TwoFactorEnabled = false,
                             UserName = "employee2@example.com"
                         });
@@ -700,28 +663,28 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("6adea8bf-c1b9-4922-a3ff-ac3bbb3dfec2"),
-                            RoleId = new Guid("969c21d5-2c9e-4f99-8335-92ad4a685840")
+                            UserId = new Guid("37ef2ef6-f803-49d2-9a41-47eca0369d4b"),
+                            RoleId = new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c")
                         },
                         new
                         {
-                            UserId = new Guid("0aa8a3c6-25f0-45bd-9d66-91f4627fca65"),
-                            RoleId = new Guid("9253e21c-fbb3-4f17-b412-fc5e176df2f9")
+                            UserId = new Guid("88a90a02-7add-42e6-bc41-948dcaaf54a1"),
+                            RoleId = new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b")
                         },
                         new
                         {
-                            UserId = new Guid("04ff39fa-8661-4d18-b870-f74969bcb2e3"),
-                            RoleId = new Guid("9253e21c-fbb3-4f17-b412-fc5e176df2f9")
+                            UserId = new Guid("6e218c38-c2f9-44c8-b08c-df36276efc77"),
+                            RoleId = new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b")
                         },
                         new
                         {
-                            UserId = new Guid("b479586f-a3a8-411c-8687-bcb63964a97d"),
-                            RoleId = new Guid("9253e21c-fbb3-4f17-b412-fc5e176df2f9")
+                            UserId = new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a"),
+                            RoleId = new Guid("5e889f74-14e9-4c1b-b5e0-b3dbcf215a0b")
                         },
                         new
                         {
-                            UserId = new Guid("b479586f-a3a8-411c-8687-bcb63964a97d"),
-                            RoleId = new Guid("969c21d5-2c9e-4f99-8335-92ad4a685840")
+                            UserId = new Guid("97982286-9e19-4079-bdb4-ced90ae7d97a"),
+                            RoleId = new Guid("7b2f3653-565c-4d1d-85aa-917286ef446c")
                         });
                 });
 
@@ -787,23 +750,23 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.EmployeeRole", b =>
+            modelBuilder.Entity("ApplicationCore.Entities.EmployeeService", b =>
                 {
                     b.HasOne("ApplicationCore.Entities.Employee", "Employee")
-                        .WithMany("Roles")
+                        .WithMany("EmployeeServices")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ApplicationCore.Entities.EmployeesRole", "Role")
-                        .WithMany("EmployeeRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("ApplicationCore.Entities.Service", "Service")
+                        .WithMany("EmployeeServices")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employee");
 
-                    b.Navigation("Role");
+                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.RefreshToken", b =>
@@ -883,25 +846,6 @@ namespace Infrastructure.Data.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Entities.ServiceEmployeeRole", b =>
-                {
-                    b.HasOne("ApplicationCore.Entities.EmployeesRole", "EmployeeRole")
-                        .WithMany("ServicesEmployeeRoles")
-                        .HasForeignKey("EmployeeRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Entities.Service", "Service")
-                        .WithMany("EmployeeRoles")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("EmployeeRole");
-
-                    b.Navigation("Service");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Infrastructure.Identity.Role", null)
@@ -964,18 +908,11 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.Navigation("Appointments");
 
+                    b.Navigation("EmployeeServices");
+
                     b.Navigation("Reviews");
 
-                    b.Navigation("Roles");
-
                     b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("ApplicationCore.Entities.EmployeesRole", b =>
-                {
-                    b.Navigation("EmployeeRoles");
-
-                    b.Navigation("ServicesEmployeeRoles");
                 });
 
             modelBuilder.Entity("ApplicationCore.Entities.ResourcesCategory", b =>
@@ -989,7 +926,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("Categories");
 
-                    b.Navigation("EmployeeRoles");
+                    b.Navigation("EmployeeServices");
 
                     b.Navigation("Reviews");
                 });
