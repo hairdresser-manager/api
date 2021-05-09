@@ -72,7 +72,7 @@ namespace WebApi.Controllers.V1.Employee
 
             _mapper.Map(request, employeeDto);
 
-            var result = await _employeeService.UpdateEmployeeDataAsync(employeeDto);
+            var result = await _employeeService.UpdateEmployeeAsync(employeeDto);
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
     }

@@ -43,47 +43,39 @@ namespace ApplicationCore.Services
 
             return employee.Id;
         }
-
+        
         public async Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync()
         {
             var employees = await _context.Employees.ToListAsync();
-
-            if (employees == null)
-                return null;
-
-            return _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+            return employees == null ? null : _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
         public async Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId)
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
-
-            if (employee == null)
-                return null;
-            
-            return _mapper.Map<EmployeeDto>(employee);
+            return employee == null ? null : _mapper.Map<EmployeeDto>(employee);
         }
-
-        public async Task<Result> UpdateEmployeeDataAsync(EmployeeDto employeeDto)
+        
+        public async Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto)
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employeeDto.Id);
 
             if (employee.Active != employeeDto.Active)
                 await ChangeEmployeeRole(employee.UserId.ToString());
-            
+
             _mapper.Map(employeeDto, employee);
-            
+
             _context.Employees.Update(employee);
             var changesSaved = await _context.SaveChangesAsync(new CancellationToken()) > 0;
-            
-            return  changesSaved ? Result.Success() : Result.Failure("something went wrong");
+
+            return changesSaved ? Result.Success() : Result.Failure("something went wrong");
         }
 
         private async Task ChangeEmployeeRole(string userId)
         {
             var roles = (IList<string>) await _userService.GetUserRolesById(userId);
 
-            //TODO: get rid of this hardcode
+            //TODO: make this in smarter way
             if (roles.Contains(Role.Admin))
             {
                 if (roles.Contains(Role.Employee))
@@ -94,10 +86,10 @@ namespace ApplicationCore.Services
                 {
                     await _userService.AddToRoleAsync(userId, Role.Employee);
                 }
-                
+
                 return;
             }
-            
+
             if (roles.Contains(Role.Employee))
             {
                 await _userService.AddToRoleAsync(userId, Role.User);

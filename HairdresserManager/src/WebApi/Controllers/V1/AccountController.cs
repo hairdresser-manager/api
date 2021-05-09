@@ -45,6 +45,7 @@ namespace WebApi.Controllers.V1
         [HttpGet(ApiRoutes.Account.GetUserData)]
         public async Task<IActionResult> GetUserData()
         {
+            //TODO: cast to response object 
             var userDto = await _userService.GetUserDtoByIdAsync(HttpContext.GetUserId());
             return Ok(userDto);
         }
