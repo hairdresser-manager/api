@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationCore.Services
@@ -13,10 +15,12 @@ namespace ApplicationCore.Services
     public class ScheduleService : IScheduleService
     {
         private readonly IHairdresserDbContext _context;
+        private readonly IMapper _mapper;
 
-        public ScheduleService(IHairdresserDbContext context)
+        public ScheduleService(IHairdresserDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<Result> CreateScopedScheduleAsync(int employeeId, IEnumerable<DateTime> dates,
@@ -96,14 +100,24 @@ namespace ApplicationCore.Services
         public async Task<Result> DeleteScheduleAsync(int employeeId, DateTime date)
         {
             var schedule = await GetEmployeeScheduleById(employeeId, date);
-            
-            if(schedule == null)
+
+            if (schedule == null)
                 return Result.Failure("Schedule on this date for that employee doesn't exist");
-            
+
             _context.Schedules.Remove(schedule);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
                 ? Result.Success()
                 : Result.Failure("Something went wrong");
+        }
+
+        public async Task<IEnumerable<ScheduleDto>> GetSchedulesDtoByEmployeeIdAsync(int employeeId)
+        {
+            var schedules = await _context.Schedules
+                .Where(s => s.EmployeeId == employeeId && s.Date >= DateTime.Today)
+                .OrderBy(schedule => schedule.Date)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<ScheduleDto>>(schedules);
         }
 
         private async Task<Schedule> GetEmployeeScheduleById(int employeeId, DateTime scheduleDate) =>

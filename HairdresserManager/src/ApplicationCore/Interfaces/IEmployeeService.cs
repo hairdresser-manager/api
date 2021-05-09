@@ -13,5 +13,6 @@ namespace ApplicationCore.Interfaces
         Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync();
         Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId);
         Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto);
+        Task<int?> GetEmployeeIdByUserIdAsync(string userId);
     }
 }

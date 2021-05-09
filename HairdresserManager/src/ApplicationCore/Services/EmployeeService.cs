@@ -43,7 +43,7 @@ namespace ApplicationCore.Services
 
             return employee.Id;
         }
-        
+
         public async Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync()
         {
             var employees = await _context.Employees.ToListAsync();
@@ -55,7 +55,7 @@ namespace ApplicationCore.Services
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employeeId);
             return employee == null ? null : _mapper.Map<EmployeeDto>(employee);
         }
-        
+
         public async Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto)
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employeeDto.Id);
@@ -69,6 +69,14 @@ namespace ApplicationCore.Services
             var changesSaved = await _context.SaveChangesAsync(new CancellationToken()) > 0;
 
             return changesSaved ? Result.Success() : Result.Failure("something went wrong");
+        }
+
+        public async Task<int?> GetEmployeeIdByUserIdAsync(string userId)
+        {
+            var employee =
+                await _context.Employees.FirstOrDefaultAsync(employee => employee.UserId.ToString().Equals(userId));
+
+            return employee.Id;
         }
 
         private async Task ChangeEmployeeRole(string userId)

@@ -7,6 +7,7 @@ using ApplicationCore.Contract.V1.Schedule;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Extensions;
 
 namespace WebApi.Controllers.V1
 {
@@ -24,11 +25,32 @@ namespace WebApi.Controllers.V1
 
         [Authorize(Roles = "Employee")]
         [HttpGet("api/v1/schedules")]
-        public IActionResult GetSchedule()
+        public async Task<IActionResult> GetSchedules()
         {
-            return Ok();
+            var employeeId = await _employeeService.GetEmployeeIdByUserIdAsync(HttpContext.GetUserId());
+
+            if (employeeId == null)
+                return BadRequest(new ErrorResponse("Employee doesn't exist"));
+
+            var schedulesDto = await _scheduleService.GetSchedulesDtoByEmployeeIdAsync((int) employeeId);
+
+            return schedulesDto.Any() ? Ok(schedulesDto) : NotFound();
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("api/v1/employees/{employeeId:int}/schedules")]
+        public async Task<IActionResult> GetEmployeeSchedules([FromRoute] int employeeId)
+        {
+            var employee = await _employeeService.GetEmployeeDtoByIdAsync(employeeId);
+
+            if (employee == null)
+                return BadRequest(new ErrorResponse("Employee doesn't exist"));
+
+            var schedulesDto = await _scheduleService.GetSchedulesDtoByEmployeeIdAsync(employeeId);
+            return schedulesDto.Any() ? Ok(schedulesDto) : NotFound();
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("api/v1/employees/{employeeId:int}/schedules")]
         public async Task<IActionResult> CreateSingleSchedule([FromRoute] int employeeId,
             [FromBody] CreateSingleScheduleRequest request)
@@ -44,6 +66,7 @@ namespace WebApi.Controllers.V1
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("api/v1/employees/{employeeId:int}/scoped-schedules")]
         public async Task<IActionResult> CreateScopedSchedule([FromRoute] int employeeId,
             [FromBody] CreateScopedScheduleRequest request)
@@ -60,6 +83,7 @@ namespace WebApi.Controllers.V1
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("api/v1/employees/{employeeId:int}/schedules")]
         public async Task<IActionResult> DeleteSingleSchedule([FromRoute] int employeeId,
             [FromBody] DeleteSingleScheduleRequest request)
@@ -73,6 +97,7 @@ namespace WebApi.Controllers.V1
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("api/v1/employees/{employeeId:int}/scoped-schedules")]
         public async Task<IActionResult> DeleteScopedSchedule([FromRoute] int employeeId,
             [FromBody] DeleteScopedScheduleRequest request)
@@ -81,8 +106,9 @@ namespace WebApi.Controllers.V1
 
             if (!isActive)
                 return BadRequest(new ErrorResponse(errorMessage));
-            
-            var result = await _scheduleService.DeleteScopedScheduleAsync(employeeId, request.StartDate, request.EndDate);
+
+            var result =
+                await _scheduleService.DeleteScopedScheduleAsync(employeeId, request.StartDate, request.EndDate);
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
@@ -104,7 +130,6 @@ namespace WebApi.Controllers.V1
             var tempDate = request.StartDate;
             var endDate = request.EndDate;
 
-           
             do
             {
                 if (weekDays.Contains(tempDate.DayOfWeek.ToString().ToLower()))
