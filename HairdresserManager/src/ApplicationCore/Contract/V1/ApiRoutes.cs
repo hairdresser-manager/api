@@ -32,15 +32,13 @@ namespace ApplicationCore.Contract.V1
             private const string RefreshTokenBase = Base + "/jwt";
             public const string Refresh = RefreshTokenBase + "/refresh";
         }
-        //
-
+        
         public static class Employee
         {
             private const string EmployeeBase = Base + "/employees";
             public const string GetAllEmployees = EmployeeBase;
             public const string CreateEmployee = EmployeeBase;
             public const string UpdateEmployee = EmployeeBase + "/{employeeId}";
-            public const string DeleteEmployee = EmployeeBase + "/{employeeId}";
         }
         
         public static class EmployeeRoles
@@ -58,26 +56,6 @@ namespace ApplicationCore.Contract.V1
             public const string ChangePassword = AccountBase + "/change-password";
             public const string GetUserData = AccountBase + "/me";
             public const string EditUserData = AccountBase;
-        }
-
-        public static class Offer
-        {
-            
-        }
-
-        public static class Review
-        {
-            
-        }
-
-        public static class Schedule
-        {
-            
-        }
-        
-        public static class Resource
-        {
-            
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ApplicationCore
             services.AddScoped<IJwtService, JwtService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
             
             return services;
         }

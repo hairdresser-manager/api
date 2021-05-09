@@ -7,8 +7,8 @@ namespace ApplicationCore.Entities
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public DateTime Date { get; set; }
-        public int StartingHour { get; set; }
-        public int EndingHour { get; set; }
+        public string StartingHour { get; set; }
+        public string EndingHour { get; set; }
 
         public Employee Employee { get; set; }
     }

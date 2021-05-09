@@ -14,7 +14,7 @@ namespace ApplicationCore.Validations
             _errorMessage = "The value of {0} must be later than {1}";
         }
 
-        protected override ValidationResult? IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             try
             {

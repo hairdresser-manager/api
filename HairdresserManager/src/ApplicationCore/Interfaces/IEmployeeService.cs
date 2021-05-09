@@ -12,6 +12,6 @@ namespace ApplicationCore.Interfaces
         Task<int> AddUserToEmployees(Guid userId);
         Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync();
         Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId);
-        Task<Result> UpdateEmployeeDataAsync(EmployeeDto employeeDto);
+        Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto);
     }
 }

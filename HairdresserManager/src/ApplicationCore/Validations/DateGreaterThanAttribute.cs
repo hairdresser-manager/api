@@ -12,7 +12,7 @@ namespace ApplicationCore.Validations
             _otherPropertyName = otherPropertyName;
         }
 
-        protected override ValidationResult? IsValid(object endDateString, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object endDateString, ValidationContext validationContext)
         {
             var startDateString = validationContext.ObjectType.GetProperty(_otherPropertyName)
                 ?.GetValue(validationContext.ObjectInstance, null);

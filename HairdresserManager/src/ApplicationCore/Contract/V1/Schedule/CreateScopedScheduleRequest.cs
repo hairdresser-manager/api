@@ -8,11 +8,13 @@ namespace ApplicationCore.Contract.V1.Schedule
 {
     public class CreateScopedScheduleRequest
     {
-        [Required] 
+        [Required]  
+        [FutureDate(ErrorMessage = "Date must be from the future")]
         [DataType(DataType.Date)] 
         public DateTime StartDate { get; set; }
 
-        [Required]
+        [Required] 
+        [FutureDate(ErrorMessage = "Date must be from the future")]
         [DataType(DataType.Date)]
         [DateGreaterThan("StartDate", ErrorMessage = "EndDate must be greater than StartDate")]
         public DateTime EndDate { get; set; }
