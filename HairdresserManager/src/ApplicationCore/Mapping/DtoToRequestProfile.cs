@@ -1,6 +1,6 @@
 using ApplicationCore.Contract.V1.Employee.Responses;
 using ApplicationCore.Contract.V1.Login.Responses;
-using ApplicationCore.Contract.V1.TeamMembers.Responses;
+using ApplicationCore.Contract.V1.Offer;
 using ApplicationCore.DTOs;
 using AutoMapper;
 

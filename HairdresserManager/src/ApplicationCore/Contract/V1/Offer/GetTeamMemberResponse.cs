@@ -1,4 +1,4 @@
-namespace ApplicationCore.Contract.V1.TeamMembers.Responses
+namespace ApplicationCore.Contract.V1.Offer
 {
     public class GetTeamMemberResponse
     {
