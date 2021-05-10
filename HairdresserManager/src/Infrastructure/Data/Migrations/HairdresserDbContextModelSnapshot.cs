@@ -135,27 +135,27 @@ namespace Infrastructure.Data.Migrations
                             Description = "Success isn't always about 'Greatness', it's about consistency.",
                             LowQualityAvatarUrl = "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg",
                             Nick = "The Rock",
-                            UserId = new Guid("1625e287-58bb-4045-8b82-4221d1602679")
+                            UserId = new Guid("efac4210-d6f1-471d-91df-7c17dc81318d")
                         },
                         new
                         {
                             Id = 1,
                             Active = true,
-                            AvatarUrl = "https://scontent-frt3-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/164620128_800510077236657_4464242640656376019_n.jpg?tp=1&_nc_ht=scontent-frt3-1.cdninstagram.com&_nc_cat=109&_nc_ohc=fBzuRWUd9LcAX9CTNqI&edm=AP_V10EBAAAA&ccb=7-4&oh=1f5e24c0f15ad60e5d567f39f1e32288&oe=60B56733&_nc_sid=4f375e",
+                            AvatarUrl = "https://moviecomicswhoswho.files.wordpress.com/2015/09/luke-cage.jpg",
                             Description = "Giga hairdresser",
                             LowQualityAvatarUrl = "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
                             Nick = "Bartosh",
-                            UserId = new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb")
+                            UserId = new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363")
                         },
                         new
                         {
                             Id = 3,
                             Active = true,
                             AvatarUrl = "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg",
-                            Description = "Success isn't always about 'Greatness', it's about consistency.",
+                            Description = "When you want something, all the universe conspires in helping you to achieve it.",
                             LowQualityAvatarUrl = "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg",
-                            Nick = "The Rock",
-                            UserId = new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5")
+                            Nick = "Luke",
+                            UserId = new Guid("a4703242-36a0-426b-81b8-0c7336606613")
                         });
                 });
 
@@ -334,6 +334,9 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("MinimumTime")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("money");
 
@@ -389,22 +392,22 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d164cecd-6130-478d-b144-002fa4d160b7"),
-                            ConcurrencyStamp = "f50e6bf1-284c-45c1-be2c-27a4b036b056",
+                            Id = new Guid("7a5e0594-9895-47c5-825f-17d6eb1654a2"),
+                            ConcurrencyStamp = "34cea050-8506-4a11-b60a-289640ce3c67",
                             Name = "User",
                             NormalizedName = "User"
                         },
                         new
                         {
-                            Id = new Guid("24ff274e-3244-4edc-840c-f906afdd7601"),
-                            ConcurrencyStamp = "a55d7467-b2f9-433d-abc6-fe3710f5666d",
+                            Id = new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0"),
+                            ConcurrencyStamp = "f539eb70-a488-4455-aa81-ff1c0b00c444",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         },
                         new
                         {
-                            Id = new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"),
-                            ConcurrencyStamp = "9db7cae2-52b5-4f8f-9b9e-e3f07214792e",
+                            Id = new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462"),
+                            ConcurrencyStamp = "d331f677-a27a-4a73-b109-f30bf5c2d677",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         });
@@ -484,9 +487,9 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("95b5894d-cabc-4349-b2da-656274f97aec"),
+                            Id = new Guid("bbf17ff9-151e-449b-822e-05a80274af0e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "faf89a3f-41c4-4203-9c09-e5042982bf66",
+                            ConcurrencyStamp = "5d2e0ca5-b95f-452a-a979-8e85b70fcd47",
                             Email = "admin@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bill",
@@ -494,18 +497,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKMckLVUI4Se/xpwaO/rR7BsMrbmXQhi7ON8BfOU6cbvoX0owfhRf+SV9xIgq8WgoQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJglQEQgdXIXiuZyo7kz1KBRhl/C28VUOAFaRhV1fkqb3fWaJbJNzuZurTznu7OpZQ==",
                             PhoneNumber = "0987654321",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6dfa000a-4307-4fb1-a52d-b63a3e263eba",
+                            SecurityStamp = "24a848a5-a2c6-4b12-96d9-14085897c3f2",
                             TwoFactorEnabled = false,
                             UserName = "admin@example.com"
                         },
                         new
                         {
-                            Id = new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5"),
+                            Id = new Guid("a4703242-36a0-426b-81b8-0c7336606613"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cfec4a61-59b9-48ba-8a54-f9d9ea0a83e8",
+                            ConcurrencyStamp = "9699ae66-e736-472b-a626-6844dd388782",
                             Email = "admin2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Jeff",
@@ -513,18 +516,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN2@EXAMPLE.COM",
                             NormalizedUserName = "ADMIN2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPOkjzH6KO9VekQYf4Zs9GVQ8FOc2dPlT/l1046qof1+lGA4St/CzaxwWF3r+u3sGA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAJsB4hLHQz7oXO8kd95CTli8vYkmeis2sQuwFAEpFsDuffqQ+oxVLh3z8JUiirLSg==",
                             PhoneNumber = "567345764e56",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e0d3134-1912-4b94-8d85-0940e147616c",
+                            SecurityStamp = "fa84ee89-7378-44a6-9c48-3d2bebd5da46",
                             TwoFactorEnabled = false,
                             UserName = "admin2@example.com"
                         },
                         new
                         {
-                            Id = new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb"),
+                            Id = new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1e2ffdc-58dc-4a7d-810e-6fe33f256c7b",
+                            ConcurrencyStamp = "8fa1521b-d219-4761-8b46-883bb761b182",
                             Email = "employee1@example.com",
                             EmailConfirmed = true,
                             FirstName = "Bart",
@@ -532,18 +535,18 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE1@EXAMPLE.COM",
                             NormalizedUserName = "EMPLOYEE1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEppsBCpx4S+wtLjPKebjO9jnpZ9HMQwJJ3nJv7R26E5cm7oRi23KRFU0xEThF7Tjg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHCy4wLRZP5YTBeTCRG9bRHTGiaM4itmYDBEah0aytFhDTqaI2hL0/1DDRRYYPT8mA==",
                             PhoneNumber = "123456789",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1bb957d8-74de-4f1c-aaf9-9b2e6523bd6c",
+                            SecurityStamp = "ef3b9bee-8ff5-4181-9d7e-dd7a0f1a8c05",
                             TwoFactorEnabled = false,
                             UserName = "employee1@example.com"
                         },
                         new
                         {
-                            Id = new Guid("1625e287-58bb-4045-8b82-4221d1602679"),
+                            Id = new Guid("efac4210-d6f1-471d-91df-7c17dc81318d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2293f365-d281-45ed-877a-9a16a74fc34e",
+                            ConcurrencyStamp = "13313bc7-a119-432d-aa55-549d0e9c9bdb",
                             Email = "employee2@example.com",
                             EmailConfirmed = true,
                             FirstName = "Dwayne",
@@ -551,10 +554,10 @@ namespace Infrastructure.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "EMPLOYEE2@EXAMPLE.COM",
                             NormalizedUserName = "EMPLOYEE2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE6e5saJYVeuCYjhiqAQ0K4fenUTow91kS96IRupUk6hxdVGbdCgQZErcHVzA1WoqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFFE/Vld64pr5ZTF4SRqvNYC3V0asFMeMJCJy1D2QdUl4M+rONOkVKz3PwR2msTIYw==",
                             PhoneNumber = "543215678",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f41cf884-f6d0-420b-9387-5147ba467636",
+                            SecurityStamp = "e4e243ac-09c8-497b-9b38-a4a23a8d998b",
                             TwoFactorEnabled = false,
                             UserName = "employee2@example.com"
                         });
@@ -644,28 +647,28 @@ namespace Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("95b5894d-cabc-4349-b2da-656274f97aec"),
-                            RoleId = new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8")
+                            UserId = new Guid("bbf17ff9-151e-449b-822e-05a80274af0e"),
+                            RoleId = new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462")
                         },
                         new
                         {
-                            UserId = new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb"),
-                            RoleId = new Guid("24ff274e-3244-4edc-840c-f906afdd7601")
+                            UserId = new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363"),
+                            RoleId = new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0")
                         },
                         new
                         {
-                            UserId = new Guid("1625e287-58bb-4045-8b82-4221d1602679"),
-                            RoleId = new Guid("24ff274e-3244-4edc-840c-f906afdd7601")
+                            UserId = new Guid("efac4210-d6f1-471d-91df-7c17dc81318d"),
+                            RoleId = new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0")
                         },
                         new
                         {
-                            UserId = new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5"),
-                            RoleId = new Guid("24ff274e-3244-4edc-840c-f906afdd7601")
+                            UserId = new Guid("a4703242-36a0-426b-81b8-0c7336606613"),
+                            RoleId = new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0")
                         },
                         new
                         {
-                            UserId = new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5"),
-                            RoleId = new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8")
+                            UserId = new Guid("a4703242-36a0-426b-81b8-0c7336606613"),
+                            RoleId = new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462")
                         });
                 });
 

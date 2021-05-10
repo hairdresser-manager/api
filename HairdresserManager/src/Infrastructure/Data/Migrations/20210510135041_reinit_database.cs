@@ -288,6 +288,7 @@ namespace Infrastructure.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MinimumTime = table.Column<int>(type: "int", nullable: false),
                     MaximumTime = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "money", nullable: false),
@@ -428,9 +429,9 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("d164cecd-6130-478d-b144-002fa4d160b7"), "f50e6bf1-284c-45c1-be2c-27a4b036b056", "User", "User" },
-                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), "a55d7467-b2f9-433d-abc6-fe3710f5666d", "Employee", "Employee" },
-                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), "9db7cae2-52b5-4f8f-9b9e-e3f07214792e", "Admin", "Admin" }
+                    { new Guid("7a5e0594-9895-47c5-825f-17d6eb1654a2"), "34cea050-8506-4a11-b60a-289640ce3c67", "User", "User" },
+                    { new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0"), "f539eb70-a488-4455-aa81-ff1c0b00c444", "Employee", "Employee" },
+                    { new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462"), "d331f677-a27a-4a73-b109-f30bf5c2d677", "Admin", "Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -438,10 +439,10 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("95b5894d-cabc-4349-b2da-656274f97aec"), 0, "faf89a3f-41c4-4203-9c09-e5042982bf66", "admin@example.com", true, "Bill", "Gates", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEKMckLVUI4Se/xpwaO/rR7BsMrbmXQhi7ON8BfOU6cbvoX0owfhRf+SV9xIgq8WgoQ==", "0987654321", false, "6dfa000a-4307-4fb1-a52d-b63a3e263eba", false, "admin@example.com" },
-                    { new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5"), 0, "cfec4a61-59b9-48ba-8a54-f9d9ea0a83e8", "admin2@example.com", true, "Jeff", "Bezos", false, null, "ADMIN2@EXAMPLE.COM", "ADMIN2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEPOkjzH6KO9VekQYf4Zs9GVQ8FOc2dPlT/l1046qof1+lGA4St/CzaxwWF3r+u3sGA==", "567345764e56", false, "5e0d3134-1912-4b94-8d85-0940e147616c", false, "admin2@example.com" },
-                    { new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb"), 0, "d1e2ffdc-58dc-4a7d-810e-6fe33f256c7b", "employee1@example.com", true, "Bart", "Osh", false, null, "EMPLOYEE1@EXAMPLE.COM", "EMPLOYEE1@EXAMPLE.COM", "AQAAAAEAACcQAAAAEEppsBCpx4S+wtLjPKebjO9jnpZ9HMQwJJ3nJv7R26E5cm7oRi23KRFU0xEThF7Tjg==", "123456789", false, "1bb957d8-74de-4f1c-aaf9-9b2e6523bd6c", false, "employee1@example.com" },
-                    { new Guid("1625e287-58bb-4045-8b82-4221d1602679"), 0, "2293f365-d281-45ed-877a-9a16a74fc34e", "employee2@example.com", true, "Dwayne", "Johnson", false, null, "EMPLOYEE2@EXAMPLE.COM", "EMPLOYEE2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEE6e5saJYVeuCYjhiqAQ0K4fenUTow91kS96IRupUk6hxdVGbdCgQZErcHVzA1WoqQ==", "543215678", false, "f41cf884-f6d0-420b-9387-5147ba467636", false, "employee2@example.com" }
+                    { new Guid("bbf17ff9-151e-449b-822e-05a80274af0e"), 0, "5d2e0ca5-b95f-452a-a979-8e85b70fcd47", "admin@example.com", true, "Bill", "Gates", false, null, "ADMIN@EXAMPLE.COM", "ADMIN@EXAMPLE.COM", "AQAAAAEAACcQAAAAEJglQEQgdXIXiuZyo7kz1KBRhl/C28VUOAFaRhV1fkqb3fWaJbJNzuZurTznu7OpZQ==", "0987654321", false, "24a848a5-a2c6-4b12-96d9-14085897c3f2", false, "admin@example.com" },
+                    { new Guid("a4703242-36a0-426b-81b8-0c7336606613"), 0, "9699ae66-e736-472b-a626-6844dd388782", "admin2@example.com", true, "Jeff", "Bezos", false, null, "ADMIN2@EXAMPLE.COM", "ADMIN2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEAJsB4hLHQz7oXO8kd95CTli8vYkmeis2sQuwFAEpFsDuffqQ+oxVLh3z8JUiirLSg==", "567345764e56", false, "fa84ee89-7378-44a6-9c48-3d2bebd5da46", false, "admin2@example.com" },
+                    { new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363"), 0, "8fa1521b-d219-4761-8b46-883bb761b182", "employee1@example.com", true, "Bart", "Osh", false, null, "EMPLOYEE1@EXAMPLE.COM", "EMPLOYEE1@EXAMPLE.COM", "AQAAAAEAACcQAAAAEHCy4wLRZP5YTBeTCRG9bRHTGiaM4itmYDBEah0aytFhDTqaI2hL0/1DDRRYYPT8mA==", "123456789", false, "ef3b9bee-8ff5-4181-9d7e-dd7a0f1a8c05", false, "employee1@example.com" },
+                    { new Guid("efac4210-d6f1-471d-91df-7c17dc81318d"), 0, "13313bc7-a119-432d-aa55-549d0e9c9bdb", "employee2@example.com", true, "Dwayne", "Johnson", false, null, "EMPLOYEE2@EXAMPLE.COM", "EMPLOYEE2@EXAMPLE.COM", "AQAAAAEAACcQAAAAEFFE/Vld64pr5ZTF4SRqvNYC3V0asFMeMJCJy1D2QdUl4M+rONOkVKz3PwR2msTIYw==", "543215678", false, "e4e243ac-09c8-497b-9b38-a4a23a8d998b", false, "employee2@example.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -449,11 +450,11 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), new Guid("95b5894d-cabc-4349-b2da-656274f97aec") },
-                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
-                    { new Guid("2564fa4e-35e8-42dc-a1c1-5620a41f8ce8"), new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
-                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb") },
-                    { new Guid("24ff274e-3244-4edc-840c-f906afdd7601"), new Guid("1625e287-58bb-4045-8b82-4221d1602679") }
+                    { new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462"), new Guid("bbf17ff9-151e-449b-822e-05a80274af0e") },
+                    { new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0"), new Guid("a4703242-36a0-426b-81b8-0c7336606613") },
+                    { new Guid("e0aa94bb-0183-42ad-aea8-3c2656924462"), new Guid("a4703242-36a0-426b-81b8-0c7336606613") },
+                    { new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0"), new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363") },
+                    { new Guid("9ccb3309-7244-4384-8e18-a73ae0ea12a0"), new Guid("efac4210-d6f1-471d-91df-7c17dc81318d") }
                 });
 
             migrationBuilder.InsertData(
@@ -461,9 +462,9 @@ namespace Infrastructure.Data.Migrations
                 columns: new[] { "Id", "Active", "AvatarUrl", "Description", "LowQualityAvatarUrl", "Nick", "UserId" },
                 values: new object[,]
                 {
-                    { 3, true, "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "The Rock", new Guid("2475d345-a250-45f6-a6a9-bea3098d91b5") },
-                    { 1, true, "https://scontent-frt3-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/164620128_800510077236657_4464242640656376019_n.jpg?tp=1&_nc_ht=scontent-frt3-1.cdninstagram.com&_nc_cat=109&_nc_ohc=fBzuRWUd9LcAX9CTNqI&edm=AP_V10EBAAAA&ccb=7-4&oh=1f5e24c0f15ad60e5d567f39f1e32288&oe=60B56733&_nc_sid=4f375e", "Giga hairdresser", "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg", "Bartosh", new Guid("91c4085e-e986-4161-af80-bc1ef846c2cb") },
-                    { 2, true, "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "The Rock", new Guid("1625e287-58bb-4045-8b82-4221d1602679") }
+                    { 3, true, "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "When you want something, all the universe conspires in helping you to achieve it.", "https://techcentral.co.za/wp-content/uploads/2017/05/jeff-bezos-2156-1120-1024x532@2x.jpg", "Luke", new Guid("a4703242-36a0-426b-81b8-0c7336606613") },
+                    { 1, true, "https://moviecomicswhoswho.files.wordpress.com/2015/09/luke-cage.jpg", "Giga hairdresser", "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg", "Bartosh", new Guid("08346f6b-8180-4d2e-bf68-2ce50fe1d363") },
+                    { 2, true, "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "Success isn't always about 'Greatness', it's about consistency.", "https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTc5NjIyODM0ODM2ODc0Mzc3/dwayne-the-rock-johnson-gettyimages-1061959920.jpg", "The Rock", new Guid("efac4210-d6f1-471d-91df-7c17dc81318d") }
                 });
 
             migrationBuilder.CreateIndex(
