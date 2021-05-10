@@ -79,6 +79,11 @@ namespace ApplicationCore.Services
             return employee.Id;
         }
 
+        public async Task<bool> EmployeeExistsAsync(int id) =>
+            await _context.Employees
+                .AsNoTracking()
+                .FirstOrDefaultAsync(employee => employee.Id == id) != null;
+
         private async Task ChangeEmployeeRole(string userId)
         {
             var roles = (IList<string>) await _userService.GetUserRolesById(userId);

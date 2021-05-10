@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ApplicationCore.Validations;
 
 namespace ApplicationCore.Contract.V1.Service.Requests
 {
@@ -11,12 +10,8 @@ namespace ApplicationCore.Contract.V1.Service.Requests
         public string Name { get; set; }
         
         [Required]
-        [StringLengthInList(50, ErrorMessage = "Elements in list Categories can be up to 50 characters length")]
-        public IEnumerable<string> Categories { get; set; }
-        
-        [Required]
-        [StringLengthInList(50, ErrorMessage = "Elements in list Employees can be up to 50 characters length")]
-        public IEnumerable<string> Employees { get; set; }
+        [Range(0, int.MaxValue, ErrorMessage = "Elements in list Categories can be up to 50 characters length")]
+        public int CategoryId { get; set; }
         
         [Required]
         [StringLength(255, ErrorMessage = "The {0} must be at least {2} characters long.")]

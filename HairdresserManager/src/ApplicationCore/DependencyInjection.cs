@@ -1,5 +1,4 @@
 using System.Reflection;
-using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +18,7 @@ namespace ApplicationCore
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IServiceCategoryService, ServiceCategoryService>();
+            services.AddScoped<IServiceEmployeeService, ServiceEmployeeService>();
             
             return services;
         }

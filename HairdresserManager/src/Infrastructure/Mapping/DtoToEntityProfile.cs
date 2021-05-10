@@ -19,6 +19,8 @@ namespace Infrastructure.Mapping
             CreateMap<EmployeeDto, Employee>();
 
             CreateMap<ServicesCategoryDto, ServicesCategory>();
+            
+            CreateMap<ServiceDto, Service>();
         }
     }
 }

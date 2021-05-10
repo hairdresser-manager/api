@@ -1,52 +1,71 @@
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Service.Requests;
-using ApplicationCore.Contract.V1.Service.Responses;
+using ApplicationCore.DTOs;
+using ApplicationCore.Interfaces;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Offer
 {
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class ServiceController : ControllerBase
     {
-        [HttpGet("api/v1/services")]
-        public IActionResult GetServices()
-        {
-            var response1 = new GetServicesResponse
-            {
-                ServiceId = 1, Name = "Hair cutting", Categories = new List<string> {"men cutting", "category2"},
-                Employees = new List<string> {"Hubert", "Steve", "John"},
-                Description = "Just a normal hair cutting",
-                MinimumTime = 45, MaximumTime = 100, Price = 50
-            };
-            
-            var response2 = new GetServicesResponse
-            {
-                ServiceId = 2, Name = "Hair cutting2", Categories = new List<string> {"men cutting2", "category2", "category3"},
-                Employees = new List<string> {"Hubert", "Steve"},
-                Description = "Just a not normal hair cutting",
-                MinimumTime = 45, MaximumTime = 100, Price = 50
-            };
+        private readonly IServiceCategoryService _serviceCategoryService;
+        private readonly IServiceService _serviceService;
+        private readonly IMapper _mapper;
 
-            var response = new List<GetServicesResponse> {response1, response2};
-            return Ok(response);
+        public ServiceController(IServiceService serviceService, IMapper mapper,
+            IServiceCategoryService serviceCategoryService)
+        {
+            _serviceService = serviceService;
+            _mapper = mapper;
+            _serviceCategoryService = serviceCategoryService;
+        }
+
+        [HttpGet("api/v1/services")]
+        public async Task<IActionResult> GetServices()
+        {
+            var servicesDto = await _serviceService.GetServicesDtoAsync();
+            return servicesDto != null ? Ok(servicesDto) : NotFound();
         }
 
         [HttpPost("api/v1/services")]
-        public IActionResult CreateService([FromBody] CreateServiceRequest request)
+        public async Task<IActionResult> CreateService([FromBody] CreateServiceRequest request)
         {
-            return NoContent();
+            var serviceDto = await _serviceService.GetServiceDtoByNameAsync(request.Name);
+
+            if (serviceDto != null)
+                return BadRequest(new ErrorResponse("Service with this name already exists"));
+
+            if(await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
+                return BadRequest(new ErrorResponse("Category doesn't exist"));
+
+            var serviceToCreateDto = _mapper.Map<ServiceDto>(request);
+
+            var result = await _serviceService.CreateServiceAsync(serviceToCreateDto);
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
         [HttpPatch("api/v1/services/{serviceId}")]
-        public IActionResult UpdateService([FromRoute] int serviceId, [FromBody] UpdateServiceRequest request)
+        public async Task<IActionResult> UpdateService([FromRoute] int serviceId,
+            [FromBody] UpdateServiceRequest request)
         {
-            return NoContent();
-        }
+            var serviceDto = await _serviceService.GetServiceDtoByNameAsync(request.Name);
 
-        [HttpDelete("api/v1/services/{serviceId}")]
-        public IActionResult DeleteService([FromRoute] int serviceId)
-        {
-            return NoContent();
+            if (serviceDto != null)
+                return BadRequest(new ErrorResponse("Service with this name already exists"));
+
+            if(await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
+                return BadRequest(new ErrorResponse("Category doesn't exist"));
+
+            var serviceToUpdateDto = _mapper.Map<ServiceDto>(request);
+            serviceToUpdateDto.Id = serviceId;
+            var result = await _serviceService.UpdateServiceAsync(serviceToUpdateDto);
+
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
     }
 }

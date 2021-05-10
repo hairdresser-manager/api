@@ -23,6 +23,8 @@ namespace Infrastructure.Mapping
                     opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-dd")));
             
             CreateMap<ServicesCategory, ServicesCategoryDto>();
+            
+            CreateMap<Service, ServiceDto>();
         }
     }
 }

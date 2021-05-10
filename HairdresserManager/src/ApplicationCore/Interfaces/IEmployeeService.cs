@@ -14,5 +14,6 @@ namespace ApplicationCore.Interfaces
         Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId);
         Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto);
         Task<int?> GetEmployeeIdByUserIdAsync(string userId);
+        Task<bool> EmployeeExistsAsync(int id);
     }
 }
