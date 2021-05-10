@@ -17,6 +17,8 @@ namespace Infrastructure.Mapping
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             CreateMap<EmployeeDto, Employee>();
+
+            CreateMap<ServicesCategoryDto, ServicesCategory>();
         }
     }
 }

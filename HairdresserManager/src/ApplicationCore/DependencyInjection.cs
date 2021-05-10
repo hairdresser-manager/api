@@ -1,7 +1,9 @@
 using System.Reflection;
+using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Services;
 using Microsoft.Extensions.DependencyInjection;
+using EmployeeService = ApplicationCore.Services.EmployeeService;
 
 namespace ApplicationCore
 {
@@ -15,6 +17,8 @@ namespace ApplicationCore
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IServiceCategoryService, ServiceCategoryService>();
             
             return services;
         }

@@ -21,6 +21,8 @@ namespace Infrastructure.Mapping
             CreateMap<Schedule, ScheduleDto>()
                 .ForMember(dest => dest.Date,
                     opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-dd")));
+            
+            CreateMap<ServicesCategory, ServicesCategoryDto>();
         }
     }
 }
