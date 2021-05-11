@@ -6,6 +6,7 @@ namespace ApplicationCore.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Description { get; set; }
         public int MinimumTime { get; set; }
         public int MaximumTime { get; set; }
         public decimal Price { get; set; }

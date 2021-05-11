@@ -40,7 +40,7 @@ namespace WebApi.Controllers.V1.Offer
             if (serviceDto != null)
                 return BadRequest(new ErrorResponse("Service with this name already exists"));
 
-            if(await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
+            if (await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
                 return BadRequest(new ErrorResponse("Category doesn't exist"));
 
             var serviceToCreateDto = _mapper.Map<ServiceDto>(request);
@@ -49,16 +49,17 @@ namespace WebApi.Controllers.V1.Offer
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
-        [HttpPatch("api/v1/services/{serviceId}")]
+        [HttpPut("api/v1/services/{serviceId}")]
         public async Task<IActionResult> UpdateService([FromRoute] int serviceId,
             [FromBody] UpdateServiceRequest request)
         {
             var serviceDto = await _serviceService.GetServiceDtoByNameAsync(request.Name);
 
             if (serviceDto != null)
-                return BadRequest(new ErrorResponse("Service with this name already exists"));
+                if (serviceDto.Id != serviceId)
+                    return BadRequest(new ErrorResponse("Service with this name already exists"));
 
-            if(await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
+            if (await _serviceCategoryService.GetServicesCategoryDtoByIdAsync(request.CategoryId) == null)
                 return BadRequest(new ErrorResponse("Category doesn't exist"));
 
             var serviceToUpdateDto = _mapper.Map<ServiceDto>(request);
