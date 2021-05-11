@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ApplicationCore.Contract.V1.Appointment.Requests;
 using ApplicationCore.Contract.V1.Appointment.Responses;
+using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1
@@ -8,6 +11,16 @@ namespace WebApi.Controllers.V1
     [ApiController]
     public class AppointmentController : ControllerBase
     {
+        private readonly IAppointmentService _appointmentService;
+        private readonly IEmployeeService _employeeService;
+
+        public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService)
+        {
+            _appointmentService = appointmentService;
+            _employeeService = employeeService;
+        }
+
+
         [HttpGet("api/v1/appointments")]
         public IActionResult GetAppointments()
         {
@@ -53,9 +66,39 @@ namespace WebApi.Controllers.V1
         }
         
         [HttpGet("api/v1/appointments/available-dates")]
-        public IActionResult GetFreeAppointmentsV2()
+        public async Task<IActionResult> GetFreeAppointmentsV2()
         {
-            var response = ScheduleResponseFakeData.GetData();
+            //TODO: this code is only for demo purposes 
+            
+            var employeesDto = await _employeeService.GetEmployeesDtoAsync();
+
+            var response = new List<AvailableEmployeeDatesResponse>();
+            
+            foreach (var employeeDto in employeesDto)
+            {
+                var availableDates = await _appointmentService.GetFreeFutureDatesForEmployeeAsync(employeeDto.Id);
+                
+                if(!availableDates.Any())
+                    continue;
+
+                var dayHours = new List<DayDatesResponse>();
+
+                foreach (var date in availableDates)
+                {
+                    dayHours.Add(new DayDatesResponse{Date = date.Item1, Hours = date.Item2});
+                }
+                
+                var partialResponse = new AvailableEmployeeDatesResponse
+                {
+                    EmployeeId = employeeDto.Id,
+                    EmployeeName = employeeDto.Nick,
+                    EmployeeLowQualityAvatar = employeeDto.LowQualityAvatarUrl,
+                    AvailableDates = dayHours
+                };
+                
+                response.Add(partialResponse);
+            }
+
             return Ok(response);
         }
     }

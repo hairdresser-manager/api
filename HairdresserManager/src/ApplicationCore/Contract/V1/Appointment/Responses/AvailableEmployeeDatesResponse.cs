@@ -7,6 +7,6 @@ namespace ApplicationCore.Contract.V1.Appointment.Responses
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string EmployeeLowQualityAvatar { get; set; }
-        public IEnumerable<DayDatesResponse> AvailableDates { get; set; }
+        public List<DayDatesResponse> AvailableDates { get; set; }
     }
 }

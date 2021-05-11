@@ -5,6 +5,6 @@ namespace ApplicationCore.Contract.V1.Appointment.Responses
     public class DayDatesResponse
     {
         public string Date { get; set; }
-        public IEnumerable<string> Dates { get; set; }
+        public IEnumerable<string> Hours { get; set; }
     }
 }
