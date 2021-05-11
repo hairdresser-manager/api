@@ -14,7 +14,7 @@ namespace ApplicationCore.Contract.V1.Service.Requests
         public int CategoryId { get; set; }
         
         [Required]
-        [StringLength(255, ErrorMessage = "The {0} must be at least {2} characters long.")]
+        [StringLength(1024, ErrorMessage = "The {0} must be at least {1} characters long.")]
         public string Description { get; set; }
 
         [Required]

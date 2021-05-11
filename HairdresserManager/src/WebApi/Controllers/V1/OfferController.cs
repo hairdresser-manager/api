@@ -7,7 +7,7 @@ using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Offer
+namespace WebApi.Controllers.V1
 {
     public class OfferController : ControllerBase
     {
