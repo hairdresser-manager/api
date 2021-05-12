@@ -54,7 +54,7 @@ namespace WebApi.Controllers.V1
 
             foreach (var serviceDto in servicesDto)
             {
-                if (!serviceDto.Available)
+                if (!serviceDto.Available || serviceDto.EmployeeIds == null)
                     continue;
 
                 var serviceCategoryName = serviceCategoriesDto.FirstOrDefault(s => s.Id == serviceDto.CategoryId)?.Name;
