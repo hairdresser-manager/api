@@ -15,7 +15,7 @@ namespace ApplicationCore.Services
             _context = context;
         }
 
-        public async Task<bool> AddUserToClientAsync(Guid userId)
+        public async Task<bool> AddUserToClientsAsync(Guid userId)
         {
             var client = new Client {UserId = userId};
             await _context.Clients.AddAsync(client);

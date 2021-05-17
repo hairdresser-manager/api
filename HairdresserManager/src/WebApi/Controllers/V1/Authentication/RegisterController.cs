@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Account.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.DTOs;
-using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -32,17 +30,17 @@ namespace WebApi.Controllers.V1.Authentication
         [HttpPost(ApiRoutes.Register.RegisterUser)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var userDto = _mapper.Map<UserDto>(request);
-
             if (await _userService.GetUserDtoByEmailAsync(request.Email) != null)
                 return BadRequest(new ErrorResponse("user already exists"));
 
+            var userDto = _mapper.Map<UserDto>(request);
+            
             var (result, userId, verifyToken) = await _userService.CreateUserAsync(userDto, request.Password);
 
             if (!result.Succeeded)
                 return BadRequest(new ErrorResponse(result.Errors));
 
-            var added = await _clientService.AddUserToClientAsync(userId);
+            var added = await _clientService.AddUserToClientsAsync(userId);
 
             return added ? Ok(new {VerifyToken = verifyToken}) : BadRequest(new ErrorResponse("Something went wrong"));
         }
