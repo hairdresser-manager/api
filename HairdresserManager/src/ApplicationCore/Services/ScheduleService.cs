@@ -24,8 +24,7 @@ namespace ApplicationCore.Services
         }
 
         public async Task<Result> CreateScopedScheduleAsync(int employeeId, IEnumerable<DateTime> dates,
-            string startHour,
-            string endHour)
+            string startHour, string endHour)
         {
             var schedules = new List<Schedule>();
 

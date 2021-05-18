@@ -1,6 +1,6 @@
 using System;
 
-namespace ApplicationCore.Validations
+namespace ApplicationCore.Helpers
 {
     public static class TimeHelper
     {
