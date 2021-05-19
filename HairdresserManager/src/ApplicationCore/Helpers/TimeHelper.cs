@@ -14,7 +14,7 @@ namespace ApplicationCore.Helpers
             var hour = int.Parse(splattedValue[0]);
             var minute = int.Parse(splattedValue[1]);
 
-            if (hour is < 1 or > 23)
+            if (hour is < 0 or > 23)
                 throw new InvalidCastException("Cannot cast value to 24 hour format.");
 
             if (minute is < 0 or > 59)
