@@ -7,24 +7,30 @@ namespace ApplicationCore.UnitTests.Results
     public class ResultTests
     {
         [Fact]
-        public void SuccessMethodCreatesAnEmptyErrorsCollection()
+        public void SuccessMethodCreatesAnEmptyErrorsCollectionAndSucceededStatus()
         {
             var result = Result.Success();
-            Assert.Equal(result.Errors, Array.Empty<string>());
+            
+            Assert.Equal(Array.Empty<string>(), result.Errors);
+            Assert.True(result.Succeeded);
         }
 
         [Fact]
-        public void FailureMethodCreatesAnNotEmptyErrorsCollection()
+        public void FailureMethodCreatesAnNotEmptyErrorsCollectionAndNotSucceededStatus()
         {
             var result = Result.Failure("some error");
-            Assert.NotEqual(result.Errors, Array.Empty<string>());
+            
+            Assert.NotEqual(Array.Empty<string>(), result.Errors);
+            Assert.False(result.Succeeded);
         }
 
         [Fact]
-        public void FailureMethodCreatesAnNotEmptyErrorsCollection2()
+        public void FailureMethodCreatesAnNotEmptyErrorsCollectionAndNotSucceededStatus2()
         {
             var result = Result.Failure(new[] {"some error"});
-            Assert.NotEqual(result.Errors, Array.Empty<string>());
+            
+            Assert.NotEqual(Array.Empty<string>(), result.Errors);
+            Assert.False(result.Succeeded);
         }
     }
 }
