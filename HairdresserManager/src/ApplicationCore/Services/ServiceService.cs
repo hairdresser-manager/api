@@ -24,29 +24,29 @@ namespace ApplicationCore.Services
             _employeeService = employeeService;
         }
 
-        public async Task<Result> CreateServiceAsync(ServiceDto serviceDto)
+        public async Task<ServiceResult> CreateServiceAsync(ServiceDto serviceDto)
         {
             var service = _mapper.Map<Service>(serviceDto);
 
             await _context.Services.AddAsync(service);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
-        public async Task<Result> UpdateServiceAsync(ServiceDto serviceDto)
+        public async Task<ServiceResult> UpdateServiceAsync(ServiceDto serviceDto)
         {
             var service = await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceDto.Id);
             
             if(service == null)
-                return Result.Failure("Service doesn't exist");
+                return ServiceResult.Failure("Service doesn't exist");
 
             _mapper.Map(serviceDto, service);
 
             _context.Services.Update(service);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
         public async Task<bool> ServiceExistsAsync(int serviceId) =>

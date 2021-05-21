@@ -21,19 +21,19 @@ namespace ApplicationCore.Services
             _mapper = mapper;
         }
 
-        public async Task<Result> CreateCategoryAsync(string name)
+        public async Task<ServiceResult> CreateCategoryAsync(string name)
         {
             var category = await _context.ServicesCategories.FirstOrDefaultAsync(s => s.Name.Equals(name));
 
             if (category != null)
-                return Result.Failure("Category already exists");
+                return ServiceResult.Failure("Category already exists");
 
             var newServicesCategory = new ServicesCategory {Name = name};
 
             await _context.ServicesCategories.AddAsync(newServicesCategory);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
         public async Task<IEnumerable<ServicesCategoryDto>> GetServicesCategoriesDtoAsync()
@@ -42,14 +42,14 @@ namespace ApplicationCore.Services
             return _mapper.Map<IEnumerable<ServicesCategoryDto>>(categories);
         }
 
-        public async Task<Result> UpdateServicesCategoryAsync(int id, string name)
+        public async Task<ServiceResult> UpdateServicesCategoryAsync(int id, string name)
         {
             var serviceCategory = new ServicesCategory {Id = id, Name = name};
 
             _context.ServicesCategories.Update(serviceCategory);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
         public async Task<ServicesCategoryDto> GetServicesCategoryDtoByIdAsync(int id)

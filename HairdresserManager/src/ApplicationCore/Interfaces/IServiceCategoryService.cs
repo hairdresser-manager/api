@@ -7,9 +7,9 @@ namespace ApplicationCore.Interfaces
 {
     public interface IServiceCategoryService
     {
-        Task<Result> CreateCategoryAsync(string name);
+        Task<ServiceResult> CreateCategoryAsync(string name);
         Task<IEnumerable<ServicesCategoryDto>> GetServicesCategoriesDtoAsync();
-        Task<Result> UpdateServicesCategoryAsync(int id, string name);
+        Task<ServiceResult> UpdateServicesCategoryAsync(int id, string name);
         Task<ServicesCategoryDto> GetServicesCategoryDtoByIdAsync(int id);
     }
 }

@@ -12,7 +12,7 @@ namespace ApplicationCore.Interfaces
         Task<int> AddUserToEmployees(Guid userId);
         Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync();
         Task<EmployeeDto> GetEmployeeDtoByIdAsync(int employeeId);
-        Task<Result> UpdateEmployeeAsync(EmployeeDto employeeDto);
+        Task<ServiceResult> UpdateEmployeeAsync(EmployeeDto employeeDto);
         Task<int?> GetEmployeeIdByUserIdAsync(string userId);
         Task<bool> EmployeeExistsAsync(int id);
     }

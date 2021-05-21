@@ -10,12 +10,12 @@ namespace ApplicationCore.Interfaces
     {
         Task<UserDto> GetUserDtoByEmailAsync(string email);
         Task<UserDto> GetUserDtoByIdAsync(string userId);
-        Task<Result> UpdateUserDataAsync(string userId, UserDto userDto);
+        Task<ServiceResult> UpdateUserDataAsync(string userId, UserDto userDto);
         Task<IEnumerable<string>> GetUserRolesById(string id);
         Task RemoveFromRoleAsync(string userId, string role);
         Task AddToRoleAsync(string userId, string role);
 
         //for development purposes verify token is returning in request and probably will go to identity service
-        Task<(Result, Guid, string)> CreateUserAsync(UserDto userDto, string password);
+        Task<(ServiceResult, Guid, string)> CreateUserAsync(UserDto userDto, string password);
     }
 }

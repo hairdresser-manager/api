@@ -9,8 +9,8 @@ namespace ApplicationCore.Interfaces
     {
         Task<ServiceDto> GetServiceDtoByNameAsync(string name);
         Task<IEnumerable<ServiceDto>> GetServicesDtoAsync();
-        Task<Result> CreateServiceAsync(ServiceDto serviceDto);
-        Task<Result> UpdateServiceAsync(ServiceDto serviceDto);
+        Task<ServiceResult> CreateServiceAsync(ServiceDto serviceDto);
+        Task<ServiceResult> UpdateServiceAsync(ServiceDto serviceDto);
         Task<bool> ServiceExistsAsync(int serviceId);
     }
 }

@@ -34,34 +34,34 @@ namespace Infrastructure.Services
             return user == null ? null : await UserToUserDtoAsync(user);
         }
 
-        public async Task<(Result, Guid, string)> CreateUserAsync(UserDto userDto, string password)
+        public async Task<(ServiceResult, Guid, string)> CreateUserAsync(UserDto userDto, string password)
         {
             var newUser = _mapper.Map<User>(userDto);
             
             var createdUser = await _userManager.CreateAsync(newUser, password);
 
             if (!createdUser.Succeeded)
-                return (Result.Failure(createdUser.Errors.Select(x => x.Description)), Guid.Empty, null);
+                return (ServiceResult.Failure(createdUser.Errors.Select(x => x.Description)), Guid.Empty, null);
 
             var verifyToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
             await _userManager.AddToRoleAsync(newUser, ApplicationCore.Entities.Role.User);
             
-            return (Result.Success(), newUser.Id, verifyToken);
+            return (ServiceResult.Success(), newUser.Id, verifyToken);
         }
 
-        public async Task<Result> UpdateUserDataAsync(string userId, UserDto userDto)
+        public async Task<ServiceResult> UpdateUserDataAsync(string userId, UserDto userDto)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
-                return Result.Failure("User doesn't exist");
+                return ServiceResult.Failure("User doesn't exist");
 
             user.FirstName = userDto.FirstName;
             user.LastName = userDto.LastName;
             user.PhoneNumber = userDto.MobilePhone;
 
             var result = await _userManager.UpdateAsync(user);
-            return !result.Succeeded ? Result.Failure(result.Errors.Select(x => x.Description)) : Result.Success();
+            return !result.Succeeded ? ServiceResult.Failure(result.Errors.Select(x => x.Description)) : ServiceResult.Success();
         }
         
         public async Task<IEnumerable<string>> GetUserRolesById(string id)

@@ -9,7 +9,7 @@ namespace ApplicationCore.UnitTests.Results
         [Fact]
         public void SuccessMethodCreatesAnEmptyErrorsCollectionAndSucceededStatus()
         {
-            var result = Result.Success();
+            var result = ServiceResult.Success();
             
             Assert.Equal(Array.Empty<string>(), result.Errors);
             Assert.True(result.Succeeded);
@@ -18,7 +18,7 @@ namespace ApplicationCore.UnitTests.Results
         [Fact]
         public void FailureMethodCreatesAnNotEmptyErrorsCollectionAndNotSucceededStatus()
         {
-            var result = Result.Failure("some error");
+            var result = ServiceResult.Failure("some error");
             
             Assert.NotEqual(Array.Empty<string>(), result.Errors);
             Assert.False(result.Succeeded);
@@ -27,7 +27,7 @@ namespace ApplicationCore.UnitTests.Results
         [Fact]
         public void FailureMethodCreatesAnNotEmptyErrorsCollectionAndNotSucceededStatus2()
         {
-            var result = Result.Failure(new[] {"some error"});
+            var result = ServiceResult.Failure(new[] {"some error"});
             
             Assert.NotEqual(Array.Empty<string>(), result.Errors);
             Assert.False(result.Succeeded);

@@ -19,37 +19,37 @@ namespace Infrastructure.Identity
             _mapper = mapper;
         }
 
-        public async Task<Result> VerifyEmailAsync(string email, string token)
+        public async Task<ServiceResult> VerifyEmailAsync(string email, string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
-                return Result.Failure("User doesn't exists");
+                return ServiceResult.Failure("User doesn't exists");
 
             if (await _userManager.IsEmailConfirmedAsync(user))
-                return Result.Failure("Email already verified");
+                return ServiceResult.Failure("Email already verified");
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
             
             if (!result.Succeeded)
-                return Result.Failure(result.Errors.Select(x => x.Description));
+                return ServiceResult.Failure(result.Errors.Select(x => x.Description));
             
-            return Result.Success();
+            return ServiceResult.Success();
         }
 
-        public async Task<Result> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        public async Task<ServiceResult> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
-                return Result.Failure("user doesn't exist");
+                return ServiceResult.Failure("user doesn't exist");
             
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
             if (!result.Succeeded)
-                return Result.Failure(result.Errors.Select(x => x.Description));
+                return ServiceResult.Failure(result.Errors.Select(x => x.Description));
             
-            return Result.Success();
+            return ServiceResult.Success();
         }
         
         public async Task<UserDto> GetUserDtoByCredentialsAsync(string email, string password)

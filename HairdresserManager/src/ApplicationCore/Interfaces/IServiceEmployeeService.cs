@@ -5,8 +5,8 @@ namespace ApplicationCore.Interfaces
 {
     public interface IServiceEmployeeService
     {
-        Task<Result> AddEmployeeToServiceAsync(int employeeId, int serviceId);
-        Task<Result> RemoveEmployeeFromServiceAsync(int employeeId, int serviceId);
+        Task<ServiceResult> AddEmployeeToServiceAsync(int employeeId, int serviceId);
+        Task<ServiceResult> RemoveEmployeeFromServiceAsync(int employeeId, int serviceId);
         Task<bool> IsEmployeeInServiceAsync(int employeeId, int serviceId);
     }
 }

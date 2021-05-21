@@ -23,7 +23,7 @@ namespace ApplicationCore.Services
             _mapper = mapper;
         }
 
-        public async Task<Result> CreateScopedScheduleAsync(int employeeId, IEnumerable<DateTime> dates,
+        public async Task<ServiceResult> CreateScopedScheduleAsync(int employeeId, IEnumerable<DateTime> dates,
             string startHour, string endHour)
         {
             var schedules = new List<Schedule>();
@@ -45,18 +45,18 @@ namespace ApplicationCore.Services
             }
 
             if (!schedules.Any())
-                return Result.Failure("Employee already has schedule at these dates");
+                return ServiceResult.Failure("Employee already has schedule at these dates");
 
             await _context.Schedules.AddRangeAsync(schedules);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
-        public async Task<Result> CreateScheduleAsync(int employeeId, DateTime date, string startHour, string endHour)
+        public async Task<ServiceResult> CreateScheduleAsync(int employeeId, DateTime date, string startHour, string endHour)
         {
             if (await GetEmployeeScheduleById(employeeId, date) != null)
-                return Result.Failure("Schedule on this date for that employee already exists");
+                return ServiceResult.Failure("Schedule on this date for that employee already exists");
 
             var schedule = new Schedule
             {
@@ -68,11 +68,11 @@ namespace ApplicationCore.Services
 
             await _context.Schedules.AddAsync(schedule);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
-        public async Task<Result> DeleteScopedScheduleAsync(int employeeId, DateTime startDate, DateTime endDate)
+        public async Task<ServiceResult> DeleteScopedScheduleAsync(int employeeId, DateTime startDate, DateTime endDate)
         {
             var schedulesToDelete = new List<Schedule>();
 
@@ -88,25 +88,25 @@ namespace ApplicationCore.Services
 
 
             if (!schedulesToDelete.Any())
-                return Result.Failure("Schedule on this dates for that employee doesn't exist");
+                return ServiceResult.Failure("Schedule on this dates for that employee doesn't exist");
 
             _context.Schedules.RemoveRange(schedulesToDelete);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
-        public async Task<Result> DeleteScheduleAsync(int employeeId, DateTime date)
+        public async Task<ServiceResult> DeleteScheduleAsync(int employeeId, DateTime date)
         {
             var schedule = await GetEmployeeScheduleById(employeeId, date);
 
             if (schedule == null)
-                return Result.Failure("Schedule on this date for that employee doesn't exist");
+                return ServiceResult.Failure("Schedule on this date for that employee doesn't exist");
 
             _context.Schedules.Remove(schedule);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0
-                ? Result.Success()
-                : Result.Failure("Something went wrong");
+                ? ServiceResult.Success()
+                : ServiceResult.Failure("Something went wrong");
         }
 
         public async Task<IEnumerable<ScheduleDto>> GetSchedulesDtoByEmployeeIdAsync(int employeeId)
