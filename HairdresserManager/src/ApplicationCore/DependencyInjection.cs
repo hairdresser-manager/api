@@ -20,6 +20,7 @@ namespace ApplicationCore
             services.AddScoped<IServiceCategoryService, ServiceCategoryService>();
             services.AddScoped<IServiceEmployeeService, ServiceEmployeeService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             
             return services;
         }

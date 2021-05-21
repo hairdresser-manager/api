@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Settings;
@@ -22,9 +20,8 @@ namespace ApplicationCore.Services
             _jwtSettings = jwtSettings;
         }
 
-        public string GenerateAccessToken(UserDto user)
+        public string CreateAccessToken(UserDto user, Guid accessTokenJti)
         {
-            var accessTokenJti = Guid.NewGuid();
             var userEmail = user.Email;
             var userRoles = user.Roles;
 

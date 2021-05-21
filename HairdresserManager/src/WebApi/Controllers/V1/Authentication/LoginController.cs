@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Login.Requests;
 using ApplicationCore.Contract.V1.Login.Responses;
+using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +15,17 @@ namespace WebApi.Controllers.V1.Authentication
     public class LoginController : ControllerBase
     {
         private readonly IJwtService _jwtService;
+        private readonly IRefreshTokenService _refreshTokenService;
         private readonly IIdentityService _identityService;
         private readonly IMapper _mapper;
 
-        public LoginController(IJwtService jwtService, IIdentityService identityService, IMapper mapper)
+        public LoginController(IJwtService jwtService, IIdentityService identityService, IMapper mapper,
+            IRefreshTokenService refreshTokenService)
         {
             _jwtService = jwtService;
             _identityService = identityService;
             _mapper = mapper;
+            _refreshTokenService = refreshTokenService;
         }
 
         [HttpPost(ApiRoutes.Login.LoginUser)]
@@ -34,11 +39,7 @@ namespace WebApi.Controllers.V1.Authentication
             if (!userDto.EmailConfirmed)
                 return BadRequest(new ErrorResponse("email isn't verified"));
 
-            var accessToken = _jwtService.GenerateAccessToken(userDto);
-
-            var response = _mapper.Map<LoginResponse>(userDto);
-            response.AccessToken = accessToken;
-            response.RefreshToken = "not-implemented-yet";
+            var response = await CreateLoginResponseAsync(userDto);
 
             return Ok(response);
         }
@@ -59,6 +60,19 @@ namespace WebApi.Controllers.V1.Authentication
         public IActionResult Logout([FromBody] LogoutRequest request)
         {
             return NoContent();
+        }
+
+        private async Task<LoginResponse> CreateLoginResponseAsync(UserDto userDto)
+        {
+            var jti = Guid.NewGuid();
+            var accessToken = _jwtService.CreateAccessToken(userDto, jti);
+            var refreshToken = await _refreshTokenService.CreateRefreshTokenAsync(userDto.Id, jti);
+
+            var response = _mapper.Map<LoginResponse>(userDto);
+            response.AccessToken = accessToken;
+            response.RefreshToken = refreshToken;
+
+            return response;
         }
     }
 }

@@ -1,9 +1,10 @@
+using System;
 using ApplicationCore.DTOs;
 
 namespace ApplicationCore.Interfaces
 {
     public interface IJwtService
     {
-        string GenerateAccessToken(UserDto userDto);
+        string CreateAccessToken(UserDto userDto, Guid accessTokenJti);
     }
 }
