@@ -14,18 +14,15 @@ namespace WebApi.Controllers.V1.Authentication
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly IJwtService _jwtService;
-        private readonly IRefreshTokenService _refreshTokenService;
         private readonly IIdentityService _identityService;
         private readonly IMapper _mapper;
+        private readonly IJwtManager _jwtManager;
 
-        public LoginController(IJwtService jwtService, IIdentityService identityService, IMapper mapper,
-            IRefreshTokenService refreshTokenService)
+        public LoginController(IIdentityService identityService, IMapper mapper, IJwtManager jwtManager)
         {
-            _jwtService = jwtService;
             _identityService = identityService;
             _mapper = mapper;
-            _refreshTokenService = refreshTokenService;
+            _jwtManager = jwtManager;
         }
 
         [HttpPost(ApiRoutes.Login.LoginUser)]
@@ -39,7 +36,9 @@ namespace WebApi.Controllers.V1.Authentication
             if (!userDto.EmailConfirmed)
                 return BadRequest(new ErrorResponse("email isn't verified"));
 
-            var response = await CreateLoginResponseAsync(userDto);
+            var authenticationResult = await _jwtManager.CreateAuthenticationResultAsync(userDto);
+            var response = _mapper.Map<LoginResponse>(userDto);
+            _mapper.Map(authenticationResult, response);
 
             return Ok(response);
         }
@@ -60,19 +59,6 @@ namespace WebApi.Controllers.V1.Authentication
         public IActionResult Logout([FromBody] LogoutRequest request)
         {
             return NoContent();
-        }
-
-        private async Task<LoginResponse> CreateLoginResponseAsync(UserDto userDto)
-        {
-            var jti = Guid.NewGuid();
-            var accessToken = _jwtService.GetNewAccessToken(userDto, jti);
-            var refreshToken = await _refreshTokenService.CreateRefreshTokenAsync(userDto.Id, jti);
-
-            var response = _mapper.Map<LoginResponse>(userDto);
-            response.AccessToken = accessToken;
-            response.RefreshToken = refreshToken;
-
-            return response;
         }
     }
 }

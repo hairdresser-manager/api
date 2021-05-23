@@ -1,6 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
+using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 
@@ -22,6 +23,11 @@ namespace ApplicationCore.Services
         public async Task<AuthenticationResult> CreateAuthenticationResultAsync(string userId)
         {
             var userDto = await _userService.GetUserDtoByIdAsync(userId);
+            return await CreateAuthenticationResultAsync(userDto);
+        }
+
+        public async Task<AuthenticationResult> CreateAuthenticationResultAsync(UserDto userDto)
+        {
             var newAccessTokenJti = Guid.NewGuid();
 
             var succeededResult = new AuthenticationResult
