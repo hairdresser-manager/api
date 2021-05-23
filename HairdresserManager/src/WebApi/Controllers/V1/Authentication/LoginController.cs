@@ -65,7 +65,7 @@ namespace WebApi.Controllers.V1.Authentication
         private async Task<LoginResponse> CreateLoginResponseAsync(UserDto userDto)
         {
             var jti = Guid.NewGuid();
-            var accessToken = _jwtService.CreateAccessToken(userDto, jti);
+            var accessToken = _jwtService.GetNewAccessToken(userDto, jti);
             var refreshToken = await _refreshTokenService.CreateRefreshTokenAsync(userDto.Id, jti);
 
             var response = _mapper.Map<LoginResponse>(userDto);

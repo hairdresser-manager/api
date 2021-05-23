@@ -5,7 +5,7 @@ namespace ApplicationCore.Results
 {
     public class ServiceResult
     {
-        private ServiceResult(bool succeeded, IEnumerable<string> errors)
+        protected ServiceResult(bool succeeded, IEnumerable<string> errors)
         {
             Succeeded = succeeded;
             Errors = errors.ToArray();
