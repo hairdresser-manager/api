@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Results;
 using ApplicationCore.Settings;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,13 +15,15 @@ namespace ApplicationCore.Services
     public class JwtService : IJwtService
     {
         private readonly JwtSettings _jwtSettings;
+        private readonly TokenValidationParameters _tokenValidationParameters;
 
-        public JwtService(JwtSettings jwtSettings)
+        public JwtService(JwtSettings jwtSettings, TokenValidationParameters tokenValidationParameters)
         {
             _jwtSettings = jwtSettings;
+            _tokenValidationParameters = tokenValidationParameters;
         }
 
-        public string CreateAccessToken(UserDto user, Guid accessTokenJti)
+        public string GetNewAccessToken(UserDto user, Guid accessTokenJti)
         {
             var userEmail = user.Email;
             var userRoles = user.Roles;
@@ -48,6 +51,39 @@ namespace ApplicationCore.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public ServiceResult ValidateJwtToken(string accessToken, out JwtSecurityToken validatedToken)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            validatedToken = null;
+
+            try
+            {
+                var tokenValidationParameters = _tokenValidationParameters.Clone();
+                tokenValidationParameters.ValidateLifetime = false;
+
+                tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out var securityToken);
+                
+                validatedToken = (JwtSecurityToken) securityToken;
+                return ServiceResult.Success();
+            }
+            catch (SecurityTokenInvalidSignatureException)
+            {
+                return ServiceResult.Failure("signature of Access Token isn't valid");
+            }
+            catch (ArgumentException)
+            {
+                return ServiceResult.Failure("wrong access token format");
+            }
+            catch (SecurityTokenExpiredException)
+            {
+                return ServiceResult.Failure("access token is expired");
+            }
+            catch
+            {
+                return ServiceResult.Failure("you access token cannot be validated");
+            }
         }
     }
 }

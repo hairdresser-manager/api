@@ -1,8 +1,5 @@
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using ApplicationCore.Interfaces;
-using ApplicationCore.Services;
 using ApplicationCore.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -32,6 +29,8 @@ namespace WebApi.Installers
                 RequireExpirationTime = false,
                 ClockSkew = TimeSpan.Zero
             };
+
+            services.AddSingleton(tokenValidationParameters);
 
             services.AddAuthentication(x =>
                 {
