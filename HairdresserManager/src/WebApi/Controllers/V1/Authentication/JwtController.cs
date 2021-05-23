@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
+using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Jwt.Requests;
 using ApplicationCore.Contract.V1.Jwt.Responses;
-using ApplicationCore.Results;
+using ApplicationCore.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Authentication
@@ -9,16 +12,24 @@ namespace WebApi.Controllers.V1.Authentication
     [ApiController]
     public class JwtController : ControllerBase
     {
-        [HttpPost(ApiRoutes.RefreshToken.Refresh)]
-        public IActionResult RefreshToken([FromBody] JwtRefreshRequest request)
+        private readonly IJwtManager _jwtManager;
+        private readonly IMapper _mapper;
+
+        public JwtController(IJwtManager jwtManager, IMapper mapper)
         {
-            var response = new JwtRefreshResponse
-            {
-                AccessToken =
-                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-                RefreshToken = "UGeKMA6L8YwCyY2uuoi8Iz1wrJmCcT"
-            };
-            
+            _jwtManager = jwtManager;
+            _mapper = mapper;
+        }
+
+        [HttpPost(ApiRoutes.RefreshToken.Refresh)]
+        public async Task<IActionResult> RefreshToken([FromBody] JwtRefreshRequest request)
+        {
+            var authenticationResult = await _jwtManager.RefreshTokensAsync(request.AccessToken, request.RefreshToken);
+
+            if (!authenticationResult.Succeeded)
+                return BadRequest(new ErrorResponse(authenticationResult.Errors));
+
+            var response = _mapper.Map<JwtRefreshResponse>(authenticationResult);
             return Ok(response);
         }
     }

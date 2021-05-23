@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ApplicationCore.Contract.V1.Jwt.Requests
@@ -8,6 +9,6 @@ namespace ApplicationCore.Contract.V1.Jwt.Requests
         public string AccessToken { get; set; }
 
         [Required]
-        public string RefreshToken { get; set; }
+        public Guid RefreshToken { get; set; }
     }
 }
