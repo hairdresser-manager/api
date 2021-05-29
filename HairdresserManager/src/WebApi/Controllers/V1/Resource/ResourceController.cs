@@ -34,7 +34,7 @@ namespace WebApi.Controllers.V1.Resource
                 }
             };
 
-            var resources = allResources.Skip(pagination.CountItemsToSkip()).Take(pagination.PerPage);
+            var resources = allResources.Skip(pagination.ItemsToSkip()).Take(pagination.PerPage);
             var metadata = new PaginationMetadataResponse(pagination, allResources.Count);
             Response.AddPaginationMetadataToHeaders(metadata);
 

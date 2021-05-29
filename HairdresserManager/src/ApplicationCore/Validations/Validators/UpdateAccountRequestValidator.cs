@@ -1,4 +1,3 @@
-using System;
 using ApplicationCore.Contract.V1.Account.Requests;
 using FluentValidation;
 

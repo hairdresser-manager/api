@@ -1,16 +1,10 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace ApplicationCore.Contract.V1.General.Requests
 {
     public class PaginationQueryRequest
     {
-        public int CountItemsToSkip() => PerPage * (Page - 1);
-
-        [Range(1, Int32.MaxValue)]
         public int Page { get; set; }
-        
-        [Range(1, Int32.MaxValue)]
         public int PerPage { get; set; }
+        
+        public int ItemsToSkip() => PerPage * (Page - 1);
     }
 }

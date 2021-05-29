@@ -28,7 +28,7 @@ namespace WebApi.Controllers.V1
                 new ReviewResponse {Description = "Excellent", Rate = 5, ReviewId = 8, Date = DateTime.Now.AddDays(7).ToString(), Nick = "Nemsko A."}
             };
 
-            var resources = data.Skip(pagination.CountItemsToSkip()).Take(pagination.PerPage);
+            var resources = data.Skip(pagination.ItemsToSkip()).Take(pagination.PerPage);
             var metadata = new PaginationMetadataResponse(pagination, data.Count);
             Response.AddPaginationMetadataToHeaders(metadata);
 
