@@ -1,7 +1,7 @@
 using ApplicationCore.Contract.V1.Login.Requests;
 using FluentValidation;
 
-namespace ApplicationCore.Validations
+namespace ApplicationCore.Validations.Validators
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
     {
