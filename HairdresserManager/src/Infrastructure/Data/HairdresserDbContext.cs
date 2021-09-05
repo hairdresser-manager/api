@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
 using Infrastructure.Data.Configurations;
@@ -19,21 +20,8 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder
-                .ApplyConfiguration(new AppointmentConfiguration())
-                .ApplyConfiguration(new ClientConfiguration())
-                .ApplyConfiguration(new DayOffConfiguration())
-                .ApplyConfiguration(new EmployeeConfiguration())
-                .ApplyConfiguration(new EmployeeServiceConfiguration())
-                .ApplyConfiguration(new RefreshTokenConfiguration())
-                .ApplyConfiguration(new ResourceConfiguration())
-                .ApplyConfiguration(new ResourcesCategoryConfiguration())
-                .ApplyConfiguration(new ReviewConfiguration())
-                .ApplyConfiguration(new ScheduleConfiguration())
-                .ApplyConfiguration(new ServiceConfiguration())
-                .ApplyConfiguration(new ServicesCategoryConfiguration())
-                .ApplyConfiguration(new UserConfiguration());
+            
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
             builder.Seed();
         }
