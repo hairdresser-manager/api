@@ -29,6 +29,8 @@ namespace Infrastructure
             
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IFacebookAuthService, FacebookAuthService>();
+            services.AddHttpClient();
             
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

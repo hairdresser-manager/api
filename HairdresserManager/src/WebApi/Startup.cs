@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ApplicationCore;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Settings;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +28,12 @@ namespace WebApi
         {
             services.AddInfrastructure(Configuration);
             services.AddApplication();
+            
+            var facebookAuthSettings = new FacebookAuthSettings();
+            Configuration.Bind(nameof(facebookAuthSettings), facebookAuthSettings);
 
+            services.AddSingleton(facebookAuthSettings);
+            
             services
                 .AddControllers()
                 .AddFluentValidation(configuration =>
