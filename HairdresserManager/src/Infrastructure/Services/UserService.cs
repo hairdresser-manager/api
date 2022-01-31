@@ -6,8 +6,10 @@ using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 using AutoMapper;
+using Infrastructure.Data;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -15,11 +17,13 @@ namespace Infrastructure.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
+        private readonly HairdresserDbContext _context;
 
-        public UserService(UserManager<User> userManager, IMapper mapper)
+        public UserService(UserManager<User> userManager, IMapper mapper, HairdresserDbContext context)
         {
             _userManager = userManager;
             _mapper = mapper;
+            _context = context;
         }
 
         public async Task<UserDto> GetUserDtoByEmailAsync(string email)
@@ -37,7 +41,7 @@ namespace Infrastructure.Services
         public async Task<(ServiceResult, Guid, string)> CreateUserAsync(UserDto userDto, string password)
         {
             var newUser = _mapper.Map<User>(userDto);
-            
+
             var createdUser = await _userManager.CreateAsync(newUser, password);
 
             if (!createdUser.Succeeded)
@@ -45,8 +49,31 @@ namespace Infrastructure.Services
 
             var verifyToken = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
             await _userManager.AddToRoleAsync(newUser, ApplicationCore.Entities.Role.User);
-            
+
             return (ServiceResult.Success(), newUser.Id, verifyToken);
+        }
+
+        public Task<bool> UserExistsAsync(string email)
+        {
+            return _context.Users.AnyAsync(user => user.Email == email);
+        }
+
+        public async Task<ServiceResult> CreateExternalServiceUserAsync(UserDto userDto)
+        {
+            var newUser = _mapper.Map<User>(userDto);
+            newUser.EmailConfirmed = true;
+
+            var createdUser = await _userManager.CreateAsync(newUser);
+
+            if (!createdUser.Succeeded)
+                return ServiceResult.Failure(createdUser.Errors.Select(x => x.Description));
+
+            await _userManager.AddToRoleAsync(newUser, ApplicationCore.Entities.Role.User);
+            
+            _mapper.Map(newUser, userDto);
+            userDto.Roles = new[] {ApplicationCore.Entities.Role.User};
+
+            return ServiceResult.Success();
         }
 
         public async Task<ServiceResult> UpdateUserDataAsync(string userId, UserDto userDto)
@@ -61,9 +88,11 @@ namespace Infrastructure.Services
             user.PhoneNumber = userDto.MobilePhone;
 
             var result = await _userManager.UpdateAsync(user);
-            return !result.Succeeded ? ServiceResult.Failure(result.Errors.Select(x => x.Description)) : ServiceResult.Success();
+            return !result.Succeeded
+                ? ServiceResult.Failure(result.Errors.Select(x => x.Description))
+                : ServiceResult.Success();
         }
-        
+
         public async Task<IEnumerable<string>> GetUserRolesById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);

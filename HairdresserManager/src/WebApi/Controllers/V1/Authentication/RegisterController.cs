@@ -30,7 +30,7 @@ namespace WebApi.Controllers.V1.Authentication
         [HttpPost(ApiRoutes.Register.RegisterUser)]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (await _userService.GetUserDtoByEmailAsync(request.Email) != null)
+            if (await _userService.UserExistsAsync(request.Email))
                 return BadRequest(new ErrorResponse("user already exists"));
 
             var userDto = _mapper.Map<UserDto>(request);

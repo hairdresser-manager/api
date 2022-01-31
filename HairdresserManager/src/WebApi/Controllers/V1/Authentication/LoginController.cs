@@ -15,14 +15,19 @@ namespace WebApi.Controllers.V1.Authentication
     public class LoginController : ControllerBase
     {
         private readonly IIdentityService _identityService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
         private readonly IJwtManager _jwtManager;
+        private readonly IFacebookAuthService _facebookAuthService;
 
-        public LoginController(IIdentityService identityService, IMapper mapper, IJwtManager jwtManager)
+        public LoginController(IIdentityService identityService, IMapper mapper, IJwtManager jwtManager,
+            IFacebookAuthService facebookAuthService, IUserService userService)
         {
             _identityService = identityService;
             _mapper = mapper;
             _jwtManager = jwtManager;
+            _facebookAuthService = facebookAuthService;
+            _userService = userService;
         }
 
         [HttpPost(ApiRoutes.Login.LoginUser)]
@@ -35,30 +40,43 @@ namespace WebApi.Controllers.V1.Authentication
 
             if (!userDto.EmailConfirmed)
                 return BadRequest(new ErrorResponse("email isn't verified"));
-
-            var authenticationResult = await _jwtManager.CreateAuthenticationResultAsync(userDto);
-            var response = _mapper.Map<LoginResponse>(userDto);
-            _mapper.Map(authenticationResult, response);
-
-            return Ok(response);
+            
+            return await GetAuthenticationResponseAsync(userDto);
         }
 
         [HttpPost(ApiRoutes.Login.FacebookAuth)]
-        public IActionResult FacebookAuth([FromBody] FacebookAuthRequest request)
+        public async Task<IActionResult> FacebookAuth([FromBody] FacebookAuthRequest request)
         {
-            var fakeResponse = new LoginResponse
-            {
-                AccessToken = "not-implemented-yet",
-                RefreshToken = "not-implemented-yet"
-            };
+            var facebookAuthResponse = await _facebookAuthService.AuthUserByFbTokenAsync(request.AccessToken);
 
-            return Ok(fakeResponse);
+            if (facebookAuthResponse.Success == false)
+                BadRequest(new ErrorResponse(facebookAuthResponse.ErrorMessage));
+
+            var userDto = await _userService.GetUserDtoByEmailAsync(facebookAuthResponse.Email);
+
+            if (userDto != null) 
+                return await GetAuthenticationResponseAsync(userDto);
+            
+            userDto = _mapper.Map<UserDto>(facebookAuthResponse);
+            await _userService.CreateExternalServiceUserAsync(userDto);
+
+            return await GetAuthenticationResponseAsync(userDto);
         }
 
         [HttpPost(ApiRoutes.Login.Logout)]
         public IActionResult Logout([FromBody] LogoutRequest request)
         {
             return NoContent();
+        }
+
+        private async Task<IActionResult> GetAuthenticationResponseAsync(UserDto userDto)
+        {
+            var authenticationResult = await _jwtManager.CreateAuthenticationResultAsync(userDto);
+            var response = _mapper.Map<LoginResponse>(userDto);
+            
+            _mapper.Map(authenticationResult, response);
+
+            return Ok(response);
         }
     }
 }

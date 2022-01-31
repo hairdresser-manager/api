@@ -20,4 +20,5 @@ services:
             - mssql-server
         environment: 
             ConnectionStrings:DefaultConnection: "Server= mssql-server; Database=HairdresserManagerDB; User=SA; Password=Str@ngPassword2020!"
-            
+            FacebookAuthSettings:AppId: "your-facebook-app-id"
+            FacebookAuthSettings:AppSecret: "your-facebook-app-secret"

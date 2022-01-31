@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\WebApi\WebApi.csproj", "{A0610513-5760-492C-B10C-296BFB476D70}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{199A7C11-8B33-45E0-B003-EB2B6CE0CFD4}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.yml = ..\docker-compose.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{662C9489-351A-4F1E-8560-55564437A8D5}"
 EndProject
