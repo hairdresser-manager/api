@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.Account.Requests;
+using ApplicationCore.Contract.V1.Account.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
@@ -44,10 +45,10 @@ namespace WebApi.Controllers.V1
 
         [HttpGet(ApiRoutes.Account.GetUserData)]
         public async Task<IActionResult> GetUserData()
-        {
-            //TODO: cast to response object 
+        { 
             var userDto = await _userService.GetUserDtoByIdAsync(HttpContext.GetUserId());
-            return Ok(userDto);
+            var response = _mapper.Map<GetUserDataResponse>(userDto);
+            return Ok(response);
         }
     }
 }

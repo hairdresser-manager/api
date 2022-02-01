@@ -1,3 +1,4 @@
+using ApplicationCore.Contract.V1.Account.Responses;
 using ApplicationCore.Contract.V1.Employee.Responses;
 using ApplicationCore.Contract.V1.Login.Responses;
 using ApplicationCore.Contract.V1.Offer;
@@ -6,9 +7,9 @@ using AutoMapper;
 
 namespace ApplicationCore.Mapping
 {
-    public class DtoToRequestProfile : Profile
+    public class DtoToResponseProfile : Profile
     {
-        public DtoToRequestProfile()
+        public DtoToResponseProfile()
         {
             CreateMap<UserDto, LoginResponse>();
 
@@ -22,6 +23,8 @@ namespace ApplicationCore.Mapping
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.PhoneNumber,
                     opt => opt.MapFrom(src => src.MobilePhone));
+
+            CreateMap<UserDto, GetUserDataResponse>();
         }
     }
 }
