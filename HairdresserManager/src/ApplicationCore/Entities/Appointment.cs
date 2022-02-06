@@ -11,9 +11,9 @@ namespace ApplicationCore.Entities
         public string ClientPhoneNumber { get; set; }
         public int EmployeeId { get; set; }
         public int ServiceId { get; set; }
-        public DateTime Date { get; set; }
-        public int Hour { get; set; }
-        public bool Taken { get; set; }
+        public DateTime DateUtc { get; set; }
+        public bool TookPlace { get; set; }
+        public bool Canceled { get; set; }
 
         public Client Client { get; set; }
         public Employee Employee { get; set; }
