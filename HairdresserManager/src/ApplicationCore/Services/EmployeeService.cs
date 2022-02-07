@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ApplicationCore.DTOs;
@@ -47,6 +48,12 @@ namespace ApplicationCore.Services
         public async Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync()
         {
             var employees = await _context.Employees.ToListAsync();
+            return employees == null ? null : _mapper.Map<IEnumerable<EmployeeDto>>(employees);
+        }
+
+        public async Task<IEnumerable<EmployeeDto>> GetEmployeesDtoAsync(IEnumerable<int> ids)
+        {
+            var employees = await _context.Employees.Where(employee => ids.Contains(employee.Id)).ToListAsync();
             return employees == null ? null : _mapper.Map<IEnumerable<EmployeeDto>>(employees);
         }
 
