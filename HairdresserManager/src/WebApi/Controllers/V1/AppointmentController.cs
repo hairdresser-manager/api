@@ -3,7 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1.Appointment.Requests;
 using ApplicationCore.Contract.V1.Appointment.Responses;
+using ApplicationCore.Contract.V1.General.Responses;
+using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1
@@ -13,11 +16,14 @@ namespace WebApi.Controllers.V1
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IEmployeeService _employeeService;
+        private readonly IMapper _mapper;
 
-        public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService)
+        public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService,
+            IMapper mapper)
         {
             _appointmentService = appointmentService;
             _employeeService = employeeService;
+            _mapper = mapper;
         }
 
 
@@ -64,39 +70,32 @@ namespace WebApi.Controllers.V1
         {
             return NoContent();
         }
-        
+
         [HttpGet("api/v1/appointments/available-dates")]
-        public async Task<IActionResult> GetFreeAppointmentsV2()
+        public async Task<IActionResult> GetAvailableDates([FromQuery] GetAvailableDatesQueryRequest queryRequest)
         {
-            //TODO: this code is only for demo purposes 
-            
-            var employeesDto = await _employeeService.GetEmployeesDtoAsync();
+            var employeesDto = await _employeeService.GetEmployeesDtoAsync(queryRequest.Employees);
 
-            var response = new List<AvailableEmployeeDatesResponse>();
-            
-            foreach (var employeeDto in employeesDto)
+            var notExistingEmployees =
+                queryRequest.Employees
+                    .Where(employeeId => employeesDto.All(employeeDto => employeeDto.Id != employeeId))
+                    .ToList();
+
+            if (notExistingEmployees.Any())
+                return BadRequest(new ErrorResponse("following employees don't exist: " +
+                                                    string.Join(", ", notExistingEmployees)));
+
+            var freeDatesDto = await _appointmentService.GetFreeDatesAsync(queryRequest.Employees,
+                queryRequest.StartDate,
+                queryRequest.EndDate, queryRequest.ServiceDuration);
+
+            var response = _mapper.Map<IEnumerable<FreeDateResponse>>(employeesDto);
+
+            foreach (var responseMember in response)
             {
-                var availableDates = await _appointmentService.GetFreeFutureDatesForEmployeeAsync(employeeDto.Id);
-                
-                if(!availableDates.Any())
-                    continue;
-
-                var dayHours = new List<DayDatesResponse>();
-
-                foreach (var date in availableDates)
-                {
-                    dayHours.Add(new DayDatesResponse{Date = date.Item1, Hours = date.Item2});
-                }
-                
-                var partialResponse = new AvailableEmployeeDatesResponse
-                {
-                    EmployeeId = employeeDto.Id,
-                    EmployeeName = employeeDto.Nick,
-                    EmployeeLowQualityAvatar = employeeDto.LowQualityAvatarUrl,
-                    AvailableDates = dayHours
-                };
-                
-                response.Add(partialResponse);
+                var dateHoursDto = freeDatesDto.Single(freeDate => freeDate.EmployeeId == responseMember.EmployeeId)
+                    .DateHoursDto;
+                responseMember.AvailableDates = _mapper.Map<IEnumerable<DateHoursResponse>>(dateHoursDto);
             }
 
             return Ok(response);
