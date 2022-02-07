@@ -19,8 +19,8 @@ namespace ApplicationCore.Services
             _context = context;
         }
 
-        public async Task<ICollection<FreeDateDto>> GetFreeDatesAsync(ICollection<int> employeeIds,
-            DateTime startDateUtc, DateTime endDateUtc, int serviceDuration)
+        public async Task<ICollection<FreeDateDto>> GetFreeDatesAsync(IEnumerable<int> employeeIds,
+            DateTime startDate, DateTime endDate, int serviceDuration)
         {
             var freeDates = new List<FreeDateDto>();
 
@@ -28,8 +28,8 @@ namespace ApplicationCore.Services
             {
                 var schedules = await _context.Schedules
                     .Where(schedule => schedule.EmployeeId == employeeId
-                                       && schedule.Date >= startDateUtc
-                                       && schedule.Date < endDateUtc.AddDays(1))
+                                       && schedule.Date >= startDate
+                                       && schedule.Date < endDate.AddDays(1))
                     .OrderBy(schedule => schedule.Date)
                     .AsNoTracking()
                     .ToListAsync();
@@ -51,16 +51,16 @@ namespace ApplicationCore.Services
                     .Include(appointment => appointment.Service)
                     .Where(appointment =>
                         appointment.EmployeeId == employeeId
-                        && appointment.DateUtc >= startDateUtc
-                        && appointment.DateUtc < endDateUtc.AddDays(1))
-                    .OrderBy(appointment => appointment.DateUtc)
+                        && appointment.Date >= startDate
+                        && appointment.Date < endDate.AddDays(1))
+                    .OrderBy(appointment => appointment.Date)
                     .AsNoTracking()
                     .ToListAsync();
 
                 foreach (var schedule in schedules)
                 {
                     var appointments = employeeAppointments
-                        .Where(appointment => appointment.DateUtc.Date == schedule.Date.Date)
+                        .Where(appointment => appointment.Date.Date == schedule.Date.Date)
                         .ToList();
 
                     if (appointments.Any())
@@ -96,9 +96,9 @@ namespace ApplicationCore.Services
 
             if (schedule.Date == DateTime.Today)
             {
-                var currentUtcHour = DateTime.UtcNow.ToString("HH:mm");
-                var roundedUtcHour = TimeHelper.RoundUpToQuarter(currentUtcHour);
-                startingHour = TimeHelper.AddMinutes(roundedUtcHour, 30);
+                var currentHour = DateTime.Now.ToString("HH:mm");
+                var roundedHour = TimeHelper.RoundUpToQuarter(currentHour);
+                startingHour = TimeHelper.AddMinutes(roundedHour, 30);
             }
 
             var hours = new List<string> {startingHour};
@@ -131,7 +131,7 @@ namespace ApplicationCore.Services
             foreach (var appointment in appointments)
             {
                 var appointmentDuration = appointment.Service.MaximumTime;
-                var hourToRemove = appointment.DateUtc.ToString("HH:mm");
+                var hourToRemove = appointment.Date.ToString("HH:mm");
 
                 var appointmentEndHour = TimeHelper.AddMinutes(hourToRemove, appointmentDuration);
 
@@ -184,9 +184,9 @@ namespace ApplicationCore.Services
         {
             if (date == DateTime.Today)
             {
-                var currentUtcHour = DateTime.UtcNow.ToString("HH:mm");
-                var roundedUtcHour = TimeHelper.RoundUpToQuarter(currentUtcHour);
-                startingHour = TimeHelper.AddMinutes(roundedUtcHour, 30);
+                var currentHour = DateTime.Now.ToString("HH:mm");
+                var roundedHour = TimeHelper.RoundUpToQuarter(currentHour);
+                startingHour = TimeHelper.AddMinutes(roundedHour, 30);
             }
 
             var hours = new List<string> {startingHour};

@@ -7,7 +7,7 @@ namespace ApplicationCore.Interfaces
 {
     public interface IAppointmentService
     {
-        Task<ICollection<FreeDateDto>> GetFreeDatesAsync(ICollection<int> employeeIds, DateTime startDateUtc,
-            DateTime endDateUtc, int serviceDuration);
+        Task<ICollection<FreeDateDto>> GetFreeDatesAsync(IEnumerable<int> employeeIds, DateTime startDate,
+            DateTime endDate, int serviceDuration);
     }
 }

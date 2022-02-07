@@ -15,14 +15,14 @@ namespace ApplicationCore.Validations.Validators
             RuleFor(request => request.StartDate)
                 .NotNull()
                 .GreaterThanOrEqualTo(DateTime.UtcNow.Date)
-                .WithMessage("StartDateUtc must be greater or equal to today's date");
+                .WithMessage("StartDate must be greater or equal to today's date");
 
             RuleFor(request => request.EndDate)
                 .NotNull()
                 .GreaterThanOrEqualTo(request => request.StartDate)
-                .WithMessage("EndDateUtc must be greater or equal to EndDateUtc")
+                .WithMessage("EndDate must be greater or equal to EndDate")
                 .LessThan(request => request.StartDate.AddMonths(6))
-                .WithMessage("EndDateUtc must be less than StartDateUtc + 6 months");
+                .WithMessage("EndDate must be less than StartDate + 6 months");
             
             RuleFor(request => request.ServiceDuration)
                 .NotNull()
