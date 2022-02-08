@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ApplicationCore.Entities;
 using ApplicationCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationCore.Services
 {
@@ -20,6 +21,12 @@ namespace ApplicationCore.Services
             var client = new Client {UserId = userId};
             await _context.Clients.AddAsync(client);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0;
+        }
+
+        public async Task<int> GetClientIdByUserId(Guid userId)
+        {
+            var client = await _context.Clients.SingleOrDefaultAsync(client => client.UserId == userId);
+            return client?.Id ?? 0;
         }
     }
 }
