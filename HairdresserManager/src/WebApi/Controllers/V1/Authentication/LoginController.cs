@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.General.Responses;
@@ -12,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.V1.Authentication
 {
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Authentication / Login")]
     public class LoginController : ControllerBase
     {
         private readonly IIdentityService _identityService;

@@ -2,12 +2,12 @@ using System;
 using ApplicationCore.Contract.V1;
 using ApplicationCore.Contract.V1.PasswordRecovery.Requests;
 using ApplicationCore.Contract.V1.PasswordRecovery.Responses;
-using ApplicationCore.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Authentication
 {
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Authentication / PasswordRecovery")]
     public class PasswordRecoveryController : ControllerBase
     {
         [HttpPost(ApiRoutes.PasswordRecovery.RemindPassword)]

@@ -7,10 +7,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Offer
+namespace WebApi.Controllers.V1.Admin
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+    [Route("api/v1/services")]
+    [ApiExplorerSettings(GroupName = "Admin / Services")]
     public class ServiceController : ControllerBase
     {
         private readonly IServiceCategoryService _serviceCategoryService;
@@ -25,14 +27,14 @@ namespace WebApi.Controllers.V1.Offer
             _serviceCategoryService = serviceCategoryService;
         }
 
-        [HttpGet("api/v1/services")]
+        [HttpGet]
         public async Task<IActionResult> GetServices()
         {
             var servicesDto = await _serviceService.GetServicesDtoAsync();
             return servicesDto != null ? Ok(servicesDto) : NotFound();
         }
 
-        [HttpPost("api/v1/services")]
+        [HttpPost]
         public async Task<IActionResult> CreateService([FromBody] CreateServiceRequest request)
         {
             var serviceDto = await _serviceService.GetServiceDtoByNameAsync(request.Name);
@@ -49,7 +51,7 @@ namespace WebApi.Controllers.V1.Offer
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
-        [HttpPut("api/v1/services/{serviceId}")]
+        [HttpPut("{serviceId:int}")]
         public async Task<IActionResult> UpdateService([FromRoute] int serviceId,
             [FromBody] UpdateServiceRequest request)
         {

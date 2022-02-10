@@ -6,10 +6,12 @@ using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Offer
+namespace WebApi.Controllers.V1.Admin
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+    [Route("api/v1/services/categories")]
+    [ApiExplorerSettings(GroupName = "Admin / Services")]
     public class ServiceCategoryController : ControllerBase
     {
         private readonly IServiceCategoryService _serviceCategoryService;
@@ -19,21 +21,21 @@ namespace WebApi.Controllers.V1.Offer
             _serviceCategoryService = serviceCategoryService;
         }
 
-        [HttpPost("api/v1/services/categories")]
+        [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CreateServiceCategoryRequest request)
         {
             var result = await _serviceCategoryService.CreateCategoryAsync(request.Name);
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
 
-        [HttpGet("api/v1/services/categories")]
+        [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
             var servicesCategoriesDto = await _serviceCategoryService.GetServicesCategoriesDtoAsync();
             return servicesCategoriesDto.Any() ? Ok(servicesCategoriesDto) : NotFound();
         }
 
-        [HttpPut("api/v1/services/categories/{categoryId:int}")]
+        [HttpPut("{categoryId:int}")]
         public async Task<IActionResult> UpdateCategory([FromBody] UpdateServicesCategoryRequest request,
             [FromRoute] int categoryId)
         {

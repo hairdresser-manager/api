@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Extensions;
 
-namespace WebApi.Controllers.V1
+namespace WebApi.Controllers.V1.User
 {
     [Authorize]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "User / Account")]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;

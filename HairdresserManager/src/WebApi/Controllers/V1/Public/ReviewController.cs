@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using ApplicationCore.Contract.V1.General.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
-using ApplicationCore.Contract.V1.Review.Requests;
 using ApplicationCore.Contract.V1.Review.Responses;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Extensions;
 
-namespace WebApi.Controllers.V1
+namespace WebApi.Controllers.V1.Public
 {
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Public / Reviews")]
     public class ReviewController : ControllerBase
     {
         [HttpGet("api/v1/reviews")]
@@ -33,18 +33,6 @@ namespace WebApi.Controllers.V1
             Response.AddPaginationMetadataToHeaders(metadata);
 
             return Ok(resources);
-        }
-
-        [HttpPost("api/v1/reviews")]
-        public IActionResult CreateReview([FromBody] CreateReviewRequest request)
-        {
-            return NoContent();
-        }
-
-        [HttpDelete("api/v1/reviews/{reviewId}")]
-        public IActionResult DeleteReview([FromRoute] int reviewId)
-        {
-            return NoContent();
         }
     }
 }

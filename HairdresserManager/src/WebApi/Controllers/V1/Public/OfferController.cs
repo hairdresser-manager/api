@@ -7,8 +7,11 @@ using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1
+namespace WebApi.Controllers.V1.Public
 {
+    [ApiController]
+    [Route("api/v1/offers")]
+    [ApiExplorerSettings(GroupName = "Public / Offer")]
     public class OfferController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
@@ -25,7 +28,7 @@ namespace WebApi.Controllers.V1
             _serviceService = serviceService;
         }
 
-        [HttpGet("api/v1/offers/team-members")]
+        [HttpGet("team-members")]
         public async Task<IActionResult> GetTeamMembers()
         {
             var employeesDto = await _employeeService.GetEmployeesDtoAsync();
@@ -40,7 +43,7 @@ namespace WebApi.Controllers.V1
             return Ok(response);
         }
 
-        [HttpGet("api/v1/offers/services")]
+        [HttpGet("services")]
         public async Task<IActionResult> GetServices()
         {
             var servicesDto = await _serviceService.GetServicesDtoAsync();

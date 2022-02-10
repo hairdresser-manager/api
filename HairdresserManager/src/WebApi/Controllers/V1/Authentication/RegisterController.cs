@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
-using ApplicationCore.Contract.V1.Account.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.DTOs;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.V1.Authentication
 {
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Authentication / Register")]
     public class RegisterController : ControllerBase
     {
         private readonly IUserService _userService;

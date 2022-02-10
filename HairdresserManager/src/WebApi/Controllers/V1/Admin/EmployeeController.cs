@@ -9,10 +9,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Employee
+namespace WebApi.Controllers.V1.Admin
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+    [ApiExplorerSettings(GroupName = "Admin / Employees")]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;

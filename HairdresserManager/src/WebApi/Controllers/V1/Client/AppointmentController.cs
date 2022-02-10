@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,26 +9,32 @@ using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Extensions;
 
-namespace WebApi.Controllers.V1
+namespace WebApi.Controllers.V1.Client
 {
     [ApiController]
+    [ApiExplorerSettings(GroupName = "Client / Appointments")]
+    [Route("api/v1/appointments")]
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IEmployeeService _employeeService;
+        private readonly IServiceService _serviceService;
+        private readonly IClientService _clientService;
         private readonly IMapper _mapper;
 
         public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService,
-            IMapper mapper)
+            IMapper mapper, IServiceService serviceService, IClientService clientService)
         {
             _appointmentService = appointmentService;
             _employeeService = employeeService;
             _mapper = mapper;
+            _serviceService = serviceService;
+            _clientService = clientService;
         }
 
-
-        [HttpGet("api/v1/appointments")]
+        [HttpGet]
         public IActionResult GetAppointments()
         {
             var response = new List<GetAppointmentResponse>
@@ -59,19 +66,7 @@ namespace WebApi.Controllers.V1
             return Ok(response);
         }
 
-        [HttpPost("api/v1/appointments")]
-        public IActionResult CreateAppointmentRequest([FromBody] CreateAppointmentRequest request)
-        {
-            return NoContent();
-        }
-
-        [HttpDelete("api/v1/appointments/{appointmentId}")]
-        public IActionResult DeleteAppointment([FromRoute] int appointmentId)
-        {
-            return NoContent();
-        }
-
-        [HttpGet("api/v1/appointments/available-dates")]
+        [HttpGet("available-dates")]
         public async Task<IActionResult> GetAvailableDates([FromQuery] GetAvailableDatesQueryRequest queryRequest)
         {
             var employeesDto = await _employeeService.GetEmployeesDtoAsync(queryRequest.Employees);
@@ -99,6 +94,37 @@ namespace WebApi.Controllers.V1
             }
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAppointmentRequest([FromBody] CreateAppointmentRequest request)
+        {
+            var employeeExists = await _employeeService.EmployeeExistsAsync(request.EmployeeId);
+
+            if (!employeeExists)
+                return BadRequest(new ErrorResponse("employee doesn't exist"));
+
+            var serviceDto = await _serviceService.ServiceExistsAsync(request.ServiceId);
+
+            if (!serviceDto)
+                return BadRequest(new ErrorResponse("service doesn't exist"));
+
+            var userId = Guid.Parse(HttpContext.GetUserId());
+            
+            var newAppointmentDto = _mapper.Map<AppointmentDto>(request);
+            newAppointmentDto.ClientId = await _clientService.GetClientIdByUserId(userId);
+
+            var result = await _appointmentService.CreateAppointmentAsync(newAppointmentDto);
+
+            return result.Succeeded
+                ? NoContent()
+                : BadRequest(new ErrorResponse(result.Errors));
+        }
+
+        [HttpDelete("{appointmentId:int}")]
+        public IActionResult DeleteAppointment([FromRoute] int appointmentId)
+        {
+            return NoContent();
         }
     }
 }

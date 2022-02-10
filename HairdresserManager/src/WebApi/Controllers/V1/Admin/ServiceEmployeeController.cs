@@ -5,10 +5,12 @@ using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Offer
+namespace WebApi.Controllers.V1.Admin
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+    [ApiExplorerSettings(GroupName = "Admin / Services")]
+    [Route("api/v1/services/{serviceId:int}/employees")]
     public class ServiceEmployeeController : ControllerBase
     {
         private readonly IServiceService _serviceService;
@@ -23,7 +25,7 @@ namespace WebApi.Controllers.V1.Offer
             _serviceService = serviceService;
         }
 
-        [HttpPost("api/v1/services/{serviceId:int}/employees")]
+        [HttpPost]
         public async Task<IActionResult> AddEmployeeToService([FromRoute] int serviceId,
             [FromBody] AddEmployeeToServiceRequest request)
         {
@@ -40,7 +42,7 @@ namespace WebApi.Controllers.V1.Offer
             return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
         
-        [HttpDelete("api/v1/services/{serviceId:int}/employees")]
+        [HttpDelete]
         public async Task<IActionResult> RemoveEmployeeFromService([FromRoute] int serviceId,
             [FromBody] RemoveEmployeeFromServiceRequest request)
         {
