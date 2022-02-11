@@ -37,8 +37,8 @@ namespace ApplicationCore.Services
         public async Task<ServiceResult> UpdateServiceAsync(ServiceDto serviceDto)
         {
             var service = await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceDto.Id);
-            
-            if(service == null)
+
+            if (service == null)
                 return ServiceResult.Failure("Service doesn't exist");
 
             _mapper.Map(serviceDto, service);
@@ -51,6 +51,12 @@ namespace ApplicationCore.Services
 
         public async Task<bool> ServiceExistsAsync(int serviceId) =>
             await _context.Services.AsNoTracking().FirstOrDefaultAsync(s => s.Id == serviceId) != null;
+
+        public async Task<ServiceDto> GetServiceDtoByIdAsync(int id)
+        {
+            var service = await _context.Services.AsNoTracking().SingleOrDefaultAsync(service => service.Id == id);
+            return service == null ? null : _mapper.Map<ServiceDto>(service);
+        }
 
         public async Task<IEnumerable<ServiceDto>> GetServicesDtoAsync()
         {

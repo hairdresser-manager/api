@@ -15,12 +15,6 @@ namespace Infrastructure.Mapping
                 .ForMember(dest => dest.PhoneNumber,
                     opt => opt.MapFrom(src => src.MobilePhone))
                 .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-
-            CreateMap<EmployeeDto, Employee>();
-
-            CreateMap<ServicesCategoryDto, ServicesCategory>();
-            
-            CreateMap<ServiceDto, Service>();
         }
     }
 }

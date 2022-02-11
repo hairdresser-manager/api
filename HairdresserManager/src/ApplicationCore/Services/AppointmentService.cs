@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
 using ApplicationCore.Helpers;
 using ApplicationCore.Interfaces;
+using ApplicationCore.Results;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApplicationCore.Services
@@ -13,10 +16,12 @@ namespace ApplicationCore.Services
     public class AppointmentService : IAppointmentService
     {
         private readonly IHairdresserDbContext _context;
+        private readonly IMapper _mapper;
 
-        public AppointmentService(IHairdresserDbContext context)
+        public AppointmentService(IHairdresserDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<ICollection<FreeDateDto>> GetFreeDatesAsync(IEnumerable<int> employeeIds,
@@ -83,6 +88,46 @@ namespace ApplicationCore.Services
             }
 
             return freeDates;
+        }
+
+        public async Task<ServiceResult> CreateAppointmentAsync(AppointmentDto appointmentDto)
+        {
+            var service =
+                await _context.Services
+                    .AsNoTracking()
+                    .SingleOrDefaultAsync(service => service.Id == appointmentDto.ServiceId);
+
+            if (!await CanCreateAppointmentAsync(appointmentDto.EmployeeId, service.MaximumTime, appointmentDto.Date))
+                return ServiceResult.Failure("Can't create appointment at " + appointmentDto.Date);
+
+            var newAppointment = _mapper.Map<Appointment>(appointmentDto);
+
+            await _context.Appointments.AddAsync(newAppointment);
+            await _context.SaveChangesAsync(new CancellationToken());
+            return ServiceResult.Success();
+        }
+
+        private async Task<bool> CanCreateAppointmentAsync(int employeeId, int duration, DateTime date)
+        {
+            var schedule = await _context.Schedules
+                .FirstOrDefaultAsync(schedule => schedule.EmployeeId == employeeId && schedule.Date.Date == date.Date);
+
+            if (schedule == null)
+                return false;
+
+            if (!(TimeHelper.IsGreaterOrEqualThan(date.ToString("HH:mm"), schedule.StartingHour) && 
+                TimeHelper.IsLessOrEqualThan(date.AddMinutes(duration).ToString("HH:mm"), schedule.EndingHour)))
+                return false;
+
+            var isAvailableDate = !await _context.Appointments.Where(appointment =>
+                    appointment.EmployeeId == employeeId &&
+                    ((appointment.Date <= date &&
+                      appointment.Date.AddMinutes(appointment.Service.MaximumTime) > date) ||
+                     appointment.Date < date.AddMinutes(duration) &&
+                     appointment.Date.AddMinutes(appointment.Service.MaximumTime) >= date.AddMinutes(duration)))
+                .AnyAsync();
+
+            return isAvailableDate;
         }
 
         private static DateHoursDto GenerateDateHours(Schedule schedule, int serviceDuration)

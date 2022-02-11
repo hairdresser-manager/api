@@ -14,9 +14,8 @@ namespace ApplicationCore.Validations.Validators
                 .NotEmpty();
             
             RuleFor(request => request.Date)
-                .NotEmpty();
-            
-            RuleFor(request => request.Hour)
+                .Must(date => date.Minute % 15 == 0)
+                .WithMessage("Minute must be divisible by 15")
                 .NotEmpty();
         }
     }

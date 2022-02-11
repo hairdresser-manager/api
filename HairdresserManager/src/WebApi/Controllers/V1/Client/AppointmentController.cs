@@ -8,14 +8,16 @@ using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Extensions;
 
 namespace WebApi.Controllers.V1.Client
 {
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Client / Appointments")]
+    [Authorize(Roles = "User")]
     [Route("api/v1/appointments")]
+    [ApiExplorerSettings(GroupName = "Client / Appointments")]
     public class AppointmentController : ControllerBase
     {
         private readonly IAppointmentService _appointmentService;
@@ -32,38 +34,6 @@ namespace WebApi.Controllers.V1.Client
             _mapper = mapper;
             _serviceService = serviceService;
             _clientService = clientService;
-        }
-
-        [HttpGet]
-        public IActionResult GetAppointments()
-        {
-            var response = new List<GetAppointmentResponse>
-            {
-                new()
-                {
-                    AppointmentId = 1, Date = "05.01.2020", Hour = "09:00", EmployeeName = "Bartosh",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Hair cutting", Rated = false
-                },
-                new()
-                {
-                    AppointmentId = 2, Date = "04.12.2019", Hour = "19:15", EmployeeName = "Bart",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Hair colored", Rated = false
-                },
-                new()
-                {
-                    AppointmentId = 3, Date = "10.11.2021", Hour = "11:30", EmployeeName = "Osh",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Beard cutting", Rated = true
-                }
-            };
-
-
-            return Ok(response);
         }
 
         [HttpGet("available-dates")]
@@ -104,13 +74,13 @@ namespace WebApi.Controllers.V1.Client
             if (!employeeExists)
                 return BadRequest(new ErrorResponse("employee doesn't exist"));
 
-            var serviceDto = await _serviceService.ServiceExistsAsync(request.ServiceId);
+            var serviceExists = await _serviceService.ServiceExistsAsync(request.ServiceId);
 
-            if (!serviceDto)
+            if (!serviceExists)
                 return BadRequest(new ErrorResponse("service doesn't exist"));
 
             var userId = Guid.Parse(HttpContext.GetUserId());
-            
+
             var newAppointmentDto = _mapper.Map<AppointmentDto>(request);
             newAppointmentDto.ClientId = await _clientService.GetClientIdByUserId(userId);
 
@@ -119,6 +89,38 @@ namespace WebApi.Controllers.V1.Client
             return result.Succeeded
                 ? NoContent()
                 : BadRequest(new ErrorResponse(result.Errors));
+        }
+
+        [HttpGet]
+        public IActionResult GetAppointments()
+        {
+            var response = new List<GetAppointmentResponse>
+            {
+                new()
+                {
+                    AppointmentId = 1, Date = "05.01.2020", Hour = "09:00", EmployeeName = "Bartosh",
+                    EmployeeLowQualityAvatar =
+                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
+                    ServiceName = "Hair cutting", Rated = false
+                },
+                new()
+                {
+                    AppointmentId = 2, Date = "04.12.2019", Hour = "19:15", EmployeeName = "Bart",
+                    EmployeeLowQualityAvatar =
+                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
+                    ServiceName = "Hair colored", Rated = false
+                },
+                new()
+                {
+                    AppointmentId = 3, Date = "10.11.2021", Hour = "11:30", EmployeeName = "Osh",
+                    EmployeeLowQualityAvatar =
+                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
+                    ServiceName = "Beard cutting", Rated = true
+                }
+            };
+
+
+            return Ok(response);
         }
 
         [HttpDelete("{appointmentId:int}")]
