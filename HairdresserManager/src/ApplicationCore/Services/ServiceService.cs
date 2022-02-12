@@ -52,6 +52,12 @@ namespace ApplicationCore.Services
         public async Task<bool> ServiceExistsAsync(int serviceId) =>
             await _context.Services.AsNoTracking().FirstOrDefaultAsync(s => s.Id == serviceId) != null;
 
+        public async Task<bool> EmployeeAssignedToServiceAsync(int employeeId, int serviceId)
+            => await _context.Services.Where(service =>
+                    service.Id == serviceId &&
+                    service.EmployeeServices.Any(es => es.Id == employeeId))
+                .AnyAsync();
+
         public async Task<ServiceDto> GetServiceDtoByIdAsync(int id)
         {
             var service = await _context.Services.AsNoTracking().SingleOrDefaultAsync(service => service.Id == id);

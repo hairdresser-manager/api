@@ -69,15 +69,11 @@ namespace WebApi.Controllers.V1.Client
         [HttpPost]
         public async Task<IActionResult> CreateAppointmentRequest([FromBody] CreateAppointmentRequest request)
         {
-            var employeeExists = await _employeeService.EmployeeExistsAsync(request.EmployeeId);
+            var employeeAssignedToService =
+                await _serviceService.EmployeeAssignedToServiceAsync(request.EmployeeId, request.ServiceId);
 
-            if (!employeeExists)
-                return BadRequest(new ErrorResponse("employee doesn't exist"));
-
-            var serviceExists = await _serviceService.ServiceExistsAsync(request.ServiceId);
-
-            if (!serviceExists)
-                return BadRequest(new ErrorResponse("service doesn't exist"));
+            if (!employeeAssignedToService)
+                return BadRequest(new ErrorResponse("Employee isn't assigned to service"));
 
             var userId = Guid.Parse(HttpContext.GetUserId());
 

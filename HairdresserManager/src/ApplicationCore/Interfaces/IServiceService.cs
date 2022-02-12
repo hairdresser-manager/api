@@ -13,5 +13,6 @@ namespace ApplicationCore.Interfaces
         Task<ServiceResult> CreateServiceAsync(ServiceDto serviceDto);
         Task<ServiceResult> UpdateServiceAsync(ServiceDto serviceDto);
         Task<bool> ServiceExistsAsync(int serviceId);
+        Task<bool> EmployeeAssignedToServiceAsync(int employeeId, int serviceId);
     }
 }
