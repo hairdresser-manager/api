@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using ApplicationCore.Contract.V1.EmployeeService;
+using ApplicationCore.Contract.V1.Admin.EmployeeService;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;

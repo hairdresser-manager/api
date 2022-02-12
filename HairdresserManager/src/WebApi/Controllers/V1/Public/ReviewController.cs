@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ApplicationCore.Contract.V1.Client.Review.Responses;
 using ApplicationCore.Contract.V1.General.Requests;
 using ApplicationCore.Contract.V1.General.Responses;
-using ApplicationCore.Contract.V1.Review.Responses;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Extensions;
 

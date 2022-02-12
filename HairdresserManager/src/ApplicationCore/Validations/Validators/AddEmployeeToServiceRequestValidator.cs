@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.EmployeeService;
+using ApplicationCore.Contract.V1.Admin.EmployeeService;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

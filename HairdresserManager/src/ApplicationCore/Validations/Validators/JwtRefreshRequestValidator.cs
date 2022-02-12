@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.Jwt.Requests;
+using ApplicationCore.Contract.V1.Authentication.Jwt.Requests;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

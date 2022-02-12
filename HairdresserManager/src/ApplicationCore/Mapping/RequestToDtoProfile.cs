@@ -1,9 +1,9 @@
-using ApplicationCore.Contract.V1.Account.Requests;
+using ApplicationCore.Contract.V1.Admin.Employee.Requests;
+using ApplicationCore.Contract.V1.Admin.Service.Requests;
+using ApplicationCore.Contract.V1.Admin.ServiceCategory;
+using ApplicationCore.Contract.V1.Authentication.Register.Requests;
 using ApplicationCore.Contract.V1.Client.Appointment.Requests;
-using ApplicationCore.Contract.V1.Employee.Requests;
-using ApplicationCore.Contract.V1.Register.Requests;
-using ApplicationCore.Contract.V1.Service.Requests;
-using ApplicationCore.Contract.V1.ServiceCategory;
+using ApplicationCore.Contract.V1.User.Account.Requests;
 using ApplicationCore.DTOs;
 using AutoMapper;
 

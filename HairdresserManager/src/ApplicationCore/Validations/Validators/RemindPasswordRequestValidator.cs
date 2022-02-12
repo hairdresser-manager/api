@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.PasswordRecovery.Requests;
+using ApplicationCore.Contract.V1.Authentication.PasswordRecovery.Requests;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

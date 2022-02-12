@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
-using ApplicationCore.Contract.V1.Account.Requests;
-using ApplicationCore.Contract.V1.Account.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
+using ApplicationCore.Contract.V1.User.Account.Requests;
+using ApplicationCore.Contract.V1.User.Account.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;

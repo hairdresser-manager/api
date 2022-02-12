@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.Login.Requests;
+using ApplicationCore.Contract.V1.Authentication.Login.Requests;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
-using ApplicationCore.Contract.V1.Employee.Requests;
-using ApplicationCore.Contract.V1.Employee.Responses;
+using ApplicationCore.Contract.V1.Admin.Employee.Requests;
+using ApplicationCore.Contract.V1.Admin.Employee.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.Interfaces;
 using AutoMapper;

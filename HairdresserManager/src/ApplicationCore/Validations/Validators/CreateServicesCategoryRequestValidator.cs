@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.ServiceCategory;
+using ApplicationCore.Contract.V1.Admin.ServiceCategory;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

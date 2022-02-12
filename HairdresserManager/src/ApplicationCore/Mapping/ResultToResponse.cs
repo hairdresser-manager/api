@@ -1,5 +1,5 @@
-using ApplicationCore.Contract.V1.Jwt.Responses;
-using ApplicationCore.Contract.V1.Login.Responses;
+using ApplicationCore.Contract.V1.Authentication.Jwt.Responses;
+using ApplicationCore.Contract.V1.Authentication.Login.Responses;
 using ApplicationCore.Results;
 using AutoMapper;
 

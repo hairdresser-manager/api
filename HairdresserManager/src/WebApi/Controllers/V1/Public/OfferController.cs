@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationCore.Contract.V1.Offer;
+using ApplicationCore.Contract.V1.Public.Offer;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;

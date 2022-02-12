@@ -1,8 +1,8 @@
-using ApplicationCore.Contract.V1.Account.Responses;
+using ApplicationCore.Contract.V1.Admin.Employee.Responses;
+using ApplicationCore.Contract.V1.Authentication.Login.Responses;
 using ApplicationCore.Contract.V1.Client.Appointment.Responses;
-using ApplicationCore.Contract.V1.Employee.Responses;
-using ApplicationCore.Contract.V1.Login.Responses;
-using ApplicationCore.Contract.V1.Offer;
+using ApplicationCore.Contract.V1.Public.Offer;
+using ApplicationCore.Contract.V1.User.Account.Responses;
 using ApplicationCore.DTOs;
 using AutoMapper;
 

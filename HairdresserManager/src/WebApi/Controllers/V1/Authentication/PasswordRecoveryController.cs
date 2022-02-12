@@ -1,7 +1,7 @@
 using System;
 using ApplicationCore.Contract.V1;
-using ApplicationCore.Contract.V1.PasswordRecovery.Requests;
-using ApplicationCore.Contract.V1.PasswordRecovery.Responses;
+using ApplicationCore.Contract.V1.Authentication.PasswordRecovery.Requests;
+using ApplicationCore.Contract.V1.Authentication.PasswordRecovery.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.V1.Authentication

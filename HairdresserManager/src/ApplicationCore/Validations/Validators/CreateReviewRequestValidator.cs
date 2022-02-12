@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.Review.Requests;
+using ApplicationCore.Contract.V1.Client.Review.Requests;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

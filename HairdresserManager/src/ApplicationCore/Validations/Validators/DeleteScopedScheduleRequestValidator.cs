@@ -1,4 +1,4 @@
-using ApplicationCore.Contract.V1.Schedule;
+using ApplicationCore.Contract.V1.Admin.Schedule;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
+using ApplicationCore.Contract.V1.Authentication.Jwt.Requests;
+using ApplicationCore.Contract.V1.Authentication.Jwt.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
-using ApplicationCore.Contract.V1.Jwt.Requests;
-using ApplicationCore.Contract.V1.Jwt.Responses;
 using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

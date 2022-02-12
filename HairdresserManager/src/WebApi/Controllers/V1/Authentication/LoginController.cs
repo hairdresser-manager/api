@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1;
+using ApplicationCore.Contract.V1.Authentication.Login.Requests;
+using ApplicationCore.Contract.V1.Authentication.Login.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
-using ApplicationCore.Contract.V1.Login.Requests;
-using ApplicationCore.Contract.V1.Login.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;
