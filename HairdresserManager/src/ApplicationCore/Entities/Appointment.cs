@@ -12,7 +12,7 @@ namespace ApplicationCore.Entities
         public int EmployeeId { get; set; }
         public int ServiceId { get; set; }
         public DateTime Date { get; set; }
-        public bool TookPlace { get; set; }
+        public bool ClientDidntShowUp { get; set; }
         public bool Canceled { get; set; }
 
         public Client Client { get; set; }
