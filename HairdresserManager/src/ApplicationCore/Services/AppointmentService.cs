@@ -133,11 +133,14 @@ namespace ApplicationCore.Services
             if (appointment == null)
                 return ServiceResult.Failure("Appointment doesn't exist");
             
-            if(appointment.Canceled)
-                return ServiceResult.Failure("Appointment already canceld");
-
             if (appointment.Client.UserId != userId)
                 return ServiceResult.Failure("You can't manipulate this appointment");
+            
+            if(appointment.Canceled)
+                return ServiceResult.Failure("Appointment already canceled");
+            
+            if(appointment.Date >= DateTime.Now)
+                return ServiceResult.Failure("You can't cancel past appointment");
 
             appointment.Canceled = true;
             _context.Appointments.Update(appointment);
