@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ApplicationCore.Contract.V1.Appointment.Responses
+namespace ApplicationCore.Contract.V1.Client.Appointment.Responses
 {
     public class FreeDateResponse
     {

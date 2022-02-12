@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ApplicationCore.Contract.V1.Appointment.Requests
+namespace ApplicationCore.Contract.V1.Client.Appointment.Requests
 {
     public class GetAvailableDatesQueryRequest
     {
