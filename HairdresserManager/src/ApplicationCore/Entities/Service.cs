@@ -14,7 +14,6 @@ namespace ApplicationCore.Entities
         public int CategoryId { get; set; }
 
         public ServicesCategory Category { get; set; }
-        public ICollection<Review> Reviews { get; set; }
         public ICollection<Appointment> Appointments  { get; set; }
         public ICollection<EmployeeService> EmployeeServices { get; set; }
     }

@@ -15,7 +15,6 @@ namespace ApplicationCore.Entities
         
         public ICollection<Appointment> Appointments { get; set; }
         public ICollection<Schedule> Schedules { get; set; }
-        public ICollection<Review> Reviews { get; set; }
         public ICollection<EmployeeService> EmployeeServices { get; set; }
     }
 }

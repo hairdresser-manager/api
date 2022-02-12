@@ -18,5 +18,6 @@ namespace ApplicationCore.Entities
         public Client Client { get; set; }
         public Employee Employee { get; set; }
         public Service Service { get; set; }
+        public Review Review { get; set; }
     }
 }
