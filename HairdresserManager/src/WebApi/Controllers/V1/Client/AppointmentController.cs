@@ -95,9 +95,20 @@ namespace WebApi.Controllers.V1.Client
         public async Task<IActionResult> GetAppointments()
         {
             var userId = Guid.Parse(HttpContext.GetUserId());
-            var appointmentDtos = await _appointmentService.GetAppointmentDetailsDtosByUserId(userId);
-            
-            return appointmentDtos.Any() ? Ok(_mapper.Map<IEnumerable<GetAppointmentListMemberResponse>>(appointmentDtos)) : NoContent();
+            var appointmentDtos = await _appointmentService.GetAppointmentDetailsDtosByUserIdAsync(userId);
+
+            return appointmentDtos.Any()
+                ? Ok(_mapper.Map<IEnumerable<GetAppointmentListMemberResponse>>(appointmentDtos))
+                : NoContent();
+        }
+
+        [HttpDelete("{appointmentId:int}")]
+        public async Task<IActionResult> CancelAppointment([FromRoute] int appointmentId)
+        {
+            var userId = Guid.Parse(HttpContext.GetUserId());
+            var result = await _appointmentService.CancelUserAppointmentByIdAsync(userId, appointmentId);
+
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
     }
 }

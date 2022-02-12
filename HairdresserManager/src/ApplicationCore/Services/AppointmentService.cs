@@ -110,7 +110,8 @@ namespace ApplicationCore.Services
             return ServiceResult.Success();
         }
 
-        public async Task<IEnumerable<AppointmentEmployeeDetailsDto>> GetAppointmentDetailsDtosByUserId(Guid userId)
+        public async Task<IEnumerable<AppointmentEmployeeDetailsDto>> GetAppointmentDetailsDtosByUserIdAsync(
+            Guid userId)
         {
             var user = await _userService.GetUserDtoByIdAsync(userId.ToString());
             var appointments = await _context.Appointments
@@ -121,6 +122,27 @@ namespace ApplicationCore.Services
                 .ToListAsync();
 
             return appointments.Any() ? _mapper.Map<IEnumerable<AppointmentEmployeeDetailsDto>>(appointments) : null;
+        }
+
+        public async Task<ServiceResult> CancelUserAppointmentByIdAsync(Guid userId, int appointmentId)
+        {
+            var appointment = await _context.Appointments
+                .Include(appointment => appointment.Client)
+                .SingleOrDefaultAsync(appointment => appointment.Id == appointmentId);
+
+            if (appointment == null)
+                return ServiceResult.Failure("Appointment doesn't exist");
+            
+            if(appointment.Canceled)
+                return ServiceResult.Failure("Appointment already canceld");
+
+            if (appointment.Client.UserId != userId)
+                return ServiceResult.Failure("You can't manipulate this appointment");
+
+            appointment.Canceled = true;
+            _context.Appointments.Update(appointment);
+            await _context.SaveChangesAsync(new CancellationToken());
+            return ServiceResult.Success();
         }
 
         private async Task<bool> CanCreateAppointmentAsync(int employeeId, int duration, DateTime date)
