@@ -1,5 +1,5 @@
 using ApplicationCore.Contract.V1.Account.Responses;
-using ApplicationCore.Contract.V1.Appointment.Responses;
+using ApplicationCore.Contract.V1.Client.Appointment.Responses;
 using ApplicationCore.Contract.V1.Employee.Responses;
 using ApplicationCore.Contract.V1.Login.Responses;
 using ApplicationCore.Contract.V1.Offer;
@@ -41,6 +41,8 @@ namespace ApplicationCore.Mapping
 
             CreateMap<DateHoursDto, DateHoursResponse>()
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-dd")));
+
+            CreateMap<AppointmentEmployeeDetailsDto, GetAppointmentListMemberResponse>();
         }
     }
 }

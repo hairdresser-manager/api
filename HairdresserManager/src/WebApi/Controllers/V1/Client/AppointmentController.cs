@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ApplicationCore.Contract.V1.Appointment.Requests;
-using ApplicationCore.Contract.V1.Appointment.Responses;
+using ApplicationCore.Contract.V1.Client.Appointment.Requests;
+using ApplicationCore.Contract.V1.Client.Appointment.Responses;
 using ApplicationCore.Contract.V1.General.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
@@ -92,41 +92,12 @@ namespace WebApi.Controllers.V1.Client
         }
 
         [HttpGet]
-        public IActionResult GetAppointments()
+        public async Task<IActionResult> GetAppointments()
         {
-            var response = new List<GetAppointmentResponse>
-            {
-                new()
-                {
-                    AppointmentId = 1, Date = "05.01.2020", Hour = "09:00", EmployeeName = "Bartosh",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Hair cutting", Rated = false
-                },
-                new()
-                {
-                    AppointmentId = 2, Date = "04.12.2019", Hour = "19:15", EmployeeName = "Bart",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Hair colored", Rated = false
-                },
-                new()
-                {
-                    AppointmentId = 3, Date = "10.11.2021", Hour = "11:30", EmployeeName = "Osh",
-                    EmployeeLowQualityAvatar =
-                        "https://images.chesscomfiles.com/uploads/v1/master_player/e4a20096-88e9-11eb-94e3-39aa30591f7c.1fdbd8e5.250x250o.1413e8d0bb72.jpeg",
-                    ServiceName = "Beard cutting", Rated = true
-                }
-            };
-
-
-            return Ok(response);
-        }
-
-        [HttpDelete("{appointmentId:int}")]
-        public IActionResult DeleteAppointment([FromRoute] int appointmentId)
-        {
-            return NoContent();
+            var userId = Guid.Parse(HttpContext.GetUserId());
+            var appointmentDtos = await _appointmentService.GetAppointmentDetailsDtosByUserId(userId);
+            
+            return appointmentDtos.Any() ? Ok(_mapper.Map<IEnumerable<GetAppointmentListMemberResponse>>(appointmentDtos)) : NoContent();
         }
     }
 }

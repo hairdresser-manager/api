@@ -1,5 +1,5 @@
 using System;
-using ApplicationCore.Contract.V1.Appointment.Requests;
+using ApplicationCore.Contract.V1.Client.Appointment.Requests;
 using FluentValidation;
 
 namespace ApplicationCore.Validations.Validators

@@ -1,5 +1,5 @@
 using ApplicationCore.Contract.V1.Account.Requests;
-using ApplicationCore.Contract.V1.Appointment.Requests;
+using ApplicationCore.Contract.V1.Client.Appointment.Requests;
 using ApplicationCore.Contract.V1.Employee.Requests;
 using ApplicationCore.Contract.V1.Register.Requests;
 using ApplicationCore.Contract.V1.Service.Requests;

@@ -17,11 +17,13 @@ namespace ApplicationCore.Services
     {
         private readonly IHairdresserDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public AppointmentService(IHairdresserDbContext context, IMapper mapper)
+        public AppointmentService(IHairdresserDbContext context, IMapper mapper, IUserService userService)
         {
             _context = context;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<ICollection<FreeDateDto>> GetFreeDatesAsync(IEnumerable<int> employeeIds,
@@ -56,6 +58,7 @@ namespace ApplicationCore.Services
                     .Include(appointment => appointment.Service)
                     .Where(appointment =>
                         appointment.EmployeeId == employeeId
+                        && appointment.Canceled == false
                         && appointment.Date >= startDate
                         && appointment.Date < endDate.AddDays(1))
                     .OrderBy(appointment => appointment.Date)
@@ -107,6 +110,19 @@ namespace ApplicationCore.Services
             return ServiceResult.Success();
         }
 
+        public async Task<IEnumerable<AppointmentEmployeeDetailsDto>> GetAppointmentDetailsDtosByUserId(Guid userId)
+        {
+            var user = await _userService.GetUserDtoByIdAsync(userId.ToString());
+            var appointments = await _context.Appointments
+                .Include(appointment => appointment.Employee)
+                .Include(appointment => appointment.Review)
+                .Include(appointment => appointment.Service)
+                .Where(appointment => appointment.Client.UserId == userId || appointment.ClientEmail == user.Email)
+                .ToListAsync();
+
+            return appointments.Any() ? _mapper.Map<IEnumerable<AppointmentEmployeeDetailsDto>>(appointments) : null;
+        }
+
         private async Task<bool> CanCreateAppointmentAsync(int employeeId, int duration, DateTime date)
         {
             var schedule = await _context.Schedules
@@ -115,12 +131,13 @@ namespace ApplicationCore.Services
             if (schedule == null)
                 return false;
 
-            if (!(TimeHelper.IsGreaterOrEqualThan(date.ToString("HH:mm"), schedule.StartingHour) && 
-                TimeHelper.IsLessOrEqualThan(date.AddMinutes(duration).ToString("HH:mm"), schedule.EndingHour)))
+            if (!(TimeHelper.IsGreaterOrEqualThan(date.ToString("HH:mm"), schedule.StartingHour) &&
+                  TimeHelper.IsLessOrEqualThan(date.AddMinutes(duration).ToString("HH:mm"), schedule.EndingHour)))
                 return false;
 
             var isAvailableDate = !await _context.Appointments.Where(appointment =>
                     appointment.EmployeeId == employeeId &&
+                    appointment.Canceled == false &&
                     ((appointment.Date <= date &&
                       appointment.Date.AddMinutes(appointment.Service.MaximumTime) > date) ||
                      appointment.Date < date.AddMinutes(duration) &&

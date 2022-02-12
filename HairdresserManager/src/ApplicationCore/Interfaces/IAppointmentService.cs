@@ -11,5 +11,6 @@ namespace ApplicationCore.Interfaces
         Task<ICollection<FreeDateDto>> GetFreeDatesAsync(IEnumerable<int> employeeIds, DateTime startDate,
             DateTime endDate, int serviceDuration);
         Task<ServiceResult> CreateAppointmentAsync(AppointmentDto appointmentDto);
+        Task<IEnumerable<AppointmentEmployeeDetailsDto>> GetAppointmentDetailsDtosByUserId(Guid userId);
     }
 }
