@@ -10,7 +10,7 @@ namespace ApplicationCore.Validations.Validators
             RuleFor(request => request.Name)
                 .NotEmpty()
                 .MinimumLength(2)
-                .MaximumLength(30);
+                .MaximumLength(50);
 
             RuleFor(request => request.CategoryId)
                 .NotEmpty()
@@ -23,17 +23,20 @@ namespace ApplicationCore.Validations.Validators
 
             RuleFor(request => request.MinimumTime)
                 .NotEmpty()
-                .GreaterThan(9);
+                .Must(minimumTime => minimumTime % 15 == 0)
+                .WithMessage("MinimumTime must be divisible by 15")
+                .GreaterThan(0);
 
             RuleFor(request => request.MaximumTime)
                 .NotEmpty()
-                .GreaterThan(9)
-                .GreaterThan(request => request.MinimumTime)
-                .LessThan(500);
+                .Must(maximumTime => maximumTime % 15 == 0)
+                .WithMessage("MaximumTime must be divisible by 15")
+                .GreaterThanOrEqualTo(request => request.MinimumTime)
+                .WithMessage("MaximumTime must be greater or equal to MinimumTime")
+                .LessThan(1440);
 
             RuleFor(request => request.Price)
                 .GreaterThan(0)
-                .LessThan(999999)
                 .NotEmpty();
 
             RuleFor(request => request.Available)
