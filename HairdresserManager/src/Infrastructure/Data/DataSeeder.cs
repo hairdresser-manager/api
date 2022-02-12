@@ -11,10 +11,10 @@ namespace Infrastructure.Data
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            var userRole = new Role {Id = Guid.NewGuid(), Name = "User", NormalizedName = "User"};
-            var employeeRole = new Role {Id = Guid.NewGuid(), Name = "Employee", NormalizedName = "Employee"};
+            var userRole = new Role {Id = new Guid("2F297D12-C986-455B-BBDB-7F696A809AAA"), Name = "User", NormalizedName = "User"};
+            var employeeRole = new Role {Id = new Guid("93A1489D-F4F7-4B33-A755-6C816A467AD3"), Name = "Employee", NormalizedName = "Employee"};
             var administratorRole = new Role
-                {Id = Guid.NewGuid(), Name = "Admin", NormalizedName = "Admin"};
+                {Id = new Guid("923C4E38-537B-4ABA-8261-742F5C5DF9B9"), Name = "Admin", NormalizedName = "Admin"};
 
             modelBuilder.Entity<Role>().HasData(
                 userRole, employeeRole, administratorRole
