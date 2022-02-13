@@ -1,9 +1,11 @@
 using ApplicationCore.Contract.V1.Admin.Employee.Responses;
 using ApplicationCore.Contract.V1.Authentication.Login.Responses;
 using ApplicationCore.Contract.V1.Client.Appointment.Responses;
+using ApplicationCore.Contract.V1.Employee.Appointment.Responses;
 using ApplicationCore.Contract.V1.Public.Offer;
 using ApplicationCore.Contract.V1.User.Account.Responses;
 using ApplicationCore.DTOs;
+using ApplicationCore.Entities;
 using AutoMapper;
 
 namespace ApplicationCore.Mapping
@@ -43,6 +45,8 @@ namespace ApplicationCore.Mapping
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-dd")));
 
             CreateMap<AppointmentEmployeeDetailsDto, GetAppointmentListMemberResponse>();
+
+            CreateMap<AppointmentClientDetailsDto, GetAppointmentsListItemResponse>();
         }
     }
 }

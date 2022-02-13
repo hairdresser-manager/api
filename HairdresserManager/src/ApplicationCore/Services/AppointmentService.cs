@@ -132,20 +132,30 @@ namespace ApplicationCore.Services
 
             if (appointment == null)
                 return ServiceResult.Failure("Appointment doesn't exist");
-            
+
             if (appointment.Client.UserId != userId)
                 return ServiceResult.Failure("You can't manipulate this appointment");
-            
-            if(appointment.Canceled)
+
+            if (appointment.Canceled)
                 return ServiceResult.Failure("Appointment already canceled");
-            
-            if(appointment.Date >= DateTime.Now)
+
+            if (appointment.Date >= DateTime.Now)
                 return ServiceResult.Failure("You can't cancel past appointment");
 
             appointment.Canceled = true;
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync(new CancellationToken());
             return ServiceResult.Success();
+        }
+
+        public async Task<IEnumerable<AppointmentClientDetailsDto>> GetAppointmentDetailsDtosByEmployeeIdAsync(
+            DateTime date, int employeeId)
+        {
+            var appointments = await _context.AppointmentClientDetailsView
+                .Where(appointment => appointment.EmployeeId == employeeId && appointment.Date.Date == date.Date)
+                .ToListAsync();
+
+            return _mapper.Map<IEnumerable<AppointmentClientDetailsDto>>(appointments);
         }
 
         private async Task<bool> CanCreateAppointmentAsync(int employeeId, int duration, DateTime date)

@@ -20,8 +20,4 @@
       </Reference>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Contract\V1\Employee" />
-    </ItemGroup>
-
 </Project>
