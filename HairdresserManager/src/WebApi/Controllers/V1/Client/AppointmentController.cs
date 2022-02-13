@@ -36,36 +36,6 @@ namespace WebApi.Controllers.V1.Client
             _clientService = clientService;
         }
 
-        [HttpGet("available-dates")]
-        public async Task<IActionResult> GetAvailableDates([FromQuery] GetAvailableDatesQueryRequest queryRequest)
-        {
-            var employeesDto = await _employeeService.GetEmployeesDtoAsync(queryRequest.Employees);
-
-            var notExistingEmployees =
-                queryRequest.Employees
-                    .Where(employeeId => employeesDto.All(employeeDto => employeeDto.Id != employeeId))
-                    .ToList();
-
-            if (notExistingEmployees.Any())
-                return BadRequest(new ErrorResponse("following employees don't exist: " +
-                                                    string.Join(", ", notExistingEmployees)));
-
-            var freeDatesDto = await _appointmentService.GetFreeDatesAsync(queryRequest.Employees,
-                queryRequest.StartDate,
-                queryRequest.EndDate, queryRequest.ServiceDuration);
-
-            var response = _mapper.Map<IEnumerable<FreeDateResponse>>(employeesDto);
-
-            foreach (var responseMember in response)
-            {
-                var dateHoursDto = freeDatesDto.Single(freeDate => freeDate.EmployeeId == responseMember.EmployeeId)
-                    .DateHoursDto;
-                responseMember.AvailableDates = _mapper.Map<IEnumerable<DateHoursResponse>>(dateHoursDto);
-            }
-
-            return Ok(response);
-        }
-
         [HttpPost]
         public async Task<IActionResult> CreateAppointmentRequest([FromBody] CreateAppointmentRequest request)
         {

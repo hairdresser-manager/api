@@ -7,10 +7,10 @@ using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Authentication
+namespace WebApi.Controllers.V1.Public
 {
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Authentication / Register")]
+    [ApiExplorerSettings(GroupName = "Public / Authentication / Register")]
     public class RegisterController : ControllerBase
     {
         private readonly IUserService _userService;

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApplicationCore.Contract.V1.Employee.Appointment.Requests;
 using ApplicationCore.Contract.V1.Employee.Appointment.Responses;
 using ApplicationCore.Interfaces;
 using AutoMapper;
@@ -40,8 +41,9 @@ namespace WebApi.Controllers.V1.Employee
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment()
+        public async Task<IActionResult> CreateAppointment([FromBody] CreateEmployeeAppointmentRequest request)
         {
+            
             return Ok();
         }
     }

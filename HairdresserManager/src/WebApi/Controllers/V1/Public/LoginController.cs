@@ -8,10 +8,10 @@ using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Authentication
+namespace WebApi.Controllers.V1.Public
 {
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Authentication / Login")]
+    [ApiExplorerSettings(GroupName = "Public / Authentication / Login")]
     public class LoginController : ControllerBase
     {
         private readonly IIdentityService _identityService;

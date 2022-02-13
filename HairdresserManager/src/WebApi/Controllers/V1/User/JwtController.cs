@@ -7,10 +7,10 @@ using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.V1.Authentication
+namespace WebApi.Controllers.V1.User
 {
     [ApiController]
-    [ApiExplorerSettings(GroupName = "Authentication / Login")]
+    [ApiExplorerSettings(GroupName = "User / Authentication / Jwt")]
     public class JwtController : ControllerBase
     {
         private readonly IJwtManager _jwtManager;
