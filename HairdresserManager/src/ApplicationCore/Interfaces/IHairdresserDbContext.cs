@@ -31,6 +31,8 @@ namespace ApplicationCore.Interfaces
         
         DbSet<DayOff> DaysOff { get; set; }
         
+        DbSet<AppointmentClientDetailsView> AppointmentClientDetailsView { get; set; }
+        
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
