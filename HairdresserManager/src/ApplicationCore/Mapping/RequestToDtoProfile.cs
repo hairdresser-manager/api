@@ -3,6 +3,7 @@ using ApplicationCore.Contract.V1.Admin.Service.Requests;
 using ApplicationCore.Contract.V1.Admin.ServiceCategory;
 using ApplicationCore.Contract.V1.Authentication.Register.Requests;
 using ApplicationCore.Contract.V1.Client.Appointment.Requests;
+using ApplicationCore.Contract.V1.Employee.Appointment.Requests;
 using ApplicationCore.Contract.V1.User.Account.Requests;
 using ApplicationCore.DTOs;
 using AutoMapper;
@@ -25,7 +26,9 @@ namespace ApplicationCore.Mapping
             
             CreateMap<UpdateServiceRequest, ServiceDto>();  
             
-            CreateMap<CreateAppointmentRequest, AppointmentDto>();  
+            CreateMap<CreateAppointmentRequest, AppointmentDto>();
+
+            CreateMap<CreateEmployeeAppointmentRequest, AppointmentDto>();
         }
     }
 }

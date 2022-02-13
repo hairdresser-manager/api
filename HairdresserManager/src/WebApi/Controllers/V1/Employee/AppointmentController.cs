@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApplicationCore.Contract.V1.Employee.Appointment.Requests;
 using ApplicationCore.Contract.V1.Employee.Appointment.Responses;
+using ApplicationCore.Contract.V1.General.Responses;
+using ApplicationCore.DTOs;
 using ApplicationCore.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -20,13 +22,16 @@ namespace WebApi.Controllers.V1.Employee
     {
         private readonly IAppointmentService _appointmentService;
         private readonly IEmployeeService _employeeService;
+        private readonly IServiceService _serviceService;
         private readonly IMapper _mapper;
 
-        public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService, IMapper mapper)
+        public AppointmentController(IAppointmentService appointmentService, IEmployeeService employeeService,
+            IMapper mapper, IServiceService serviceService, IClientService clientService)
         {
             _appointmentService = appointmentService;
             _employeeService = employeeService;
             _mapper = mapper;
+            _serviceService = serviceService;
         }
 
         [HttpGet]
@@ -43,8 +48,16 @@ namespace WebApi.Controllers.V1.Employee
         [HttpPost]
         public async Task<IActionResult> CreateAppointment([FromBody] CreateEmployeeAppointmentRequest request)
         {
-            
-            return Ok();
+            var employeeAssignedToService =
+                await _serviceService.EmployeeAssignedToServiceAsync(request.EmployeeId, request.ServiceId);
+
+            if (!employeeAssignedToService)
+                return BadRequest(new ErrorResponse("Employee isn't assigned to service"));
+
+            var appointmentDto = _mapper.Map<AppointmentDto>(request);
+            var result = await _appointmentService.CreateAppointmentAsync(appointmentDto);
+
+            return result.Succeeded ? NoContent() : BadRequest(new ErrorResponse(result.Errors));
         }
     }
 }

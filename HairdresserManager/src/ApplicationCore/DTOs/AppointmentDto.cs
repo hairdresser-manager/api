@@ -6,6 +6,7 @@ namespace ApplicationCore.DTOs
     {
         public int Id { get; set; }
         public int? ClientId { get; set; }
+        public string ClientFirstName { get; set; }
         public string ClientEmail { get; set; }
         public string ClientPhoneNumber { get; set; }
         public int EmployeeId { get; set; }
