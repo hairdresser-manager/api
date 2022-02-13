@@ -21,6 +21,7 @@ namespace ApplicationCore
             services.AddScoped<IServiceEmployeeService, ServiceEmployeeService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IJwtManager, JwtManager>();
             
             return services;

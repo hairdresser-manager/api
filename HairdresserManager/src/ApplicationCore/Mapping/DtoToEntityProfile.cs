@@ -15,6 +15,8 @@ namespace ApplicationCore.Mapping
             CreateMap<ServiceDto, Service>();
 
             CreateMap<AppointmentDto, Appointment>();
+            
+            CreateMap<ReviewDto, Review>();
         }
     }
 }
