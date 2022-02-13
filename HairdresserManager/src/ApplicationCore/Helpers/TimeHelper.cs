@@ -52,7 +52,7 @@ namespace ApplicationCore.Helpers
             return hour1 < hour2;
         }
 
-        public static bool IsLessOrEqualThan(string value1, string value2)
+        public static bool IsLessOrEqualTo(string value1, string value2)
         {
             var (hour1, minute1) = CastTo24HourFormat(value1);
             var (hour2, minute2) = CastTo24HourFormat(value2);
@@ -63,7 +63,7 @@ namespace ApplicationCore.Helpers
             return hour1 < hour2;
         }
 
-        public static bool IsGreaterOrEqualThan(string value1, string value2)
+        public static bool IsGreaterOrEqualTo(string value1, string value2)
         {
             var (hour1, minute1) = CastTo24HourFormat(value1);
             var (hour2, minute2) = CastTo24HourFormat(value2);

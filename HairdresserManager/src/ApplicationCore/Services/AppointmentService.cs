@@ -166,8 +166,8 @@ namespace ApplicationCore.Services
             if (schedule == null)
                 return false;
 
-            if (!(TimeHelper.IsGreaterOrEqualThan(date.ToString("HH:mm"), schedule.StartingHour) &&
-                  TimeHelper.IsLessOrEqualThan(date.AddMinutes(duration).ToString("HH:mm"), schedule.EndingHour)))
+            if (!(TimeHelper.IsGreaterOrEqualTo(date.ToString("HH:mm"), schedule.StartingHour) &&
+                  TimeHelper.IsLessOrEqualTo(date.AddMinutes(duration).ToString("HH:mm"), schedule.EndingHour)))
                 return false;
 
             var isAvailableDate = !await _context.Appointments.Where(appointment =>
@@ -194,6 +194,10 @@ namespace ApplicationCore.Services
             if (schedule.Date == DateTime.Today)
             {
                 var currentHour = DateTime.Now.ToString("HH:mm");
+
+                if (TimeHelper.IsGreaterOrEqualTo(currentHour, schedule.EndingHour))
+                    return dateHours;
+
                 var roundedHour = TimeHelper.RoundUpToQuarter(currentHour);
                 startingHour = TimeHelper.AddMinutes(roundedHour, 30);
             }
@@ -203,7 +207,7 @@ namespace ApplicationCore.Services
             var hour = TimeHelper.AddMinutes(startingHour, 15);
             var lastPossibleHour = TimeHelper.RemoveMinutes(schedule.EndingHour, serviceDuration);
 
-            while (TimeHelper.IsLessOrEqualThan(hour, lastPossibleHour))
+            while (TimeHelper.IsLessOrEqualTo(hour, lastPossibleHour))
             {
                 hours.Add(hour);
                 hour = TimeHelper.AddMinutes(hours.Last(), 15);
@@ -290,7 +294,7 @@ namespace ApplicationCore.Services
 
             var hour = TimeHelper.AddMinutes(startingHour, 15);
 
-            while (TimeHelper.IsLessOrEqualThan(hour, endingHour))
+            while (TimeHelper.IsLessOrEqualTo(hour, endingHour))
             {
                 hours.Add(hour);
                 hour = TimeHelper.AddMinutes(hours.Last(), 15);
