@@ -12,6 +12,6 @@ namespace ApplicationCore.Contract.V1.Public.Review
         public int EmployeeId { get; set; }
         public string ServiceName { get; set; }
         public string Description { get; set; }
-        public string FirstName { get; set; }
+        public string ReviewerName { get; set; }
     }
 }

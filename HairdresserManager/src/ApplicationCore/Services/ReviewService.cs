@@ -57,7 +57,7 @@ namespace ApplicationCore.Services
             return await _context.SaveChangesAsync(new CancellationToken()) > 0;
         }
 
-        public async Task<IEnumerable<ReviewDetailsViewDto>> GetReviewDtosAsync(PaginationHelper pagination)
+        public async Task<IEnumerable<ReviewDetailsViewDto>> GetReviewDetailsDtosAsync(PaginationHelper pagination)
         {
             var reviews = await _context.ReviewDetailsView
                 .OrderBy(review => review.ReviewId)
@@ -65,7 +65,20 @@ namespace ApplicationCore.Services
                 .Take(pagination.PerPage)
                 .ToListAsync();
             
-            pagination.TotalItems = await _context.Reviews.CountAsync();
+            pagination.TotalItems = await _context.ReviewDetailsView.CountAsync();
+            return _mapper.Map<IEnumerable<ReviewDetailsViewDto>>(reviews);
+        }
+
+        public async Task<IEnumerable<ReviewDetailsViewDto>> GetEmployeeReviewDetailsDtosAsync(int employeeId, PaginationHelper pagination)
+        {
+            var reviews = await _context.ReviewDetailsView
+                .Where(review => review.EmployeeId == employeeId)
+                .OrderBy(review => review.ReviewId)
+                .Skip(pagination.ItemsToSkip)
+                .Take(pagination.PerPage)
+                .ToListAsync();
+            
+            pagination.TotalItems = await _context.ReviewDetailsView.Where(review => review.EmployeeId == employeeId).CountAsync();
             return _mapper.Map<IEnumerable<ReviewDetailsViewDto>>(reviews);
         }
     }

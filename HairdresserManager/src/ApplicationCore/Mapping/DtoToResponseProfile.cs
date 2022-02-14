@@ -49,7 +49,8 @@ namespace ApplicationCore.Mapping
 
             CreateMap<AppointmentClientDetailsDto, GetAppointmentsListItemResponse>();
 
-            CreateMap<ReviewDetailsViewDto, ReviewListItemResponse>();
+            CreateMap<ReviewDetailsViewDto, ReviewListItemResponse>()
+                .ForMember(dest => dest.ReviewerName, opt => opt.MapFrom(src => src.FirstName));
         }
     }
 }

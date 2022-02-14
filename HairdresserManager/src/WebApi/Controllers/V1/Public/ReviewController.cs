@@ -31,13 +31,27 @@ namespace WebApi.Controllers.V1.Public
         public async Task<IActionResult> GetReviews([FromQuery] PaginationQueryRequest pagination)
         {
             var paginationHelper = new PaginationHelper(pagination);
-            
-            var reviewDtos = await _reviewService.GetReviewDtosAsync(paginationHelper);
+
+            var reviewDtos = await _reviewService.GetReviewDetailsDtosAsync(paginationHelper);
 
             var metadata = _mapper.Map<PaginationMetadataResponse>(paginationHelper);
             Response.AddPaginationMetadataToHeaders(metadata);
 
-            return Ok(_mapper.Map<IEnumerable<ReviewListItemResponse>>(reviewDtos));
+            return reviewDtos.Any() ? Ok(_mapper.Map<IEnumerable<ReviewListItemResponse>>(reviewDtos)) : NoContent();
+        }
+
+        [HttpGet("api/v1/employees/{employeeId:int}/reviews")]
+        public async Task<IActionResult> GetEmployeeReviews([FromQuery] PaginationQueryRequest pagination,
+            [FromRoute] int employeeId)
+        {
+            var paginationHelper = new PaginationHelper(pagination);
+
+            var reviewDtos = await _reviewService.GetEmployeeReviewDetailsDtosAsync(employeeId, paginationHelper);
+
+            var metadata = _mapper.Map<PaginationMetadataResponse>(paginationHelper);
+            Response.AddPaginationMetadataToHeaders(metadata);
+
+            return reviewDtos.Any() ? Ok(_mapper.Map<IEnumerable<ReviewListItemResponse>>(reviewDtos)) : NotFound();
         }
     }
 }

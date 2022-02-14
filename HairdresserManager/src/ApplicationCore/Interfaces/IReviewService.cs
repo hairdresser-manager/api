@@ -15,6 +15,8 @@ namespace ApplicationCore.Interfaces
         Task<bool> ReviewExistsByAppointmentIdAsync(int appointmentId);
         Task<ServiceResult> UserCanCreateReviewAsync(Guid userId, int appointmentId);
         Task<bool> CreateReviewAsync(ReviewDto reviewDto);
-        Task<IEnumerable<ReviewDetailsViewDto>> GetReviewDtosAsync(PaginationHelper pagination);
+        Task<IEnumerable<ReviewDetailsViewDto>> GetReviewDetailsDtosAsync(PaginationHelper pagination);
+        Task<IEnumerable<ReviewDetailsViewDto>> GetEmployeeReviewDetailsDtosAsync(int employeeId,
+            PaginationHelper pagination);
     }
 }
