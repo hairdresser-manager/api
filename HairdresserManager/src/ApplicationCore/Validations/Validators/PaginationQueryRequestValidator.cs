@@ -7,7 +7,7 @@ namespace ApplicationCore.Validations.Validators
     {
         public PaginationQueryRequestValidator()
         {
-            RuleFor(request => request.Page)
+            RuleFor(request => request.CurrentPage)
                 .NotEmpty()
                 .GreaterThan(0);
             

@@ -3,6 +3,7 @@ using ApplicationCore.Contract.V1.Authentication.Login.Responses;
 using ApplicationCore.Contract.V1.Client.Appointment.Responses;
 using ApplicationCore.Contract.V1.Employee.Appointment.Responses;
 using ApplicationCore.Contract.V1.Public.Offer;
+using ApplicationCore.Contract.V1.Public.Review;
 using ApplicationCore.Contract.V1.User.Account.Responses;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
@@ -47,6 +48,8 @@ namespace ApplicationCore.Mapping
             CreateMap<AppointmentEmployeeDetailsDto, GetAppointmentListMemberResponse>();
 
             CreateMap<AppointmentClientDetailsDto, GetAppointmentsListItemResponse>();
+
+            CreateMap<ReviewDetailsViewDto, ReviewListItemResponse>();
         }
     }
 }

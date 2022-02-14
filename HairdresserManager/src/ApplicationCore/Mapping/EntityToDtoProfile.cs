@@ -27,6 +27,8 @@ namespace ApplicationCore.Mapping
                 .ForMember(dest => dest.EmployeeLowQualityAvatar, opt => opt.MapFrom(src => src.Employee.LowQualityAvatarUrl))
                 .ForMember(dest => dest.ReviewId, opt => opt.MapFrom(src => src.Review.Id))
                 .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Review.Rate));
+
+            CreateMap<Review, ReviewDto>();
         }
     }
 }

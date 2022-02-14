@@ -17,6 +17,11 @@ namespace ApplicationCore.Mapping
                 .ForMember(dest => dest.PhoneNumber,
                     opt => opt.MapFrom(src =>
                         string.IsNullOrEmpty(src.PhoneNumber) ? src.ClientPhoneNumber : src.PhoneNumber));
+
+            CreateMap<ReviewDetailsView, ReviewDetailsViewDto>()
+                .ForMember(dest => dest.FirstName,
+                    opt => opt.MapFrom(src =>
+                        string.IsNullOrEmpty(src.FirstName) ? src.ClientFirstName : src.FirstName));
         }
     }
 }

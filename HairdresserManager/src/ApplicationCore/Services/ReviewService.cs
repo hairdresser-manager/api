@@ -1,9 +1,13 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ApplicationCore.Contract.V1.General.Requests;
 using ApplicationCore.DTOs;
 using ApplicationCore.Entities;
+using ApplicationCore.Helpers;
 using ApplicationCore.Interfaces;
 using ApplicationCore.Results;
 using AutoMapper;
@@ -51,6 +55,18 @@ namespace ApplicationCore.Services
 
             await _context.Reviews.AddAsync(review);
             return await _context.SaveChangesAsync(new CancellationToken()) > 0;
+        }
+
+        public async Task<IEnumerable<ReviewDetailsViewDto>> GetReviewDtosAsync(PaginationHelper pagination)
+        {
+            var reviews = await _context.ReviewDetailsView
+                .OrderBy(review => review.ReviewId)
+                .Skip(pagination.ItemsToSkip)
+                .Take(pagination.PerPage)
+                .ToListAsync();
+            
+            pagination.TotalItems = await _context.Reviews.CountAsync();
+            return _mapper.Map<IEnumerable<ReviewDetailsViewDto>>(reviews);
         }
     }
 }
