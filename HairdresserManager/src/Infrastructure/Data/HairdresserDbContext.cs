@@ -39,5 +39,6 @@ namespace Infrastructure.Data
         public DbSet<ServicesCategory> ServicesCategories { get; set; }
         public DbSet<DayOff> DaysOff { get; set; }
         public DbSet<AppointmentClientDetailsView> AppointmentClientDetailsView { get; set; }
+        public DbSet<ReviewDetailsView> ReviewDetailsView { get; set; }
     }
 }
