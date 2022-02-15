@@ -23,12 +23,11 @@ namespace ApplicationCore.Validations.Validators
             
             RuleFor(request => request.MinimumTime)
                 .NotEmpty()
-                .GreaterThan(9);
+                .GreaterThan(0);
 
             RuleFor(request => request.MaximumTime)
                 .NotEmpty()
-                .GreaterThan(9)
-                .GreaterThan(request => request.MinimumTime)
+                .GreaterThanOrEqualTo(request => request.MinimumTime)
                 .LessThan(500);
             
             RuleFor(request => request.Price)
