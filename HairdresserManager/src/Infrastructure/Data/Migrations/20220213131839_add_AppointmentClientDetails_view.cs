@@ -9,10 +9,10 @@ namespace Infrastructure.Data.Migrations
             migrationBuilder.Sql(@"CREATE VIEW AppointmentClientDetailsView 
 AS
 SELECT Appointments.Id as AppointmentId, users.FirstName, users.Email, users.PhoneNumber, appointments.ClientEmail, appointments.ClientPhoneNumber, appointments.ClientFirstName , appointments.EmployeeId, appointments.[Date], services.MinimumTime as ServiceDuration, services.Name as ServiceName 
-FROM HairdresserManagerDB.dbo.Appointments as appointments
-LEFT JOIN HairdresserManagerDB.dbo.Clients as clients ON appointments.ClientId = clients.Id
-LEFT JOIN HairdresserManagerDB.dbo.AspNetUsers as users ON clients.UserId = users.Id
-LEFT JOIN HairdresserManagerDB.dbo.Services as services ON appointments.ServiceId = services.Id;
+FROM dbo.Appointments as appointments
+LEFT JOIN dbo.Clients as clients ON appointments.ClientId = clients.Id
+LEFT JOIN dbo.AspNetUsers as users ON clients.UserId = users.Id
+LEFT JOIN dbo.Services as services ON appointments.ServiceId = services.Id;
 ");
         }
 
