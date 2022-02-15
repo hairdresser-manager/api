@@ -55,7 +55,7 @@ namespace ApplicationCore.Services
         public async Task<bool> EmployeeAssignedToServiceAsync(int employeeId, int serviceId)
             => await _context.Services.Where(service =>
                     service.Id == serviceId &&
-                    service.EmployeeServices.Any(es => es.Id == employeeId))
+                    service.EmployeeServices.Any(es => es.EmployeeId == employeeId))
                 .AnyAsync();
 
         public async Task<ServiceDto> GetServiceDtoByIdAsync(int id)
